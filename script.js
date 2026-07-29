@@ -1,0 +1,1133 @@
+/* Backend Team: See API_CLIENT section at bottom for integration points.
+ */
+
+// 1. CONFIGURATION & CONSTANTS
+
+const APP_CONFIG = {
+  API_BASE_URL: process.env.REACT_APP_API_URL || 'http://localhost:8000/api', // Backend team: Update this
+  DEBUG: true,
+  STORAGE_PREFIX: 'sbs_',
+  SESSION_TIMEOUT: 30 * 60 * 1000,
+};
+
+//2. GLOBAL STATE MANAGER
+
+class StateManager {
+  constructor() {
+    this.state = {
+      user: this.loadUser(),
+      isAuthenticated: !!this.loadUser(),
+      notifications: [],
+      bookings: [],
+      equipmentLoans: [],
+      currentPage: this.getCurrentPage(),
+    };
+    this.listeners = [];
+  }
+
+  setState(updates) {
+    this.state = { ...this.state, ...updates };
+    this.notifyListeners();
+  }
+
+  subscribe(listener) {
+    this.listeners.push(listener);
+    return () => {
+      this.listeners = this.listeners.filter(l => l !== listener);
+    };
+  }
+
+  notifyListeners() {
+    this.listeners.forEach(listener => listener(this.state));
+  }
+
+  loadUser() {
+    const stored = localStorage.getItem(`${APP_CONFIG.STORAGE_PREFIX}user`);
+    return stored ? JSON.parse(stored) : null;
+  }
+
+  saveUser(user) {
+    if (user) {
+      localStorage.setItem(`${APP_CONFIG.STORAGE_PREFIX}user`, JSON.stringify(user));
+    } else {
+      localStorage.removeItem(`${APP_CONFIG.STORAGE_PREFIX}user`);
+    }
+    this.setState({ user, isAuthenticated: !!user });
+  }
+
+  getCurrentPage() {
+    const path = window.location.pathname;
+    if (path.includes('admin')) return 'admin';
+    if (path.includes('officer')) return 'officer';
+    if (path.includes('student') || path.includes('facilities') || path.includes('equipment') || path.includes('profile')) return 'student';
+    if (path.includes('login')) return 'login';
+    if (path.includes('register')) return 'register';
+    return 'home';
+  }
+}
+
+const appState = new StateManager();
+
+//3. API CLIENT (BACKEND INTEGRATION)
+
+class ApiClient {
+  constructor(baseUrl = APP_CONFIG.API_BASE_URL) {
+    this.baseUrl = baseUrl;
+  }
+
+  /**
+   * Make HTTP requests
+   * Backend: All endpoints should return { success, data, message, error }
+   */
+  async request(endpoint, options = {}) {
+    const url = `${this.baseUrl}${endpoint}`;
+    const token = localStorage.getItem(`${APP_CONFIG.STORAGE_PREFIX}token`);
+    
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { 'Authorization': `Bearer ${token}` }),
+      },
+      ...options,
+    };
+
+    try {
+      const response = await fetch(url, config);
+      const data = await response.json();
+
+      if (!response.ok) {
+        this.handleError(response.status, data);
+        throw new Error(data.message || `HTTP Error: ${response.status}`);
+      }
+
+      return data;
+    } catch (error) {
+      console.error(`API Error [${endpoint}]:`, error);
+      throw error;
+    }
+  }
+
+  handleError(status, data) {
+    if (status === 401) {    // ...existing code...
+    <script>
+    (function () {
+      const chips = document.querySelectorAll('.chip');
+      const cards = document.querySelectorAll('.facility-card');
+      const searchInput = document.getElementById('facilitySearch');
+    
+      function applyFilter(filter = 'all', query = '') {
+        const q = (query || '').trim().toLowerCase();
+        cards.forEach(card => {
+          const cat = (card.dataset.category || '').toLowerCase();
+          const title = (card.querySelector('h3')?.textContent || '').toLowerCase();
+          const matchCat = filter === 'all' || cat === filter;
+          const matchQuery = q === '' || title.includes(q) || card.textContent.toLowerCase().includes(q);
+          card.style.display = (matchCat && matchQuery) ? '' : 'none';
+        });
+      }
+    
+      function setActiveChip(chip) {
+        chips.forEach(c => c.classList.remove('chip--active'));
+        if (chip) chip.classList.add('chip--active');
+      }
+    
+      chips.forEach(chip => {
+        chip.style.cursor = 'pointer';
+        chip.addEventListener('click', (e) => {
+          e.preventDefault();
+          setActiveChip(chip);
+          applyFilter(chip.dataset.filter || 'all', searchInput?.value || '');
+        });
+        chip.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            chip.click();
+          }
+        });
+      });
+    
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          const active = document.querySelector('.chip.chip--active');
+          const filter = active ? (active.dataset.filter || 'all') : 'all';
+          applyFilter(filter, e.target.value);
+        });
+      }
+    
+      // initialize view
+      const active = document.querySelector('.chip.chip--active') || chips[0];
+      setActiveChip(active);
+      applyFilter(active.dataset.filter || 'all', searchInput?.value || '');
+    })();
+    </script>
+    // ...existing code...
+      appState.saveUser(null);
+      window.location.href = '/login.html';
+    }
+  }
+
+  //AUTHENTICATION
+  
+  async login(email, password, role) {
+    return this.request('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password, role }),
+    });
+  }
+
+  async register(userData) {
+    return this.request('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify(userData),
+    });
+  }
+
+  async logout() {
+    return this.request('/auth/logout', { method: 'POST' });
+  }
+
+  async verifyToken() {
+    return this.request('/auth/verify', { method: 'GET' });
+  }
+ 
+  async getFacilities(filters = {}) {
+    const query = new URLSearchParams(filters).toString();
+    return this.request(`/facilities?${query}`);
+  }
+
+  async getFacilityById(id) {
+    return this.request(`/facilities/${id}`);
+  }
+
+  async createFacility(data) {
+    return this.request('/facilities', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateFacility(id, data) {
+    return this.request(`/facilities/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async deleteFacility(id) {
+    return this.request(`/facilities/${id}`, { method: 'DELETE' });
+  }
+ 
+  async createBooking(bookingData) {
+    return this.request('/bookings', {
+      method: 'POST',
+      body: JSON.stringify(bookingData),
+    });
+  }
+
+  async getBookings(filters = {}) {
+    const query = new URLSearchParams(filters).toString();
+    return this.request(`/bookings?${query}`);
+  }
+
+  async getBookingById(id) {
+    return this.request(`/bookings/${id}`);
+  }
+
+  async updateBooking(id, data) {
+    return this.request(`/bookings/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async cancelBooking(id) {
+    return this.request(`/bookings/${id}/cancel`, { method: 'POST' });
+  }
+ 
+  async getEquipment(filters = {}) {
+    const query = new URLSearchParams(filters).toString();
+    return this.request(`/equipment?${query}`);
+  }
+
+  async getEquipmentById(id) {
+    return this.request(`/equipment/${id}`);
+  }
+
+  async createEquipment(data) {
+    return this.request('/equipment', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateEquipment(id, data) {
+    return this.request(`/equipment/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
+ 
+  async requestLoan(loanData) {
+    return this.request('/loans', {
+      method: 'POST',
+      body: JSON.stringify(loanData),
+    });
+  }
+
+  async getLoans(filters = {}) {
+    const query = new URLSearchParams(filters).toString();
+    return this.request(`/loans?${query}`);
+  }
+
+  async approveLoan(id) {
+    return this.request(`/loans/${id}/approve`, { method: 'POST' });
+  }
+
+  async rejectLoan(id, reason) {
+    return this.request(`/loans/${id}/reject`, {
+      method: 'POST',
+      body: JSON.stringify({ reason }),
+    });
+  }
+
+  async returnEquipment(id) {
+    return this.request(`/loans/${id}/return`, { method: 'POST' });
+  }
+ 
+  async getUser(id) {
+    return this.request(`/users/${id}`);
+  }
+
+  async getCurrentUser() {
+    return this.request('/users/me');
+  }
+
+  async updateUser(id, data) {
+    return this.request(`/users/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async changePassword(currentPassword, newPassword) {
+    return this.request('/users/change-password', {
+      method: 'POST',
+      body: JSON.stringify({ currentPassword, newPassword }),
+    });
+  }
+
+  async getAllUsers(role = null) {
+    const query = role ? `?role=${role}` : '';
+    return this.request(`/users${query}`);
+  }
+
+ 
+  async getNotifications() {
+    return this.request('/notifications');
+  }
+
+  async markNotificationAsRead(id) {
+    return this.request(`/notifications/${id}/read`, { method: 'POST' });
+  }
+
+  async markAllNotificationsAsRead() {
+    return this.request('/notifications/read-all', { method: 'POST' });
+  }
+
+ 
+  async getAnalytics(filters = {}) {
+    const query = new URLSearchParams(filters).toString();
+    return this.request(`/analytics?${query}`);
+  }
+
+  async generateReport(type, filters = {}) {
+    return this.request('/reports/generate', {
+      method: 'POST',
+      body: JSON.stringify({ type, filters }),
+    });
+  }
+
+  async exportReport(type, format = 'pdf') {
+    return this.request(`/reports/export?type=${type}&format=${format}`);
+  }
+
+  async createTimeSlot(slotData) {
+    return this.request('/time-slots', {
+      method: 'POST',
+      body: JSON.stringify(slotData),
+    });
+  }
+
+  async getTimeSlots(facilityId) {
+    return this.request(`/time-slots?facility=${facilityId}`);
+  }
+
+  async deleteTimeSlot(id) {
+    return this.request(`/time-slots/${id}`, { method: 'DELETE' });
+  }
+
+  
+  async submitComplaint(data) {
+    return this.request('/complaints', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async getComplaints(filters = {}) {
+    const query = new URLSearchParams(filters).toString();
+    return this.request(`/complaints?${query}`);
+  }
+
+  async updateComplaintStatus(id, status) {
+    return this.request(`/complaints/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({ status }),
+    });
+  }
+}
+
+const apiClient = new ApiClient();
+
+//4. UI COMPONENTS & INTERACTIONS
+
+class UIManager {
+  constructor() {
+    this.initEventListeners();
+  }
+
+  //SIDEBAR TOGGLE
+  
+  initEventListeners() {
+    // Sidebar toggle
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    if (sidebarToggle && sidebar) {
+      sidebarToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('sidebar--open');
+      });
+    }
+
+    // Modal management
+    this.setupModalListeners();
+
+    // Form submissions
+    this.setupFormListeners();
+
+    // Filter chips
+    this.setupFilterListeners();
+
+    // Notification bell
+    this.setupNotificationListener();
+
+    // Dynamic username
+    this.updateUserDisplay();
+  }
+
+  // MODAL MANAGEMENT
+  
+  setupModalListeners() {
+
+    document.querySelectorAll('[data-open-modal]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const modalId = btn.getAttribute('data-open-modal');
+        const modal = document.getElementById(modalId);
+        if (modal) {
+          this.openModal(modal, btn.dataset);
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-close-modal]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const modalId = btn.getAttribute('data-close-modal');
+        const modal = document.getElementById(modalId);
+        if (modal) this.closeModal(modal);
+      });
+    });
+
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) this.closeModal(overlay);
+      });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+          this.closeModal(modal);
+        });
+      }
+    });
+  }
+
+  openModal(modal, data = {}) {
+    modal.classList.add('modal-overlay--open');
+    modal.style.display = 'flex';
+
+    // Pre-fill modal fields with data
+    if (data.equipment) {
+      const field = modal.querySelector('#loanEquipmentField');
+      const nameSpan = modal.querySelector('#modalEquipmentName');
+      if (field) field.value = data.equipment;
+      if (nameSpan) nameSpan.textContent = data.equipment;
+    }
+    if (data.facility) {
+      const nameSpan = modal.querySelector('#modalFacilityName');
+      if (nameSpan) nameSpan.textContent = data.facility;
+    }
+  }
+
+  closeModal(modal) {
+    modal.classList.remove('modal-overlay--open');
+    modal.style.display = 'none';
+  }
+
+  // FORM HANDLING 
+  
+  setupFormListeners() {
+    // Login form
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+      loginForm.addEventListener('submit', (e) => this.handleLogin(e));
+    }
+
+    // Register form
+    const registerForm = document.getElementById('registerForm');
+    if (registerForm) {
+      registerForm.addEventListener('submit', (e) => this.handleRegister(e));
+    }
+
+    // Booking form
+    const bookingForm = document.getElementById('bookingForm');
+    if (bookingForm) {
+      bookingForm.addEventListener('submit', (e) => this.handleBooking(e));
+    }
+
+    // Loan form
+    const loanForm = document.getElementById('loanForm');
+    if (loanForm) {
+      loanForm.addEventListener('submit', (e) => this.handleLoan(e));
+    }
+
+    // Profile form
+    const profileForm = document.getElementById('editProfileForm');
+    if (profileForm) {
+      profileForm.addEventListener('submit', (e) => this.handleProfileUpdate(e));
+    }
+
+    // Password form
+    const passwordForm = document.getElementById('changePasswordForm');
+    if (passwordForm) {
+      passwordForm.addEventListener('submit', (e) => this.handlePasswordChange(e));
+    }
+
+    // Toggle password visibility
+    document.querySelectorAll('.togglePassword, .password-toggle').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const input = btn.closest('.input-field, .password-input-wrap')?.querySelector('input');
+        if (input) {
+          input.type = input.type === 'password' ? 'text' : 'password';
+          btn.classList.toggle('fa-eye');
+          btn.classList.toggle('fa-eye-slash');
+        }
+      });
+    });
+  }
+
+  async handleLogin(e) {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.querySelector('#email').value;
+    const password = form.querySelector('#password').value;
+    const role = form.querySelector('#role').value;
+
+    if (!this.validateForm(form)) return;
+
+    try {
+      this.showLoading(form);
+      const response = await apiClient.login(email, password, role);
+      
+      if (response.success) {
+        // Save token and user data
+        localStorage.setItem(`${APP_CONFIG.STORAGE_PREFIX}token`, response.data.token);
+        appState.saveUser(response.data.user);
+        
+        // Redirect based on role
+        const redirectMap = {
+          admin: 'admin-dashboard.html',
+          officer: 'officer-dashboard.html',
+          student: 'student-dashboard.html',
+        };
+        window.location.href = redirectMap[role] || 'student-dashboard.html';
+      }
+    } catch (error) {
+      this.showError(form, error.message);
+    } finally {
+      this.hideLoading(form);
+    }
+  }
+
+  async handleRegister(e) {
+    e.preventDefault();
+    const form = e.target;
+    
+    if (!this.validateForm(form)) return;
+
+    const formData = new FormData(form);
+    const userData = Object.fromEntries(formData);
+
+    try {
+      this.showLoading(form);
+      const response = await apiClient.register(userData);
+      
+      if (response.success) {
+        this.showSuccess(form, 'Registration successful! Redirecting to login...');
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 2000);
+      }
+    } catch (error) {
+      this.showError(form, error.message);
+    } finally {
+      this.hideLoading(form);
+    }
+  }
+
+  async handleBooking(e) {
+    e.preventDefault();
+    const form = e.target;
+    const modal = form.closest('.modal-overlay');
+    
+    if (!this.validateForm(form)) return;
+
+    const bookingData = {
+      facility: modal.querySelector('#modalFacilityName').textContent,
+      date: form.querySelector('[name="date"]').value,
+      time: form.querySelector('[name="time"]').value,
+      purpose: form.querySelector('[name="purpose"]').value,
+      participants: parseInt(form.querySelector('[name="participants"]').value),
+    };
+
+    try {
+      this.showLoading(form);
+      const response = await apiClient.createBooking(bookingData);
+      
+      if (response.success) {
+        this.showSuccess(form, 'Booking submitted successfully!');
+        this.closeModal(modal);
+        form.reset();
+        // Refresh bookings table
+        this.loadBookingsTable();
+      }
+    } catch (error) {
+      this.showError(form, error.message);
+    } finally {
+      this.hideLoading(form);
+    }
+  }
+
+  async handleLoan(e) {
+    e.preventDefault();
+    const form = e.target;
+    const modal = form.closest('.modal-overlay');
+    
+    if (!this.validateForm(form)) return;
+
+    const loanData = {
+      equipment: form.querySelector('#loanEquipmentField').value,
+      quantity: form.querySelector('[name="quantity"]').value,
+      returnDate: form.querySelector('[name="returnDate"]').value,
+    };
+
+    try {
+      this.showLoading(form);
+      const response = await apiClient.requestLoan(loanData);
+      
+      if (response.success) {
+        this.showSuccess(form, 'Loan request submitted!');
+        this.closeModal(modal);
+        form.reset();
+        // Refresh loans table
+        this.loadLoansTable();
+      }
+    } catch (error) {
+      this.showError(form, error.message);
+    } finally {
+      this.hideLoading(form);
+    }
+  }
+
+  async handleProfileUpdate(e) {
+    e.preventDefault();
+    const form = e.target;
+    
+    if (!this.validateForm(form)) return;
+
+    const formData = new FormData(form);
+    const userData = Object.fromEntries(formData);
+    const userId = appState.state.user?.id;
+
+    try {
+      this.showLoading(form);
+      const response = await apiClient.updateUser(userId, userData);
+      
+      if (response.success) {
+        appState.saveUser(response.data);
+        this.updateUserDisplay();
+        this.showSuccess(form, 'Profile updated successfully!');
+      }
+    } catch (error) {
+      this.showError(form, error.message);
+    } finally {
+      this.hideLoading(form);
+    }
+  }
+
+  async handlePasswordChange(e) {
+    e.preventDefault();
+    const form = e.target;
+    
+    const currentPassword = form.querySelector('[name="currentPassword"]').value;
+    const newPassword = form.querySelector('[name="newPassword"]').value;
+    const confirmPassword = form.querySelector('[name="confirmPassword"]').value;
+
+    if (newPassword !== confirmPassword) {
+      this.showError(form, 'Passwords do not match');
+      return;
+    }
+
+    if (!this.validateForm(form)) return;
+
+    try {
+      this.showLoading(form);
+      const response = await apiClient.changePassword(currentPassword, newPassword);
+      
+      if (response.success) {
+        this.showSuccess(form, 'Password changed successfully!');
+        form.reset();
+      }
+    } catch (error) {
+      this.showError(form, error.message);
+    } finally {
+      this.hideLoading(form);
+    }
+  }
+
+  
+  setupFilterListeners() {
+    document.querySelectorAll('.filter-chips').forEach(container => {
+      container.querySelectorAll('.chip').forEach(chip => {
+        chip.addEventListener('click', async () => {
+          // Update active chip
+          container.querySelectorAll('.chip').forEach(c => c.classList.remove('chip--active'));
+          chip.classList.add('chip--active');
+
+          const filter = chip.dataset.filter;
+          const gridId = chip.closest('section')?.querySelector('[id$="Grid"]')?.id;
+
+          if (gridId === 'equipmentGrid') {
+            await this.filterEquipment(filter);
+          } else if (gridId === 'facilityGrid') {
+            await this.filterFacilities(filter);
+          }
+        });
+      });
+    });
+
+
+    document.getElementById('facilitySearch')?.addEventListener('keyup', (e) => {
+      this.searchFacilities(e.target.value);
+    });
+
+    document.getElementById('equipmentSearch')?.addEventListener('keyup', (e) => {
+      this.searchEquipment(e.target.value);
+    });
+  }
+
+  async filterEquipment(category) {
+    const grid = document.getElementById('equipmentGrid');
+    if (!grid) return;
+
+    const items = grid.querySelectorAll('.facility-card');
+    items.forEach(item => {
+      if (category === 'all' || item.dataset.category === category) {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+
+  async filterFacilities(category) {
+    const grid = document.getElementById('facilityGrid');
+    if (!grid) return;
+
+    const items = grid.querySelectorAll('.facility-card');
+    items.forEach(item => {
+      if (category === 'all' || item.dataset.category === category) {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+
+  searchFacilities(query) {
+    const grid = document.getElementById('facilityGrid');
+    if (!grid) return;
+
+    const items = grid.querySelectorAll('.facility-card');
+    items.forEach(item => {
+      const name = item.querySelector('h3').textContent.toLowerCase();
+      item.style.display = name.includes(query.toLowerCase()) ? '' : 'none';
+    });
+  }
+
+  searchEquipment(query) {
+    const grid = document.getElementById('equipmentGrid');
+    if (!grid) return;
+
+    const items = grid.querySelectorAll('.facility-card');
+    items.forEach(item => {
+      const name = item.querySelector('h3').textContent.toLowerCase();
+      item.style.display = name.includes(query.toLowerCase()) ? '' : 'none';
+    });
+  }
+
+  //  NOTIFICATIONS
+  
+  setupNotificationListener() {
+    const notifBell = document.getElementById('notifBell');
+    if (notifBell) {
+      notifBell.addEventListener('click', () => {
+        window.location.href = 'notifications.html';
+      });
+    }
+
+    // Update notification count
+    this.updateNotificationBadge();
+  }
+
+  async updateNotificationBadge() {
+    try {
+      const response = await apiClient.getNotifications();
+      if (response.success) {
+        const unreadCount = response.data.filter(n => !n.isRead).length;
+        const badge = document.getElementById('notifCount');
+        if (badge) badge.textContent = unreadCount || '';
+      }
+    } catch (error) {
+      console.error('Failed to fetch notifications:', error);
+    }
+  }
+
+  //  DATA LOADING 
+  
+  async loadBookingsTable() {
+    try {
+      const response = await apiClient.getBookings();
+      if (response.success) {
+        const tbody = document.getElementById('myBookingsBody');
+        if (tbody) {
+          tbody.innerHTML = response.data.map(booking => `
+            <tr>
+              <td>${booking.facility}</td>
+              <td>${booking.date}</td>
+              <td>${booking.time}</td>
+              <td><span class="status-pill status-pill--${this.getStatusClass(booking.status)}">${booking.status}</span></td>
+              <td><button class="btn btn--outline-danger btn--sm" onclick="handleCancelBooking('${booking.id}')">Cancel</button></td>
+            </tr>
+          `).join('');
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load bookings:', error);
+    }
+  }
+
+  async loadLoansTable() {
+    try {
+      const response = await apiClient.getLoans();
+      if (response.success) {
+        const tbody = document.getElementById('myLoansBody');
+        if (tbody) {
+          tbody.innerHTML = response.data.map(loan => `
+            <tr>
+              <td>${loan.equipment}</td>
+              <td>${loan.quantity}</td>
+              <td><span class="status-pill status-pill--${this.getStatusClass(loan.status)}">${loan.status}</span></td>
+              <td>${loan.returnDate}</td>
+            </tr>
+          `).join('');
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load loans:', error);
+    }
+  }
+
+  updateUserDisplay() {
+    const user = appState.state.user;
+    if (user) {
+      const usernameElements = document.querySelectorAll('.topbar-username, #topbarUsername, #welcomeUsername');
+      usernameElements.forEach(el => {
+        if (el.id === 'welcomeUsername') {
+          el.textContent = user.firstName || user.name || 'User';
+        } else {
+          el.textContent = user.name || `${user.firstName} ${user.lastName}` || 'User';
+        }
+      });
+    }
+  }
+
+  getStatusClass(status) {
+    const statusMap = {
+      'Pending': 'pending',
+      'Confirmed': 'available',
+      'Approved': 'available',
+      'Completed': 'booked',
+      'Returned': 'booked',
+      'Cancelled': 'maintenance',
+      'Rejected': 'maintenance',
+    };
+    return statusMap[status] || 'pending';
+  }
+
+  //  FORM VALIDATION 
+  
+  validateForm(form) {
+    let isValid = true;
+    form.querySelectorAll('[required]').forEach(field => {
+      if (!field.value.trim()) {
+        this.markFieldError(field);
+        isValid = false;
+      } else {
+        this.clearFieldError(field);
+      }
+    });
+    return isValid;
+  }
+
+  markFieldError(field) {
+    field.classList.add('input-error');
+    if (!field.parentElement.querySelector('.error-message')) {
+      const error = document.createElement('span');
+      error.className = 'error-message';
+      error.textContent = 'This field is required';
+      field.parentElement.appendChild(error);
+    }
+  }
+
+  clearFieldError(field) {
+    field.classList.remove('input-error');
+    const error = field.parentElement.querySelector('.error-message');
+    if (error) error.remove();
+  }
+
+  // FEEDBACK MESSAGES
+  
+  showLoading(element) {
+    element.style.opacity = '0.6';
+    element.style.pointerEvents = 'none';
+    const btn = element.querySelector('button[type="submit"]');
+    if (btn) {
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+      btn.disabled = true;
+    }
+  }
+
+  hideLoading(element) {
+    element.style.opacity = '1';
+    element.style.pointerEvents = 'auto';
+    const btn = element.querySelector('button[type="submit"]');
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = btn.getAttribute('data-original-text') || 'Submit';
+    }
+  }
+
+  showError(element, message) {
+    const toast = this.createToast(message, 'error');
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 4000);
+  }
+
+  showSuccess(element, message) {
+    const toast = this.createToast(message, 'success');
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 4000);
+  }
+
+  createToast(message, type) {
+    const toast = document.createElement('div');
+    toast.className = `toast toast--${type}`;
+    toast.innerHTML = `
+      <i class="fa-solid fa-${type === 'success' ? 'circle-check' : 'triangle-exclamation'}"></i>
+      <span>${message}</span>
+    `;
+    return toast;
+  }
+}
+
+//5. PAGE SPECIFIC INITIALIZATION
+//
+
+class PageManager {
+  constructor() {
+    this.currentPage = appState.state.currentPage;
+    this.initPage();
+  }
+
+  initPage() {
+    if (!appState.state.isAuthenticated && 
+        !['login', 'register', 'home'].includes(this.currentPage)) {
+      window.location.href = 'login.html';
+      return;
+    }
+
+    if (appState.state.isAuthenticated && 
+        ['login', 'register'].includes(this.currentPage)) {
+      window.location.href = this.getDefaultDashboard();
+      return;
+    }
+
+    switch (this.currentPage) {
+      case 'student':
+        this.initStudentPage();
+        break;
+      case 'officer':
+        this.initOfficerPage();
+        break;
+      case 'admin':
+        this.initAdminPage();
+        break;
+    }
+  }
+
+  initStudentPage() {
+    const ui = new UIManager();
+    ui.loadBookingsTable();
+    ui.loadLoansTable();
+    ui.updateNotificationBadge();
+  }
+
+  initOfficerPage() {
+    const ui = new UIManager();
+    this.setupOfficerActions();
+  }
+
+  initAdminPage() {
+    const ui = new UIManager();
+    this.setupAdminActions();
+  }
+
+  setupOfficerActions() {
+    // Approve loan buttons
+    document.querySelectorAll('.btn--success').forEach(btn => {
+      btn.addEventListener('click', (e) => this.handleApproveLoan(e));
+    });
+
+    // Reject buttons
+    document.querySelectorAll('.btn--outline-danger').forEach(btn => {
+      if (btn.textContent.includes('Reject')) {
+        btn.addEventListener('click', (e) => this.handleRejectLoan(e));
+      }
+    });
+  }
+
+  setupAdminActions() {
+    // Admin-specific actions
+  }
+
+  async handleApproveLoan(e) {
+    const loanId = e.target.closest('tr')?.dataset.loanId;
+    if (!loanId) return;
+
+    try {
+      const response = await apiClient.approveLoan(loanId);
+      if (response.success) {
+        location.reload();
+      }
+    } catch (error) {
+      alert('Failed to approve loan');
+    }
+  }
+
+  async handleRejectLoan(e) {
+    const loanId = e.target.closest('tr')?.dataset.loanId;
+    if (!loanId) return;
+
+    const reason = prompt('Enter rejection reason:');
+    if (!reason) return;
+
+    try {
+      const response = await apiClient.rejectLoan(loanId, reason);
+      if (response.success) {
+        location.reload();
+      }
+    } catch (error) {
+      alert('Failed to reject loan');
+    }
+  }
+
+  getDefaultDashboard() {
+    const role = appState.state.user?.role;
+    const dashboardMap = {
+      admin: 'admin-dashboard.html',
+      officer: 'officer-dashboard.html',
+      student: 'student-dashboard.html',
+    };
+    return dashboardMap[role] || 'student-dashboard.html';
+  }
+}
+
+//6. GLOBAL FUNCTIONS FOR HTML
+//
+
+async function handleCancelBooking(bookingId) {
+  if (!confirm('Are you sure you want to cancel this booking?')) return;
+  
+  try {
+    const response = await apiClient.cancelBooking(bookingId);
+    if (response.success) {
+      location.reload();
+    }
+  } catch (error) {
+    alert('Failed to cancel booking');
+  }
+}
+
+//7. INITIALIZATION
+//
+
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('🚀 Initializing Sports Booking System');
+  
+  // Verify token if user is authenticated
+  if (appState.state.isAuthenticated) {
+    apiClient.verifyToken().catch(() => {
+      appState.saveUser(null);
+      window.location.href = 'login.html';
+    });
+  }
+
+  
+  new UIManager();
+
+  new PageManager();
+
+  // Refresh notifications every minute
+  setInterval(() => {
+    document.querySelector('.topbar-right')?.querySelector('.icon-btn')?.click();
+  }, 60000);
+});
+
+// 8. EXPORT FOR MODULE SYSTEMS// 
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { ApiClient, StateManager, UIManager, PageManager };
+}

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard | Sports Booking System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="student-side">
+
+<header class="app-topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <img src="svg.webp" alt="System Logo" class="topbar-logo">
+    <span class="topbar-title">Sports Booking System</span>
+  </div>
+  <div class="topbar-right">
+    <button class="icon-btn" id="notifBell" aria-label="Notifications">
+      <i class="fa-regular fa-bell"></i>
+      <span class="badge-dot" id="notifCount">3</span>
+    </button>
+    <div class="topbar-profile">
+      <img src="images/default-profile.png" alt="Profile" class="topbar-avatar">
+      <span class="topbar-username" id="topbarUsername"></span>
+    </div>
+  </div>
+</header>
+
+<div class="app-shell">
+
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <a href="student-dashboard.html" class="sidebar-link active"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
+      <a href="facilities.html" class="sidebar-link"><i class="fa-solid fa-building-columns"></i><span>Book Facility</span></a>
+      <a href="equipment.html" class="sidebar-link"><i class="fa-solid fa-basketball"></i><span>Equipment</span></a>
+      <a href="notifications.html" class="sidebar-link"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+      <a href="profile.html" class="sidebar-link"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+      <a href="login.html" class="sidebar-link sidebar-link--logout"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
+    </nav>
+  </aside>
+
+  <main class="app-main">
+
+    <section class="welcome-card">
+      <div>
+        <h1>Welcome back, <span id="welcomeUsername"></span> 👋</h1>
+        <p>Here's what's happening with your bookings and equipment today.</p>
+      </div>
+      <div class="welcome-actions">
+        <a href="facilities.html" class="btn btn--primary"><i class="fa-solid fa-plus"></i> Book Facility</a>
+        <a href="equipment.html" class="btn btn--outline"><i class="fa-solid fa-plus"></i> Borrow Equipment</a>
+      </div>
+    </section>
+
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--blue"><i class="fa-solid fa-calendar-check"></i></div>
+        <div>
+          <span class="stat-number">14</span>
+          <span class="stat-label">Total Bookings</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--green"><i class="fa-solid fa-basketball"></i></div>
+        <div>
+          <span class="stat-number">6</span>
+          <span class="stat-label">Equipment Borrowed</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--amber"><i class="fa-solid fa-hourglass-half"></i></div>
+        <div>
+          <span class="stat-number">2</span>
+          <span class="stat-label">Pending Requests</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--red"><i class="fa-solid fa-bell"></i></div>
+        <div>
+          <span class="stat-number">3</span>
+          <span class="stat-label">Notifications</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="dashboard-columns">
+
+      <div class="dashboard-col-main">
+
+        <section class="table-card">
+          <div class="table-card-head">
+            <h2>Upcoming Bookings</h2>
+            <a href="facilities.html" class="link-more">View all</a>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr><th>Facility</th><th>Date</th><th>Time</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Indoor Basketball Court</td>
+                  <td>18 Jul 2026</td>
+                  <td>3:00 PM</td>
+                  <td><span class="status-pill status-pill--pending">Pending</span></td>
+                </tr>
+                <tr>
+                  <td>Main Football Pitch</td>
+                  <td>20 Jul 2026</td>
+                  <td>5:00 PM</td>
+                  <td><span class="status-pill status-pill--available">Confirmed</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="table-card">
+          <div class="table-card-head">
+            <h2>Recent Equipment Loans</h2>
+            <a href="equipment.html" class="link-more">View all</a>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr><th>Equipment</th><th>Quantity</th><th>Status</th><th>Return Date</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Basketballs</td>
+                  <td>2</td>
+                  <td><span class="status-pill status-pill--pending">Pending</span></td>
+                  <td>22 Jul 2026</td>
+                </tr>
+                <tr>
+                  <td>Training Cones</td>
+                  <td>1 pack</td>
+                  <td><span class="status-pill status-pill--available">Approved</span></td>
+                  <td>19 Jul 2026</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+
+      <div class="dashboard-col-side">
+
+        
+        <section class="feed-card">
+          <h2>Recent Activity</h2>
+          <ul class="activity-feed">
+            <li><i class="fa-solid fa-circle-check activity-icon--green"></i> Booking confirmed for Football Pitch <span>2h ago</span></li>
+            <li><i class="fa-solid fa-basketball activity-icon--blue"></i> Requested 2 Basketballs <span>5h ago</span></li>
+            <li><i class="fa-solid fa-circle-xmark activity-icon--red"></i> Tennis Court booking cancelled <span>1d ago</span></li>
+            <li><i class="fa-solid fa-circle-check activity-icon--green"></i> Equipment loan approved <span>2d ago</span></li>
+          </ul>
+        </section>
+
+        
+        <section class="feed-card">
+          <h2>Announcements</h2>
+          <ul class="announcement-list">
+            <li>
+              <strong>Gym closed for maintenance</strong>
+              <p>The Main Gymnasium will be closed on 21 Jul for equipment servicing.</p>
+            </li>
+            <li>
+              <strong>Inter-hostel tournament</strong>
+              <p>Registrations for the inter-hostel football tournament open next week.</p>
+            </li>
+          </ul>
+        </section>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

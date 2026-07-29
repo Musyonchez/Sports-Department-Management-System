@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile | Sports Booking System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="student-side">
+
+<header class="app-topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <img src="svg.webp" alt="System Logo" class="topbar-logo">
+    <span class="topbar-title">Sports Booking System</span>
+  </div>
+  <div class="topbar-right">
+    <button class="icon-btn" id="notifBell" aria-label="Notifications">
+      <i class="fa-regular fa-bell"></i>
+      <span class="badge-dot" id="notifCount">3</span>
+    </button>
+    <div class="topbar-profile">
+      <img src="hero.png" alt="Profile" class="topbar-avatar">
+      <span class="topbar-username">Jane Wanjiru</span>
+    </div>
+  </div>
+</header>
+
+<div class="app-shell">
+
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <a href="Studentdashboard.html" class="sidebar-link"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
+      <a href="facilities.html" class="sidebar-link"><i class="fa-solid fa-building-columns"></i><span>Book Facility</span></a>
+      <a href="equipment.html" class="sidebar-link"><i class="fa-solid fa-basketball"></i><span>Equipment</span></a>
+      <a href="notifications.html" class="sidebar-link"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+      <a href="profile.html" class="sidebar-link active"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+      <a href="login.html" class="sidebar-link sidebar-link--logout"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
+    </nav>
+  </aside>
+
+  <main class="app-main">
+
+    <div class="page-heading">
+      <h1>My Profile</h1>
+      <p>Manage your personal information and account security.</p>
+    </div>
+
+    <div class="profile-layout">
+
+      <section class="profile-summary-card">
+        <div class="profile-picture-wrap">
+          <img src="hero.png" alt="Profile Picture" class="profile-picture" id="profilePicPreview">
+          <label class="profile-picture-edit" for="profilePicInput">
+            <i class="fa-solid fa-camera"></i>
+          </label>
+          <input type="file" id="profilePicInput" accept="image/*" hidden>
+        </div>
+        <h2>Jane Wanjiru</h2>
+        <p class="profile-role-tag">Student</p>
+        <ul class="profile-quick-info">
+          <li><i class="fa-solid fa-id-card"></i> ADM-2024-0193</li>
+          <li><i class="fa-solid fa-envelope"></i> jane.wanjiru@university.ac.ke</li>
+          <li><i class="fa-solid fa-phone"></i> +254 712 345 678</li>
+        </ul>
+      </section>
+
+      <div class="profile-forms">
+
+        <section class="form-card">
+          <h2>Personal Information</h2>
+          <form class="stacked-form" id="editProfileForm">
+            <div class="form-row">
+              <label>Full Name
+                <input type="text" name="fullName" value="Jane Wanjiru">
+              </label>
+              <label>Admission Number
+                <input type="text" name="admissionNumber" value="ADM-2024-0193" readonly>
+              </label>
+            </div>
+            <div class="form-row">
+              <label>Email Address
+                <input type="email" name="email" value="jane.wanjiru@university.ac.ke">
+              </label>
+              <label>Phone Number
+                <input type="tel" name="phone" value="+254 712 345 678">
+              </label>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn--primary">Save Changes</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="form-card">
+          <h2>Change Password</h2>
+          <form class="stacked-form" id="changePasswordForm">
+            <label class="password-field">
+              Current Password
+              <span class="password-input-wrap">
+                <input type="password" name="currentPassword" placeholder="Enter current password">
+                <button type="button" class="password-toggle" aria-label="Show password"><i class="fa-regular fa-eye"></i></button>
+              </span>
+            </label>
+            <div class="form-row">
+              <label class="password-field">
+                New Password
+                <span class="password-input-wrap">
+                  <input type="password" name="newPassword" placeholder="Enter new password">
+                  <button type="button" class="password-toggle" aria-label="Show password"><i class="fa-regular fa-eye"></i></button>
+                </span>
+              </label>
+              <label class="password-field">
+                Confirm New Password
+                <span class="password-input-wrap">
+                  <input type="password" name="confirmPassword" placeholder="Re-enter new password">
+                  <button type="button" class="password-toggle" aria-label="Show password"><i class="fa-regular fa-eye"></i></button>
+                </span>
+              </label>
+            </div>
+            <p class="form-hint">Password changes are UI-only in this preview and are not saved.</p>
+            <div class="form-actions">
+              <button type="submit" class="btn btn--primary">Update Password</button>
+            </div>
+          </form>
+        </section>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

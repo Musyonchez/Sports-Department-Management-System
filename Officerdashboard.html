@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Officer Dashboard | Sports Booking System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="officer-side">
+
+<header class="app-topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <img src="images/logo.png" alt="System Logo" class="topbar-logo">
+    <span class="topbar-title">Sports Booking System</span>
+  </div>
+  <div class="topbar-right">
+    <button class="icon-btn" id="notifBell" aria-label="Notifications">
+      <i class="fa-regular fa-bell"></i>
+      <span class="badge-dot" id="notifCount">5</span>
+    </button>
+    <div class="topbar-profile">
+      <img src="images/default-profile.png" alt="Profile" class="topbar-avatar">
+      <span class="topbar-username">Mr. Otieno</span>
+    </div>
+  </div>
+</header>
+
+<div class="app-shell">
+
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <a href="officer-dashboard.html" class="sidebar-link active"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
+      <a href="#" class="sidebar-link"><i class="fa-solid fa-building-columns"></i><span>Manage Facilities</span></a>
+      <a href="#" class="sidebar-link"><i class="fa-solid fa-boxes-stacked"></i><span>Equipment Inventory</span></a>
+      <a href="#" class="sidebar-link"><i class="fa-solid fa-clipboard-list"></i><span>Loan Requests</span></a>
+      <a href="notifications.html" class="sidebar-link"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+      <a href="#" class="sidebar-link"><i class="fa-solid fa-chart-simple"></i><span>Reports</span></a>
+      <a href="profile.html" class="sidebar-link"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+      <a href="login.html" class="sidebar-link sidebar-link--logout"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
+    </nav>
+  </aside>
+
+  <main class="app-main">
+
+    <div class="page-heading">
+      <h1>Sports Officer Dashboard</h1>
+      <p>Oversee facilities, equipment and loan requests.</p>
+    </div>
+
+
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--blue"><i class="fa-solid fa-building-columns"></i></div>
+        <div>
+          <span class="stat-number">6</span>
+          <span class="stat-label">Total Facilities</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--green"><i class="fa-solid fa-calendar-day"></i></div>
+        <div>
+          <span class="stat-number">11</span>
+          <span class="stat-label">Today's Bookings</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--amber"><i class="fa-solid fa-hourglass-half"></i></div>
+        <div>
+          <span class="stat-number">7</span>
+          <span class="stat-label">Pending Loan Requests</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--red"><i class="fa-solid fa-basketball"></i></div>
+        <div>
+          <span class="stat-number">128</span>
+          <span class="stat-label">Equipment Available</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="dashboard-columns">
+      <div class="dashboard-col-main">
+
+        <section class="table-card">
+          <div class="table-card-head">
+            <h2>Recent Bookings</h2>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr><th>Student</th><th>Facility</th><th>Date</th><th>Time</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Jane Wanjiru</td>
+                  <td>Indoor Basketball Court</td>
+                  <td>18 Jul 2026</td>
+                  <td>3:00 PM</td>
+                  <td><span class="status-pill status-pill--pending">Pending</span></td>
+                </tr>
+                <tr>
+                  <td>Brian Kiptoo</td>
+                  <td>Main Football Pitch</td>
+                  <td>18 Jul 2026</td>
+                  <td>4:00 PM</td>
+                  <td><span class="status-pill status-pill--available">Confirmed</span></td>
+                </tr>
+                <tr>
+                  <td>Amina Yusuf</td>
+                  <td>Main Gymnasium</td>
+                  <td>19 Jul 2026</td>
+                  <td>7:00 AM</td>
+                  <td><span class="status-pill status-pill--available">Confirmed</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="table-card">
+          <div class="table-card-head">
+            <h2>Loan Requests</h2>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr><th>Student</th><th>Equipment</th><th>Quantity</th><th>Return Date</th><th>Action</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Jane Wanjiru</td>
+                  <td>Basketballs</td>
+                  <td>2</td>
+                  <td>22 Jul 2026</td>
+                  <td class="table-action-group">
+                    <button class="btn btn--success btn--sm">Approve</button>
+                    <button class="btn btn--outline-danger btn--sm">Reject</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Brian Kiptoo</td>
+                  <td>Tennis Rackets</td>
+                  <td>2</td>
+                  <td>21 Jul 2026</td>
+                  <td class="table-action-group">
+                    <button class="btn btn--success btn--sm">Approve</button>
+                    <button class="btn btn--outline-danger btn--sm">Reject</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Amina Yusuf</td>
+                  <td>Team Jerseys</td>
+                  <td>1 set</td>
+                  <td>25 Jul 2026</td>
+                  <td class="table-action-group">
+                    <button class="btn btn--success btn--sm">Approve</button>
+                    <button class="btn btn--outline-danger btn--sm">Reject</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="table-card">
+          <div class="table-card-head">
+            <h2>Facility Management — Time Slots</h2>
+            <button class="btn btn--primary btn--sm" data-open-modal="slotModal"><i class="fa-solid fa-plus"></i> Add Time Slot</button>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr><th>Facility</th><th>Day</th><th>Time Slot</th><th>Actions</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Main Football Pitch</td>
+                  <td>Monday</td>
+                  <td>4:00 PM – 6:00 PM</td>
+                  <td class="table-action-group">
+                    <button class="btn btn--outline btn--sm">Edit</button>
+                    <button class="btn btn--outline-danger btn--sm">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Indoor Basketball Court</td>
+                  <td>Wednesday</td>
+                  <td>2:00 PM – 5:00 PM</td>
+                  <td class="table-action-group">
+                    <button class="btn btn--outline btn--sm">Edit</button>
+                    <button class="btn btn--outline-danger btn--sm">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="table-card">
+          <div class="table-card-head">
+            <h2>Equipment Inventory</h2>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr><th>Equipment</th><th>Quantity</th><th>Condition</th><th>Action</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Footballs</td>
+                  <td>18</td>
+                  <td><span class="status-pill status-pill--available">Good</span></td>
+                  <td><button class="btn btn--outline btn--sm">Edit</button></td>
+                </tr>
+                <tr>
+                  <td>Tennis Rackets</td>
+                  <td>3</td>
+                  <td><span class="status-pill status-pill--pending">Fair</span></td>
+                  <td><button class="btn btn--outline btn--sm">Edit</button></td>
+                </tr>
+                <tr>
+                  <td>Volleyball Net</td>
+                  <td>0</td>
+                  <td><span class="status-pill status-pill--booked">Needs Repair</span></td>
+                  <td><button class="btn btn--outline btn--sm">Edit</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+
+      <div class="dashboard-col-side">
+    
+        <section class="feed-card">
+          <h2>Notifications</h2>
+          <ul class="activity-feed">
+            <li><i class="fa-solid fa-clipboard-list activity-icon--blue"></i> 3 new loan requests submitted <span>1h ago</span></li>
+            <li><i class="fa-solid fa-triangle-exclamation activity-icon--red"></i> Volleyball Net stock depleted <span>4h ago</span></li>
+            <li><i class="fa-solid fa-calendar-check activity-icon--green"></i> 11 bookings confirmed for today <span>6h ago</span></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+
+<div class="modal-overlay" id="slotModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>Add Time Slot</h3>
+      <button class="modal-close" data-close-modal="slotModal" aria-label="Close">&times;</button>
+    </div>
+    <form class="modal-form">
+      <label>Facility
+        <select name="facility">
+          <option>Main Football Pitch</option>
+          <option>Indoor Basketball Court</option>
+          <option>Tennis Court</option>
+          <option>Volleyball Court</option>
+          <option>Rugby Field</option>
+          <option>Main Gymnasium</option>
+        </select>
+      </label>
+      <label>Day
+        <select name="day">
+          <option>Monday</option>
+          <option>Tuesday</option>
+          <option>Wednesday</option>
+          <option>Thursday</option>
+          <option>Friday</option>
+          <option>Saturday</option>
+          <option>Sunday</option>
+        </select>
+      </label>
+      <label>Start Time
+        <input type="time" name="startTime">
+      </label>
+      <label>End Time
+        <input type="time" name="endTime">
+      </label>
+      <div class="modal-actions">
+        <button type="button" class="btn btn--ghost" data-close-modal="slotModal">Cancel</button>
+        <button type="submit" class="btn btn--primary">Add Slot</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
