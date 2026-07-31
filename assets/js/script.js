@@ -554,16 +554,26 @@ class UIManager {
   async handleRegister(e) {
     e.preventDefault();
     const form = e.target;
-    
+
     if (!this.validateForm(form)) return;
 
-    const formData = new FormData(form);
-    const userData = Object.fromEntries(formData);
+    const firstName = form.querySelector('[name="firstName"]').value.trim();
+    const lastName = form.querySelector('[name="lastName"]').value.trim();
+    const email = form.querySelector('[name="email"]').value;
+    const password = form.querySelector('[name="password"]').value;
+    const confirmPassword = form.querySelector('[name="confirmPassword"]').value;
+
+    if (password !== confirmPassword) {
+      this.showError(form, 'Passwords do not match');
+      return;
+    }
+
+    const userData = { name: `${firstName} ${lastName}`.trim(), email, password, role: 'student' };
 
     try {
       this.showLoading(form);
       const response = await apiClient.register(userData);
-      
+
       if (response.success) {
         this.showSuccess(form, 'Registration successful! Redirecting to login...');
         setTimeout(() => {
@@ -644,17 +654,16 @@ class UIManager {
   async handleProfileUpdate(e) {
     e.preventDefault();
     const form = e.target;
-    
+
     if (!this.validateForm(form)) return;
 
-    const formData = new FormData(form);
-    const userData = Object.fromEntries(formData);
+    const name = form.querySelector('[name="name"]').value.trim();
     const userId = appState.state.user?.id;
 
     try {
       this.showLoading(form);
-      const response = await apiClient.updateUser(userId, userData);
-      
+      const response = await apiClient.updateUser(userId, { name });
+
       if (response.success) {
         appState.saveUser(response.data);
         this.updateUserDisplay();
@@ -1082,6 +1091,27 @@ class PageManager {
     this.ui.loadBookingsTable();
     this.ui.loadLoansTable();
     this.ui.updateNotificationBadge();
+    this.populateProfilePage();
+  }
+
+  populateProfilePage() {
+    const nameHeading = document.getElementById('profileFullName');
+    if (!nameHeading) return;
+
+    const user = appState.state.user;
+    if (!user) return;
+
+    nameHeading.textContent = user.name;
+    const roleTag = document.getElementById('profileRoleTag');
+    if (roleTag) roleTag.textContent = user.role.charAt(0).toUpperCase() + user.role.slice(1);
+    const emailSpan = document.getElementById('profileEmail');
+    if (emailSpan) emailSpan.textContent = user.email;
+
+    const form = document.getElementById('editProfileForm');
+    if (form) {
+      form.querySelector('[name="name"]').value = user.name;
+      form.querySelector('[name="email"]').value = user.email;
+    }
   }
 
   initOfficerPage() {

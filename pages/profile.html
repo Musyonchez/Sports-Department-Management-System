@@ -61,12 +61,10 @@
           </label>
           <input type="file" id="profilePicInput" accept="image/*" hidden>
         </div>
-        <h2>Jane Wanjiru</h2>
-        <p class="profile-role-tag">Student</p>
+        <h2 id="profileFullName"></h2>
+        <p class="profile-role-tag" id="profileRoleTag"></p>
         <ul class="profile-quick-info">
-          <li><i class="fa-solid fa-id-card"></i> ADM-2024-0193</li>
-          <li><i class="fa-solid fa-envelope"></i> jane.wanjiru@university.ac.ke</li>
-          <li><i class="fa-solid fa-phone"></i> +254 712 345 678</li>
+          <li><i class="fa-solid fa-envelope"></i> <span id="profileEmail"></span></li>
         </ul>
       </section>
 
@@ -77,20 +75,13 @@
           <form class="stacked-form" id="editProfileForm">
             <div class="form-row">
               <label>Full Name
-                <input type="text" name="fullName" value="Jane Wanjiru">
+                <input type="text" name="name" required>
               </label>
-              <label>Admission Number
-                <input type="text" name="admissionNumber" value="ADM-2024-0193" readonly>
-              </label>
-            </div>
-            <div class="form-row">
               <label>Email Address
-                <input type="email" name="email" value="jane.wanjiru@university.ac.ke">
-              </label>
-              <label>Phone Number
-                <input type="tel" name="phone" value="+254 712 345 678">
+                <input type="email" name="email" readonly>
               </label>
             </div>
+            <p class="form-hint">Email is tied to your account and can't be changed here.</p>
             <div class="form-actions">
               <button type="submit" class="btn btn--primary">Save Changes</button>
             </div>
