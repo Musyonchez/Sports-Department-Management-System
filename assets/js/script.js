@@ -56,7 +56,7 @@ class StateManager {
   }
 
   getCurrentPage() {
-    const path = window.location.pathname;
+    const path = window.location.pathname.toLowerCase();
     if (path.includes('admin')) return 'admin';
     if (path.includes('officer')) return 'officer';
     if (path.includes('student') || path.includes('facilities') || path.includes('equipment') || path.includes('profile')) return 'student';
@@ -108,61 +108,9 @@ class ApiClient {
   }
 
   handleError(status, data) {
-    if (status === 401) {    // ...existing code...
-    <script>
-    (function () {
-      const chips = document.querySelectorAll('.chip');
-      const cards = document.querySelectorAll('.facility-card');
-      const searchInput = document.getElementById('facilitySearch');
-    
-      function applyFilter(filter = 'all', query = '') {
-        const q = (query || '').trim().toLowerCase();
-        cards.forEach(card => {
-          const cat = (card.dataset.category || '').toLowerCase();
-          const title = (card.querySelector('h3')?.textContent || '').toLowerCase();
-          const matchCat = filter === 'all' || cat === filter;
-          const matchQuery = q === '' || title.includes(q) || card.textContent.toLowerCase().includes(q);
-          card.style.display = (matchCat && matchQuery) ? '' : 'none';
-        });
-      }
-    
-      function setActiveChip(chip) {
-        chips.forEach(c => c.classList.remove('chip--active'));
-        if (chip) chip.classList.add('chip--active');
-      }
-    
-      chips.forEach(chip => {
-        chip.style.cursor = 'pointer';
-        chip.addEventListener('click', (e) => {
-          e.preventDefault();
-          setActiveChip(chip);
-          applyFilter(chip.dataset.filter || 'all', searchInput?.value || '');
-        });
-        chip.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            chip.click();
-          }
-        });
-      });
-    
-      if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-          const active = document.querySelector('.chip.chip--active');
-          const filter = active ? (active.dataset.filter || 'all') : 'all';
-          applyFilter(filter, e.target.value);
-        });
-      }
-    
-      // initialize view
-      const active = document.querySelector('.chip.chip--active') || chips[0];
-      setActiveChip(active);
-      applyFilter(active.dataset.filter || 'all', searchInput?.value || '');
-    })();
-    </script>
-    // ...existing code...
+    if (status === 401) {
       appState.saveUser(null);
-      window.location.href = '/login.html';
+      window.location.href = 'login.html';
     }
   }
 
@@ -558,11 +506,11 @@ class UIManager {
         
         // Redirect based on role
         const redirectMap = {
-          admin: 'admin-dashboard.html',
-          officer: 'officer-dashboard.html',
-          student: 'student-dashboard.html',
+          admin: 'Admindashboard.html',
+          officer: 'Officerdashboard.html',
+          student: 'Studentdashboard.html',
         };
-        window.location.href = redirectMap[role] || 'student-dashboard.html';
+        window.location.href = redirectMap[role] || 'Studentdashboard.html';
       }
     } catch (error) {
       this.showError(form, error.message);
@@ -1077,11 +1025,11 @@ class PageManager {
   getDefaultDashboard() {
     const role = appState.state.user?.role;
     const dashboardMap = {
-      admin: 'admin-dashboard.html',
-      officer: 'officer-dashboard.html',
-      student: 'student-dashboard.html',
+      admin: 'Admindashboard.html',
+      officer: 'Officerdashboard.html',
+      student: 'Studentdashboard.html',
     };
-    return dashboardMap[role] || 'student-dashboard.html';
+    return dashboardMap[role] || 'Studentdashboard.html';
   }
 }
 
