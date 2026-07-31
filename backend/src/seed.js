@@ -32,13 +32,16 @@ function seed() {
     insertUser.run('Officer User', 'officer@sports.edu', passwordHash, 'officer');
     insertUser.run('Student User', 'student@sports.edu', passwordHash, 'student');
 
+    // Names match the display text in pages/facilities.html exactly (data-facility
+    // attributes on the "Book Now" buttons), since the booking form sends the
+    // facility by name rather than by id.
     const facilities = [
-      ['Football Pitch', 'football', 'Professional outdoor football field.', 'football.jpg', 22],
-      ['Basketball Court', 'basketball', 'Modern indoor basketball court.', 'basketball.jpg', 10],
+      ['Main Football Pitch', 'football', 'Professional outdoor football field.', 'football.jpg', 22],
+      ['Indoor Basketball Court', 'basketball', 'Modern indoor basketball court.', 'basketball.jpg', 10],
       ['Tennis Court', 'tennis', 'Outdoor tennis training facility.', 'tennis.jpg', 4],
       ['Volleyball Court', 'volleyball', 'Professional volleyball court.', 'volleyball.jpg', 12],
       ['Rugby Field', 'rugby', 'Full-size rugby playing field.', 'rugby.jpg', 30],
-      ['Gymnasium', 'gym', 'Fully equipped fitness centre.', 'gym.jpg', 40],
+      ['Main Gymnasium', 'gym', 'Fully equipped fitness centre.', 'gym.jpg', 40],
     ];
     for (const f of facilities) insertFacility.run(...f);
 

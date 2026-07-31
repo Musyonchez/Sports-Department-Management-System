@@ -6,20 +6,23 @@ const { notify, notifyRole } = require('../lib/notify');
 const router = express.Router();
 
 router.post('/', requireAuth, requireRole('student'), (req, res) => {
-  const { equipment_id, quantity } = req.body;
-  if (!equipment_id || !quantity || quantity < 1) {
-    return res.status(400).json({ success: false, message: 'equipment_id and a positive quantity are required' });
+  const { equipment_id, equipment, quantity, returnDate } = req.body;
+  const parsedQuantity = parseInt(quantity, 10);
+  if ((!equipment_id && !equipment) || !parsedQuantity || parsedQuantity < 1) {
+    return res.status(400).json({ success: false, message: 'equipment (or equipment_id) and a positive quantity are required' });
   }
 
-  const equipment = db.prepare('SELECT * FROM equipment WHERE id = ?').get(equipment_id);
-  if (!equipment) return res.status(404).json({ success: false, message: 'Equipment not found' });
+  const equipmentRow = equipment_id
+    ? db.prepare('SELECT * FROM equipment WHERE id = ?').get(equipment_id)
+    : db.prepare('SELECT * FROM equipment WHERE name = ?').get(equipment);
+  if (!equipmentRow) return res.status(404).json({ success: false, message: 'Equipment not found' });
 
   const result = db.prepare(`
-    INSERT INTO equipment_loans (equipment_id, user_id, quantity)
-    VALUES (?, ?, ?)
-  `).run(equipment_id, req.user.sub, quantity);
+    INSERT INTO equipment_loans (equipment_id, user_id, quantity, due_at)
+    VALUES (?, ?, ?, ?)
+  `).run(equipmentRow.id, req.user.sub, parsedQuantity, returnDate || null);
 
-  notifyRole('officer', `New equipment loan request for ${equipment.name}.`, 'loan');
+  notifyRole('officer', `New equipment loan request for ${equipmentRow.name}.`, 'loan');
 
   const loan = db.prepare('SELECT * FROM equipment_loans WHERE id = ?').get(result.lastInsertRowid);
   res.status(201).json({ success: true, data: loan });

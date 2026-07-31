@@ -4,7 +4,7 @@
 // 1. CONFIGURATION & CONSTANTS
 
 const APP_CONFIG = {
-  API_BASE_URL: process.env.REACT_APP_API_URL || 'http://localhost:8000/api', // Backend team: Update this
+  API_BASE_URL: 'http://localhost:8000/api',
   DEBUG: true,
   STORAGE_PREFIX: 'sbs_',
   SESSION_TIMEOUT: 30 * 60 * 1000,
@@ -754,10 +754,8 @@ class UIManager {
       notifBell.addEventListener('click', () => {
         window.location.href = 'notifications.html';
       });
+      this.updateNotificationBadge();
     }
-
-    // Update notification count
-    this.updateNotificationBadge();
   }
 
   async updateNotificationBadge() {
@@ -925,7 +923,8 @@ class UIManager {
 //
 
 class PageManager {
-  constructor() {
+  constructor(ui) {
+    this.ui = ui;
     this.currentPage = appState.state.currentPage;
     this.initPage();
   }
@@ -957,19 +956,16 @@ class PageManager {
   }
 
   initStudentPage() {
-    const ui = new UIManager();
-    ui.loadBookingsTable();
-    ui.loadLoansTable();
-    ui.updateNotificationBadge();
+    this.ui.loadBookingsTable();
+    this.ui.loadLoansTable();
+    this.ui.updateNotificationBadge();
   }
 
   initOfficerPage() {
-    const ui = new UIManager();
     this.setupOfficerActions();
   }
 
   initAdminPage() {
-    const ui = new UIManager();
     this.setupAdminActions();
   }
 
@@ -1064,9 +1060,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   
-  new UIManager();
+  const ui = new UIManager();
 
-  new PageManager();
+  new PageManager(ui);
 
   // Refresh notifications every minute
   setInterval(() => {

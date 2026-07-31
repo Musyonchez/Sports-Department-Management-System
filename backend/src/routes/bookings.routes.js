@@ -5,24 +5,38 @@ const { notify, notifyRole } = require('../lib/notify');
 
 const router = express.Router();
 
-router.post('/', requireAuth, requireRole('student'), (req, res) => {
-  const { facility_id, date, start_time, end_time, purpose, participants, time_slot_id } = req.body;
-  if (!facility_id || !date || !start_time || !end_time) {
-    return res.status(400).json({ success: false, message: 'facility_id, date, start_time, end_time are required' });
-  }
+const DEFAULT_SESSION_MINUTES = 60;
 
-  const facility = db.prepare('SELECT * FROM facilities WHERE id = ? AND is_active = 1').get(facility_id);
-  if (!facility) return res.status(404).json({ success: false, message: 'Facility not found or inactive' });
+function addMinutes(time, minutes) {
+  const [h, m] = time.split(':').map(Number);
+  const total = (h * 60 + m + minutes) % (24 * 60);
+  const hh = String(Math.floor(total / 60)).padStart(2, '0');
+  const mm = String(total % 60).padStart(2, '0');
+  return `${hh}:${mm}`;
+}
+
+router.post('/', requireAuth, requireRole('student'), (req, res) => {
+  const { facility_id, facility, date, start_time, end_time, time, purpose, participants, time_slot_id } = req.body;
+  const resolvedStart = start_time || time;
+  if ((!facility_id && !facility) || !date || !resolvedStart) {
+    return res.status(400).json({ success: false, message: 'facility (or facility_id), date, and time are required' });
+  }
+  const resolvedEnd = end_time || addMinutes(resolvedStart, DEFAULT_SESSION_MINUTES);
+
+  const facilityRow = facility_id
+    ? db.prepare('SELECT * FROM facilities WHERE id = ? AND is_active = 1').get(facility_id)
+    : db.prepare('SELECT * FROM facilities WHERE name = ? AND is_active = 1').get(facility);
+  if (!facilityRow) return res.status(404).json({ success: false, message: 'Facility not found or inactive' });
 
   try {
     const result = db.prepare(`
       INSERT INTO bookings (facility_id, user_id, time_slot_id, date, start_time, end_time, purpose, participants)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `).run(facility_id, req.user.sub, time_slot_id || null, date, start_time, end_time, purpose || null, participants || null);
+    `).run(facilityRow.id, req.user.sub, time_slot_id || null, date, resolvedStart, resolvedEnd, purpose || null, participants || null);
 
     const booking = db.prepare('SELECT * FROM bookings WHERE id = ?').get(result.lastInsertRowid);
-    notify(req.user.sub, `Your booking for ${facility.name} on ${date} is pending confirmation.`, 'booking');
-    notifyRole('officer', `New booking request for ${facility.name} on ${date}.`, 'booking');
+    notify(req.user.sub, `Your booking for ${facilityRow.name} on ${date} is pending confirmation.`, 'booking');
+    notifyRole('officer', `New booking request for ${facilityRow.name} on ${date}.`, 'booking');
 
     res.status(201).json({ success: true, data: booking });
   } catch (err) {
