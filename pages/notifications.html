@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notifications | Sports Booking System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="student-side">
+
+<header class="app-topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <a href="../index.html" class="topbar-logo-link">
+      <img src="../assets/images/svg.webp" alt="System Logo" class="topbar-logo">
+    </a>
+    <span class="topbar-title">Sports Booking System</span>
+  </div>
+  <div class="topbar-right">
+    <button class="icon-btn" id="notifBell" aria-label="Notifications">
+      <i class="fa-solid fa-bell"></i>
+      <span class="badge-dot" id="notifCount"></span>
+    </button>
+    <div class="topbar-profile">
+      <img src="../assets/images/hero.png" alt="Profile" class="topbar-avatar">
+      <span class="topbar-username" id="topbarUsername"></span>
+    </div>
+  </div>
+</header>
+
+<div class="app-shell">
+
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <a href="#" id="sidebarDashboardLink" class="sidebar-link"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
+      <a href="notifications.html" class="sidebar-link active"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+      <a href="profile.html" class="sidebar-link"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+      <a href="login.html" class="sidebar-link sidebar-link--logout"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
+    </nav>
+  </aside>
+
+  <main class="app-main">
+
+    <div class="page-heading">
+      <h1>Notifications</h1>
+      <p>Booking confirmations, loan updates, and system alerts.</p>
+    </div>
+
+    <section class="table-card">
+      <div class="table-card-head">
+        <h2>All Notifications</h2>
+        <button class="btn btn--outline btn--sm" id="markAllReadBtn">Mark all as read</button>
+      </div>
+      <ul class="activity-feed" id="notificationsList">
+        <li>Loading notifications…</li>
+      </ul>
+    </section>
+
+  </main>
+</div>
+
+<script src="../assets/js/script.js"></script>
+</body>
+</html>

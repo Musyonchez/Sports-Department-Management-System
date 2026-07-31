@@ -59,6 +59,7 @@ class StateManager {
     const path = window.location.pathname.toLowerCase();
     if (path.includes('admin')) return 'admin';
     if (path.includes('officer')) return 'officer';
+    if (path.includes('notifications')) return 'notifications';
     if (path.includes('student') || path.includes('facilities') || path.includes('equipment') || path.includes('profile')) return 'student';
     if (path.includes('login')) return 'login';
     if (path.includes('register')) return 'register';
@@ -258,6 +259,13 @@ class ApiClient {
     });
   }
 
+  async updateUserRole(id, role) {
+    return this.request(`/users/${id}/role`, {
+      method: 'PUT',
+      body: JSON.stringify({ role }),
+    });
+  }
+
   async changePassword(currentPassword, newPassword) {
     return this.request('/users/change-password', {
       method: 'POST',
@@ -289,15 +297,33 @@ class ApiClient {
     return this.request(`/analytics?${query}`);
   }
 
-  async generateReport(type, filters = {}) {
+  async generateReport(type, from, to) {
     return this.request('/reports/generate', {
       method: 'POST',
-      body: JSON.stringify({ type, filters }),
+      body: JSON.stringify({ type, from, to }),
     });
   }
 
-  async exportReport(type, format = 'pdf') {
-    return this.request(`/reports/export?type=${type}&format=${format}`);
+  async downloadReport(type, format = 'csv') {
+    const token = localStorage.getItem(`${APP_CONFIG.STORAGE_PREFIX}token`);
+    const response = await fetch(`${this.baseUrl}/reports/export?type=${type}&format=${format}`, {
+      headers: { ...(token && { 'Authorization': `Bearer ${token}` }) },
+    });
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({}));
+      throw new Error(data.message || `HTTP Error: ${response.status}`);
+    }
+
+    const blob = await response.blob();
+    const extension = { csv: 'csv', pdf: 'pdf', xlsx: 'xlsx' }[format] || format;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${type}-report.${extension}`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
   }
 
   async createTimeSlot(slotData) {
@@ -308,7 +334,7 @@ class ApiClient {
   }
 
   async getTimeSlots(facilityId) {
-    return this.request(`/time-slots?facility=${facilityId}`);
+    return this.request(facilityId ? `/time-slots?facility=${facilityId}` : '/time-slots');
   }
 
   async deleteTimeSlot(id) {
@@ -470,6 +496,12 @@ class UIManager {
     const passwordForm = document.getElementById('changePasswordForm');
     if (passwordForm) {
       passwordForm.addEventListener('submit', (e) => this.handlePasswordChange(e));
+    }
+
+    // Complaint form
+    const complaintForm = document.getElementById('complaintForm');
+    if (complaintForm) {
+      complaintForm.addEventListener('submit', (e) => this.handleComplaintSubmit(e));
     }
 
     // Toggle password visibility
@@ -665,7 +697,31 @@ class UIManager {
     }
   }
 
-  
+  async handleComplaintSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+
+    if (!this.validateForm(form)) return;
+
+    const subject = form.querySelector('[name="subject"]').value;
+    const message = form.querySelector('[name="message"]').value;
+
+    try {
+      this.showLoading(form);
+      const response = await apiClient.submitComplaint({ subject, message });
+
+      if (response.success) {
+        this.showSuccess(form, 'Complaint submitted — an officer will review it.');
+        form.reset();
+      }
+    } catch (error) {
+      this.showError(form, error.message);
+    } finally {
+      this.hideLoading(form);
+    }
+  }
+
+
   setupFilterListeners() {
     document.querySelectorAll('.filter-chips').forEach(container => {
       container.querySelectorAll('.chip').forEach(chip => {
@@ -971,7 +1027,55 @@ class PageManager {
       case 'admin':
         this.initAdminPage();
         break;
+      case 'notifications':
+        this.initNotificationsPage();
+        break;
     }
+  }
+
+  async initNotificationsPage() {
+    const dashLink = document.getElementById('sidebarDashboardLink');
+    if (dashLink) dashLink.href = this.getDefaultDashboard();
+
+    this.ui.updateNotificationBadge();
+
+    const list = document.getElementById('notificationsList');
+    const markAllBtn = document.getElementById('markAllReadBtn');
+
+    const render = async () => {
+      const response = await apiClient.getNotifications();
+      if (!response.success || !list) return;
+      list.innerHTML = response.data.length ? response.data.map(n => `
+        <li class="${n.is_read ? '' : 'notification--unread'}" data-notification-id="${n.id}">
+          <i class="fa-solid fa-${n.type === 'booking' ? 'calendar-check' : n.type === 'loan' ? 'basketball' : 'bell'} activity-icon--${n.is_read ? 'blue' : 'green'}"></i>
+          ${n.message}
+          <span>${(n.created_at || '').slice(0, 16)}</span>
+          ${n.is_read ? '' : '<button class="btn btn--outline btn--sm" data-notification-action="read">Mark read</button>'}
+        </li>
+      `).join('') : '<li>No notifications yet.</li>';
+    };
+
+    if (list) {
+      list.addEventListener('click', async (e) => {
+        const btn = e.target.closest('[data-notification-action="read"]');
+        if (!btn) return;
+        const id = btn.closest('li')?.dataset.notificationId;
+        if (!id) return;
+        await apiClient.markNotificationAsRead(id);
+        await render();
+        this.ui.updateNotificationBadge();
+      });
+    }
+
+    if (markAllBtn) {
+      markAllBtn.addEventListener('click', async () => {
+        await apiClient.markAllNotificationsAsRead();
+        await render();
+        this.ui.updateNotificationBadge();
+      });
+    }
+
+    await render();
   }
 
   initStudentPage() {
@@ -984,14 +1088,279 @@ class PageManager {
     this.loadOfficerStats();
     this.loadRecentBookingsTable();
     this.loadLoanRequestsTable();
+    this.populateSlotFacilitySelect();
+    this.loadTimeSlotsTable();
+    this.loadEquipmentInventoryTable();
     this.setupOfficerActions();
+  }
+
+  async populateSlotFacilitySelect() {
+    const select = document.getElementById('slotFacilitySelect');
+    if (!select) return;
+    try {
+      const response = await apiClient.getFacilities();
+      if (response.success) {
+        select.innerHTML = response.data.map(f => `<option value="${f.id}">${f.name}</option>`).join('');
+      }
+    } catch (error) {
+      console.error('Failed to load facilities for time slot form:', error);
+    }
+  }
+
+  async loadTimeSlotsTable() {
+    try {
+      const response = await apiClient.getTimeSlots();
+      const tbody = document.getElementById('timeSlotsBody');
+      if (!tbody || !response.success) return;
+
+      tbody.innerHTML = response.data.length ? response.data.map(slot => `
+        <tr data-slot-id="${slot.id}">
+          <td>${slot.facility_name}</td>
+          <td>${slot.date}</td>
+          <td>${slot.start_time} – ${slot.end_time}${slot.is_booked ? ' (booked)' : ''}</td>
+          <td class="table-action-group">
+            <button class="btn btn--outline-danger btn--sm" data-slot-action="delete">Delete</button>
+          </td>
+        </tr>
+      `).join('') : '<tr><td colspan="4">No time slots yet.</td></tr>';
+    } catch (error) {
+      console.error('Failed to load time slots:', error);
+    }
+  }
+
+  async loadEquipmentInventoryTable() {
+    try {
+      const response = await apiClient.getEquipment();
+      const tbody = document.getElementById('equipmentInventoryBody');
+      if (!tbody || !response.success) return;
+
+      const statusLabel = { in_stock: 'In Stock', low_stock: 'Low Stock', out_of_stock: 'Out of Stock' };
+
+      tbody.innerHTML = response.data.length ? response.data.map(item => `
+        <tr data-equipment-id="${item.id}">
+          <td>${item.name}</td>
+          <td>${item.available_quantity} / ${item.total_quantity}</td>
+          <td><span class="status-pill status-pill--${this.ui.getStatusClass(item.status)}">${statusLabel[item.status] || item.status}</span></td>
+          <td><button class="btn btn--outline btn--sm" data-equipment-action="edit">Edit</button></td>
+        </tr>
+      `).join('') : '<tr><td colspan="4">No equipment yet.</td></tr>';
+    } catch (error) {
+      console.error('Failed to load equipment inventory:', error);
+    }
+  }
+
+  async handleAddTimeSlot(e) {
+    e.preventDefault();
+    const form = e.target;
+    if (!this.ui.validateForm(form)) return;
+
+    const facility_id = form.querySelector('[name="facility_id"]').value;
+    const date = form.querySelector('[name="date"]').value;
+    const start_time = form.querySelector('[name="startTime"]').value;
+    const end_time = form.querySelector('[name="endTime"]').value;
+
+    try {
+      const response = await apiClient.createTimeSlot({ facility_id, date, start_time, end_time });
+      if (response.success) {
+        form.reset();
+        document.getElementById('slotModal')?.classList.remove('modal-overlay--open');
+        const modal = document.getElementById('slotModal');
+        if (modal) modal.style.display = 'none';
+        await this.loadTimeSlotsTable();
+      }
+    } catch (error) {
+      alert('Failed to add time slot: ' + error.message);
+    }
+  }
+
+  async handleDeleteTimeSlot(e) {
+    const slotId = e.target.closest('tr')?.dataset.slotId;
+    if (!slotId) return;
+    if (!confirm('Delete this time slot?')) return;
+
+    try {
+      const response = await apiClient.deleteTimeSlot(slotId);
+      if (response.success) await this.loadTimeSlotsTable();
+    } catch (error) {
+      alert('Failed to delete time slot: ' + error.message);
+    }
+  }
+
+  async handleEditEquipment(e) {
+    const row = e.target.closest('tr');
+    const equipmentId = row?.dataset.equipmentId;
+    if (!equipmentId) return;
+
+    try {
+      const current = await apiClient.getEquipmentById(equipmentId);
+      if (!current.success) return;
+
+      const onLoan = current.data.total_quantity - current.data.available_quantity;
+      const input = prompt(`New total quantity for ${current.data.name} (currently ${onLoan} on loan):`, current.data.total_quantity);
+      if (input === null) return;
+
+      const newTotal = parseInt(input, 10);
+      if (isNaN(newTotal) || newTotal < 0) {
+        alert('Please enter a valid non-negative number.');
+        return;
+      }
+
+      const newAvailable = Math.max(0, newTotal - onLoan);
+      const response = await apiClient.updateEquipment(equipmentId, {
+        total_quantity: newTotal,
+        available_quantity: newAvailable,
+      });
+      if (response.success) {
+        await this.loadEquipmentInventoryTable();
+        await this.loadOfficerStats();
+      }
+    } catch (error) {
+      alert('Failed to update equipment: ' + error.message);
+    }
   }
 
   initAdminPage() {
     this.loadAdminStats();
     this.loadUsersTable();
     this.loadComplaintsTable();
+    this.populateRoleUserSelect();
+    this.loadAnalyticsCharts();
     this.setupAdminActions();
+  }
+
+  async populateRoleUserSelect() {
+    const select = document.getElementById('roleUserSelect');
+    if (!select) return;
+    try {
+      const response = await apiClient.getAllUsers();
+      if (response.success) {
+        select.innerHTML = response.data.map(u => `<option value="${u.id}">${u.name} (${u.role})</option>`).join('');
+      }
+    } catch (error) {
+      console.error('Failed to load users for role assignment:', error);
+    }
+  }
+
+  async handleAssignRole(e) {
+    e.preventDefault();
+    const form = e.target;
+    const userId = form.querySelector('#roleUserSelect').value;
+    const role = form.querySelector('[name="role"]').value;
+
+    try {
+      const response = await apiClient.updateUserRole(userId, role);
+      if (response.success) {
+        this.ui.showSuccess(form, 'Role updated successfully.');
+        await this.loadUsersTable();
+        await this.populateRoleUserSelect();
+        await this.loadAdminStats();
+      }
+    } catch (error) {
+      this.ui.showError(form, error.message);
+    }
+  }
+
+  async loadAnalyticsCharts() {
+    if (typeof Chart === 'undefined') return;
+
+    try {
+      const [bookingsRes, loansRes, usersRes] = await Promise.all([
+        apiClient.getBookings(),
+        apiClient.getLoans(),
+        apiClient.getAllUsers(),
+      ]);
+
+      const chartOptions = {
+        plugins: { legend: { labels: { color: '#cbd5e1' } } },
+        scales: {
+          x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148,163,184,0.15)' } },
+          y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148,163,184,0.15)' } },
+        },
+      };
+
+      if (bookingsRes.success) {
+        const byDate = {};
+        bookingsRes.data.forEach(b => { byDate[b.date] = (byDate[b.date] || 0) + 1; });
+        const dates = Object.keys(byDate).sort();
+        const canvas = document.getElementById('bookingsChart');
+        if (canvas) {
+          new Chart(canvas, {
+            type: 'line',
+            data: { labels: dates, datasets: [{ label: 'Bookings', data: dates.map(d => byDate[d]), borderColor: '#ffc107', backgroundColor: 'rgba(255,193,7,0.2)', tension: 0.3 }] },
+            options: chartOptions,
+          });
+        }
+      }
+
+      if (loansRes.success) {
+        const byEquipment = {};
+        loansRes.data.forEach(l => { byEquipment[l.equipment_name] = (byEquipment[l.equipment_name] || 0) + l.quantity; });
+        const canvas = document.getElementById('equipmentChart');
+        if (canvas) {
+          new Chart(canvas, {
+            type: 'doughnut',
+            data: {
+              labels: Object.keys(byEquipment),
+              datasets: [{ data: Object.values(byEquipment), backgroundColor: ['#ffc107', '#22c55e', '#3b82f6', '#ef4444', '#a855f7', '#14b8a6'] }],
+            },
+            options: { plugins: chartOptions.plugins },
+          });
+        }
+      }
+
+      if (usersRes.success) {
+        const byRole = { student: 0, officer: 0, admin: 0 };
+        usersRes.data.forEach(u => { byRole[u.role] = (byRole[u.role] || 0) + 1; });
+        const canvas = document.getElementById('usersChart');
+        if (canvas) {
+          new Chart(canvas, {
+            type: 'bar',
+            data: { labels: ['Student', 'Officer', 'Admin'], datasets: [{ label: 'Users', data: [byRole.student, byRole.officer, byRole.admin], backgroundColor: '#3b82f6' }] },
+            options: chartOptions,
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load analytics charts:', error);
+    }
+  }
+
+  async handleGenerateReport() {
+    const type = document.getElementById('reportTypeSelect')?.value || 'bookings';
+    const table = document.getElementById('reportResultsTable');
+    const head = document.getElementById('reportResultsHead');
+    const body = document.getElementById('reportResultsBody');
+    if (!table || !head || !body) return;
+
+    try {
+      const response = await apiClient.generateReport(type);
+      if (!response.success) return;
+
+      if (!response.data.length) {
+        head.innerHTML = '';
+        body.innerHTML = '<tr><td>No data for this report.</td></tr>';
+        table.style.display = '';
+        return;
+      }
+
+      const columns = Object.keys(response.data[0]);
+      head.innerHTML = columns.map(c => `<th>${c}</th>`).join('');
+      body.innerHTML = response.data.map(row => `
+        <tr>${columns.map(c => `<td>${row[c] ?? ''}</td>`).join('')}</tr>
+      `).join('');
+      table.style.display = '';
+    } catch (error) {
+      alert('Failed to generate report: ' + error.message);
+    }
+  }
+
+  async handleExportReport(format) {
+    const type = document.getElementById('reportTypeSelect')?.value || 'bookings';
+    try {
+      await apiClient.downloadReport(type, format);
+    } catch (error) {
+      alert('Failed to export report: ' + error.message);
+    }
   }
 
   async loadOfficerStats() {
@@ -1077,28 +1446,67 @@ class PageManager {
   }
 
   setupOfficerActions() {
-    const tbody = document.getElementById('loanRequestsBody');
-    if (!tbody) return;
+    const loanBody = document.getElementById('loanRequestsBody');
+    if (loanBody) {
+      loanBody.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-loan-action]');
+        if (!btn) return;
+        const action = btn.dataset.loanAction;
+        if (action === 'approve') this.handleApproveLoan(e);
+        if (action === 'reject') this.handleRejectLoan(e);
+        if (action === 'return') this.handleReturnLoan(e);
+      });
+    }
 
-    tbody.addEventListener('click', (e) => {
-      const btn = e.target.closest('[data-loan-action]');
-      if (!btn) return;
-      const action = btn.dataset.loanAction;
-      if (action === 'approve') this.handleApproveLoan(e);
-      if (action === 'reject') this.handleRejectLoan(e);
-      if (action === 'return') this.handleReturnLoan(e);
-    });
+    const slotForm = document.getElementById('slotForm');
+    if (slotForm) {
+      slotForm.addEventListener('submit', (e) => this.handleAddTimeSlot(e));
+    }
+
+    const slotsBody = document.getElementById('timeSlotsBody');
+    if (slotsBody) {
+      slotsBody.addEventListener('click', (e) => {
+        if (e.target.closest('[data-slot-action="delete"]')) this.handleDeleteTimeSlot(e);
+      });
+    }
+
+    const equipmentBody = document.getElementById('equipmentInventoryBody');
+    if (equipmentBody) {
+      equipmentBody.addEventListener('click', (e) => {
+        if (e.target.closest('[data-equipment-action="edit"]')) this.handleEditEquipment(e);
+      });
+    }
   }
 
   setupAdminActions() {
     const tbody = document.getElementById('complaintsBody');
-    if (!tbody) return;
+    if (tbody) {
+      tbody.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-complaint-action="resolve"]');
+        if (!btn) return;
+        this.handleResolveComplaint(e);
+      });
+    }
 
-    tbody.addEventListener('click', (e) => {
-      const btn = e.target.closest('[data-complaint-action="resolve"]');
-      if (!btn) return;
-      this.handleResolveComplaint(e);
-    });
+    const roleForm = document.getElementById('roleAssignmentForm');
+    if (roleForm) {
+      roleForm.addEventListener('submit', (e) => this.handleAssignRole(e));
+    }
+
+    const generateBtn = document.getElementById('generateReportBtn');
+    if (generateBtn) {
+      generateBtn.addEventListener('click', () => this.handleGenerateReport());
+    }
+
+    const exportPdfBtn = document.getElementById('exportPdfBtn');
+    if (exportPdfBtn) {
+      exportPdfBtn.addEventListener('click', () => this.handleExportReport('pdf'));
+    }
+
+    const exportExcelBtn = document.getElementById('exportExcelBtn');
+    if (exportExcelBtn) {
+      exportExcelBtn.addEventListener('click', () => this.handleExportReport('xlsx'));
+    }
   }
 
   async refreshLoanRequests() {

@@ -128,27 +128,10 @@
           <div class="table-scroll">
             <table class="data-table">
               <thead>
-                <tr><th>Facility</th><th>Day</th><th>Time Slot</th><th>Actions</th></tr>
+                <tr><th>Facility</th><th>Date</th><th>Time Slot</th><th>Actions</th></tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>Main Football Pitch</td>
-                  <td>Monday</td>
-                  <td>4:00 PM – 6:00 PM</td>
-                  <td class="table-action-group">
-                    <button class="btn btn--outline btn--sm">Edit</button>
-                    <button class="btn btn--outline-danger btn--sm">Delete</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Indoor Basketball Court</td>
-                  <td>Wednesday</td>
-                  <td>2:00 PM – 5:00 PM</td>
-                  <td class="table-action-group">
-                    <button class="btn btn--outline btn--sm">Edit</button>
-                    <button class="btn btn--outline-danger btn--sm">Delete</button>
-                  </td>
-                </tr>
+              <tbody id="timeSlotsBody">
+                <tr><td colspan="4">Loading time slots…</td></tr>
               </tbody>
             </table>
           </div>
@@ -161,27 +144,10 @@
           <div class="table-scroll">
             <table class="data-table">
               <thead>
-                <tr><th>Equipment</th><th>Quantity</th><th>Condition</th><th>Action</th></tr>
+                <tr><th>Equipment</th><th>Available / Total</th><th>Status</th><th>Action</th></tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>Footballs</td>
-                  <td>18</td>
-                  <td><span class="status-pill status-pill--available">Good</span></td>
-                  <td><button class="btn btn--outline btn--sm">Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Tennis Rackets</td>
-                  <td>3</td>
-                  <td><span class="status-pill status-pill--pending">Fair</span></td>
-                  <td><button class="btn btn--outline btn--sm">Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Volleyball Net</td>
-                  <td>0</td>
-                  <td><span class="status-pill status-pill--booked">Needs Repair</span></td>
-                  <td><button class="btn btn--outline btn--sm">Edit</button></td>
-                </tr>
+              <tbody id="equipmentInventoryBody">
+                <tr><td colspan="4">Loading equipment…</td></tr>
               </tbody>
             </table>
           </div>
@@ -212,33 +178,18 @@
       <h3>Add Time Slot</h3>
       <button class="modal-close" data-close-modal="slotModal" aria-label="Close">&times;</button>
     </div>
-    <form class="modal-form">
+    <form class="modal-form" id="slotForm">
       <label>Facility
-        <select name="facility">
-          <option>Main Football Pitch</option>
-          <option>Indoor Basketball Court</option>
-          <option>Tennis Court</option>
-          <option>Volleyball Court</option>
-          <option>Rugby Field</option>
-          <option>Main Gymnasium</option>
-        </select>
+        <select name="facility_id" id="slotFacilitySelect" required></select>
       </label>
-      <label>Day
-        <select name="day">
-          <option>Monday</option>
-          <option>Tuesday</option>
-          <option>Wednesday</option>
-          <option>Thursday</option>
-          <option>Friday</option>
-          <option>Saturday</option>
-          <option>Sunday</option>
-        </select>
+      <label>Date
+        <input type="date" name="date" required>
       </label>
       <label>Start Time
-        <input type="time" name="startTime">
+        <input type="time" name="startTime" required>
       </label>
       <label>End Time
-        <input type="time" name="endTime">
+        <input type="time" name="endTime" required>
       </label>
       <div class="modal-actions">
         <button type="button" class="btn btn--ghost" data-close-modal="slotModal">Cancel</button>

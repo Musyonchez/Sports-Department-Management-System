@@ -41,6 +41,19 @@ router.put('/:id', requireAuth, selfOrRole('admin'), (req, res) => {
   res.json({ success: true, data: toPublicUser(user) });
 });
 
+router.put('/:id/role', requireAuth, requireRole('admin'), (req, res) => {
+  const { role } = req.body;
+  if (!['student', 'officer', 'admin'].includes(role)) {
+    return res.status(400).json({ success: false, message: 'role must be student, officer, or admin' });
+  }
+
+  const result = db.prepare('UPDATE users SET role = ? WHERE id = ?').run(role, req.params.id);
+  if (result.changes === 0) return res.status(404).json({ success: false, message: 'User not found' });
+
+  const user = db.prepare('SELECT * FROM users WHERE id = ?').get(req.params.id);
+  res.json({ success: true, data: toPublicUser(user) });
+});
+
 router.post('/change-password', requireAuth, (req, res) => {
   const { currentPassword, newPassword } = req.body;
   const user = db.prepare('SELECT * FROM users WHERE id = ?').get(req.user.sub);

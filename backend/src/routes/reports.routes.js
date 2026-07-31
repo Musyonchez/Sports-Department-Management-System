@@ -1,4 +1,6 @@
 const express = require('express');
+const PDFDocument = require('pdfkit');
+const ExcelJS = require('exceljs');
 const { db } = require('../db');
 const { requireAuth, requireRole } = require('../middleware/auth');
 
@@ -53,7 +55,7 @@ router.post('/generate', requireAuth, requireRole('officer', 'admin'), (req, res
   res.json({ success: true, data: rows });
 });
 
-router.get('/export', requireAuth, requireRole('officer', 'admin'), (req, res) => {
+router.get('/export', requireAuth, requireRole('officer', 'admin'), async (req, res) => {
   const { type, format = 'csv', from, to } = req.query;
   const rows = runReport(type, from, to);
   if (!rows) return res.status(400).json({ success: false, message: 'type must be bookings, equipment, or users' });
@@ -64,7 +66,54 @@ router.get('/export', requireAuth, requireRole('officer', 'admin'), (req, res) =
     return res.send(toCsv(rows));
   }
 
-  res.status(501).json({ success: false, message: 'PDF export is not implemented yet — use format=csv' });
+  if (format === 'xlsx') {
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet(type);
+    if (rows.length) {
+      sheet.columns = Object.keys(rows[0]).map(key => ({ header: key, key, width: 20 }));
+      sheet.addRows(rows);
+      sheet.getRow(1).font = { bold: true };
+    }
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', `attachment; filename=${type}-report.xlsx`);
+    await workbook.xlsx.write(res);
+    return res.end();
+  }
+
+  if (format === 'pdf') {
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=${type}-report.pdf`);
+
+    const doc = new PDFDocument({ margin: 40, size: 'A4', layout: 'landscape' });
+    doc.pipe(res);
+
+    doc.fontSize(16).text(`${type[0].toUpperCase()}${type.slice(1)} Report`, { align: 'center' });
+    doc.moveDown();
+
+    if (rows.length) {
+      const headers = Object.keys(rows[0]);
+      const colWidth = (doc.page.width - 80) / headers.length;
+
+      doc.fontSize(9).font('Helvetica-Bold');
+      headers.forEach((h, i) => doc.text(h, 40 + i * colWidth, doc.y, { width: colWidth, continued: false }));
+      doc.moveDown(0.5);
+
+      doc.font('Helvetica');
+      rows.forEach(row => {
+        const y = doc.y;
+        headers.forEach((h, i) => doc.text(String(row[h] ?? ''), 40 + i * colWidth, y, { width: colWidth }));
+        doc.moveDown(0.5);
+        if (doc.y > doc.page.height - 60) doc.addPage();
+      });
+    } else {
+      doc.fontSize(11).text('No data for the selected range.');
+    }
+
+    doc.end();
+    return;
+  }
+
+  res.status(400).json({ success: false, message: 'format must be csv, xlsx, or pdf' });
 });
 
 module.exports = router;

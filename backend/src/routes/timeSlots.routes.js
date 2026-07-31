@@ -27,11 +27,18 @@ router.post('/', requireAuth, requireRole('officer', 'admin'), (req, res) => {
 
 router.get('/', (req, res) => {
   const { facility } = req.query;
-  if (!facility) {
-    return res.status(400).json({ success: false, message: 'facility query param is required' });
-  }
+  const slots = facility
+    ? db.prepare(`
+        SELECT ts.*, f.name AS facility_name FROM time_slots ts
+        JOIN facilities f ON f.id = ts.facility_id
+        WHERE ts.facility_id = ? ORDER BY ts.date, ts.start_time
+      `).all(facility)
+    : db.prepare(`
+        SELECT ts.*, f.name AS facility_name FROM time_slots ts
+        JOIN facilities f ON f.id = ts.facility_id
+        ORDER BY ts.date, ts.start_time
+      `).all();
 
-  const slots = db.prepare('SELECT * FROM time_slots WHERE facility_id = ? ORDER BY date, start_time').all(facility);
   const withAvailability = slots.map(slot => {
     const booked = db.prepare(`
       SELECT 1 FROM bookings

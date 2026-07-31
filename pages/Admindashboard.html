@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="../assets/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
 <body class="admin-side">
 
@@ -111,19 +112,15 @@
         
         <section class="form-card">
           <h2>Role Assignment</h2>
-          <form class="stacked-form inline-form">
+          <form class="stacked-form inline-form" id="roleAssignmentForm">
             <label>Select User
-              <select name="user">
-                <option>Jane Wanjiru</option>
-                <option>Brian Kiptoo</option>
-                <option>Amina Yusuf</option>
-              </select>
+              <select name="user" id="roleUserSelect" required></select>
             </label>
             <label>Assign Role
-              <select name="role">
-                <option>Student</option>
-                <option>Sports Officer</option>
-                <option>Administrator</option>
+              <select name="role" required>
+                <option value="student">Student</option>
+                <option value="officer">Sports Officer</option>
+                <option value="admin">Administrator</option>
               </select>
             </label>
             <div class="form-actions form-actions--inline">
@@ -140,15 +137,15 @@
           <div class="analytics-grid">
             <div class="chart-placeholder">
               <span class="chart-placeholder-label">Bookings Over Time</span>
-              <div class="chart-placeholder-box"><i class="fa-solid fa-chart-line"></i></div>
+              <div class="chart-placeholder-box"><canvas id="bookingsChart"></canvas></div>
             </div>
             <div class="chart-placeholder">
               <span class="chart-placeholder-label">Equipment Usage</span>
-              <div class="chart-placeholder-box"><i class="fa-solid fa-chart-pie"></i></div>
+              <div class="chart-placeholder-box"><canvas id="equipmentChart"></canvas></div>
             </div>
             <div class="chart-placeholder">
               <span class="chart-placeholder-label">User Statistics</span>
-              <div class="chart-placeholder-box"><i class="fa-solid fa-chart-column"></i></div>
+              <div class="chart-placeholder-box"><canvas id="usersChart"></canvas></div>
             </div>
           </div>
         </section>
@@ -159,9 +156,22 @@
             <h2>Reports</h2>
           </div>
           <div class="report-actions">
-            <button class="btn btn--primary"><i class="fa-solid fa-file-circle-plus"></i> Generate Report</button>
-            <button class="btn btn--outline"><i class="fa-solid fa-file-pdf"></i> Export PDF</button>
-            <button class="btn btn--outline"><i class="fa-solid fa-file-excel"></i> Export Excel</button>
+            <label>Report Type
+              <select id="reportTypeSelect">
+                <option value="bookings">Bookings</option>
+                <option value="equipment">Equipment Loans</option>
+                <option value="users">Users</option>
+              </select>
+            </label>
+            <button class="btn btn--primary" id="generateReportBtn"><i class="fa-solid fa-file-circle-plus"></i> Generate Report</button>
+            <button class="btn btn--outline" id="exportPdfBtn"><i class="fa-solid fa-file-pdf"></i> Export PDF</button>
+            <button class="btn btn--outline" id="exportExcelBtn"><i class="fa-solid fa-file-excel"></i> Export Excel</button>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table" id="reportResultsTable" style="display:none;">
+              <thead><tr id="reportResultsHead"></tr></thead>
+              <tbody id="reportResultsBody"></tbody>
+            </table>
           </div>
         </section>
 
