@@ -30,15 +30,21 @@ router.post('/', requireAuth, requireRole('student'), (req, res) => {
 
 router.get('/', requireAuth, (req, res) => {
   const { status } = req.query;
-  let sql = 'SELECT * FROM equipment_loans WHERE 1=1';
+  let sql = `
+    SELECT el.*, e.name AS equipment_name, u.name AS student_name
+    FROM equipment_loans el
+    JOIN equipment e ON e.id = el.equipment_id
+    JOIN users u ON u.id = el.user_id
+    WHERE 1=1
+  `;
   const params = [];
 
   if (!['officer', 'admin'].includes(req.user.role)) {
-    sql += ' AND user_id = ?';
+    sql += ' AND el.user_id = ?';
     params.push(req.user.sub);
   }
-  if (status) { sql += ' AND status = ?'; params.push(status); }
-  sql += ' ORDER BY requested_at DESC';
+  if (status) { sql += ' AND el.status = ?'; params.push(status); }
+  sql += ' ORDER BY el.requested_at DESC';
 
   const loans = db.prepare(sql).all(...params);
   res.json({ success: true, data: loans });

@@ -58,28 +58,28 @@
       <div class="stat-card">
         <div class="stat-icon stat-icon--blue"><i class="fa-solid fa-building-columns"></i></div>
         <div>
-          <span class="stat-number">6</span>
+          <span class="stat-number" id="statTotalFacilities">–</span>
           <span class="stat-label">Total Facilities</span>
         </div>
       </div>
       <div class="stat-card">
         <div class="stat-icon stat-icon--green"><i class="fa-solid fa-calendar-day"></i></div>
         <div>
-          <span class="stat-number">11</span>
+          <span class="stat-number" id="statTodayBookings">–</span>
           <span class="stat-label">Today's Bookings</span>
         </div>
       </div>
       <div class="stat-card">
         <div class="stat-icon stat-icon--amber"><i class="fa-solid fa-hourglass-half"></i></div>
         <div>
-          <span class="stat-number">7</span>
+          <span class="stat-number" id="statPendingLoans">–</span>
           <span class="stat-label">Pending Loan Requests</span>
         </div>
       </div>
       <div class="stat-card">
         <div class="stat-icon stat-icon--red"><i class="fa-solid fa-basketball"></i></div>
         <div>
-          <span class="stat-number">128</span>
+          <span class="stat-number" id="statEquipmentAvailable">–</span>
           <span class="stat-label">Equipment Available</span>
         </div>
       </div>
@@ -97,28 +97,8 @@
               <thead>
                 <tr><th>Student</th><th>Facility</th><th>Date</th><th>Time</th><th>Status</th></tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>Jane Wanjiru</td>
-                  <td>Indoor Basketball Court</td>
-                  <td>18 Jul 2026</td>
-                  <td>3:00 PM</td>
-                  <td><span class="status-pill status-pill--pending">Pending</span></td>
-                </tr>
-                <tr>
-                  <td>Brian Kiptoo</td>
-                  <td>Main Football Pitch</td>
-                  <td>18 Jul 2026</td>
-                  <td>4:00 PM</td>
-                  <td><span class="status-pill status-pill--available">Confirmed</span></td>
-                </tr>
-                <tr>
-                  <td>Amina Yusuf</td>
-                  <td>Main Gymnasium</td>
-                  <td>19 Jul 2026</td>
-                  <td>7:00 AM</td>
-                  <td><span class="status-pill status-pill--available">Confirmed</span></td>
-                </tr>
+              <tbody id="recentBookingsBody">
+                <tr><td colspan="5">Loading bookings…</td></tr>
               </tbody>
             </table>
           </div>
@@ -133,37 +113,8 @@
               <thead>
                 <tr><th>Student</th><th>Equipment</th><th>Quantity</th><th>Return Date</th><th>Action</th></tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>Jane Wanjiru</td>
-                  <td>Basketballs</td>
-                  <td>2</td>
-                  <td>22 Jul 2026</td>
-                  <td class="table-action-group">
-                    <button class="btn btn--success btn--sm">Approve</button>
-                    <button class="btn btn--outline-danger btn--sm">Reject</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Brian Kiptoo</td>
-                  <td>Tennis Rackets</td>
-                  <td>2</td>
-                  <td>21 Jul 2026</td>
-                  <td class="table-action-group">
-                    <button class="btn btn--success btn--sm">Approve</button>
-                    <button class="btn btn--outline-danger btn--sm">Reject</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Amina Yusuf</td>
-                  <td>Team Jerseys</td>
-                  <td>1 set</td>
-                  <td>25 Jul 2026</td>
-                  <td class="table-action-group">
-                    <button class="btn btn--success btn--sm">Approve</button>
-                    <button class="btn btn--outline-danger btn--sm">Reject</button>
-                  </td>
-                </tr>
+              <tbody id="loanRequestsBody">
+                <tr><td colspan="5">Loading loan requests…</td></tr>
               </tbody>
             </table>
           </div>

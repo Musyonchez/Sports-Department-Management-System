@@ -21,15 +21,20 @@ router.post('/', requireAuth, (req, res) => {
 
 router.get('/', requireAuth, (req, res) => {
   const { status } = req.query;
-  let sql = 'SELECT * FROM complaints WHERE 1=1';
+  let sql = `
+    SELECT c.*, u.name AS student_name
+    FROM complaints c
+    JOIN users u ON u.id = c.user_id
+    WHERE 1=1
+  `;
   const params = [];
 
   if (!['officer', 'admin'].includes(req.user.role)) {
-    sql += ' AND user_id = ?';
+    sql += ' AND c.user_id = ?';
     params.push(req.user.sub);
   }
-  if (status) { sql += ' AND status = ?'; params.push(status); }
-  sql += ' ORDER BY created_at DESC';
+  if (status) { sql += ' AND c.status = ?'; params.push(status); }
+  sql += ' ORDER BY c.created_at DESC';
 
   const complaints = db.prepare(sql).all(...params);
   res.json({ success: true, data: complaints });

@@ -57,28 +57,28 @@
       <div class="stat-card">
         <div class="stat-icon stat-icon--blue"><i class="fa-solid fa-user-graduate"></i></div>
         <div>
-          <span class="stat-number">1,248</span>
+          <span class="stat-number" id="statTotalStudents">–</span>
           <span class="stat-label">Total Students</span>
         </div>
       </div>
       <div class="stat-card">
         <div class="stat-icon stat-icon--green"><i class="fa-solid fa-whistle"></i></div>
         <div>
-          <span class="stat-number">9</span>
+          <span class="stat-number" id="statTotalOfficers">–</span>
           <span class="stat-label">Sports Officers</span>
         </div>
       </div>
       <div class="stat-card">
         <div class="stat-icon stat-icon--amber"><i class="fa-solid fa-building-columns"></i></div>
         <div>
-          <span class="stat-number">6</span>
+          <span class="stat-number" id="statTotalFacilitiesAdmin">–</span>
           <span class="stat-label">Facilities</span>
         </div>
       </div>
       <div class="stat-card">
         <div class="stat-icon stat-icon--red"><i class="fa-solid fa-basketball"></i></div>
         <div>
-          <span class="stat-number">312</span>
+          <span class="stat-number" id="statTotalEquipmentItems">–</span>
           <span class="stat-label">Equipment Items</span>
         </div>
       </div>
@@ -99,39 +99,10 @@
           <div class="table-scroll">
             <table class="data-table">
               <thead>
-                <tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th></tr>
+                <tr><th>Name</th><th>Email</th><th>Role</th><th>Joined</th></tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>Jane Wanjiru</td>
-                  <td>jane.wanjiru@university.ac.ke</td>
-                  <td>Student</td>
-                  <td><span class="status-pill status-pill--available">Active</span></td>
-                  <td class="table-action-group">
-                    <button class="btn btn--outline btn--sm">Edit</button>
-                    <button class="btn btn--outline-danger btn--sm">Delete</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Mr. Otieno</td>
-                  <td>otieno@university.ac.ke</td>
-                  <td>Sports Officer</td>
-                  <td><span class="status-pill status-pill--available">Active</span></td>
-                  <td class="table-action-group">
-                    <button class="btn btn--outline btn--sm">Edit</button>
-                    <button class="btn btn--outline-danger btn--sm">Delete</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Brian Kiptoo</td>
-                  <td>brian.kiptoo@university.ac.ke</td>
-                  <td>Student</td>
-                  <td><span class="status-pill status-pill--pending">Suspended</span></td>
-                  <td class="table-action-group">
-                    <button class="btn btn--outline btn--sm">Edit</button>
-                    <button class="btn btn--outline-danger btn--sm">Delete</button>
-                  </td>
-                </tr>
+              <tbody id="userManagementBody">
+                <tr><td colspan="4">Loading users…</td></tr>
               </tbody>
             </table>
           </div>
@@ -201,21 +172,10 @@
           <div class="table-scroll">
             <table class="data-table">
               <thead>
-                <tr><th>Complaint</th><th>Student</th><th>Date</th><th>Status</th></tr>
+                <tr><th>Complaint</th><th>Student</th><th>Date</th><th>Status</th><th>Action</th></tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>Basketball court lights not working</td>
-                  <td>Amina Yusuf</td>
-                  <td>10 Jul 2026</td>
-                  <td><span class="status-pill status-pill--pending">Under Review</span></td>
-                </tr>
-                <tr>
-                  <td>Returned jersey not marked as received</td>
-                  <td>Brian Kiptoo</td>
-                  <td>08 Jul 2026</td>
-                  <td><span class="status-pill status-pill--available">Resolved</span></td>
-                </tr>
+              <tbody id="complaintsBody">
+                <tr><td colspan="5">Loading complaints…</td></tr>
               </tbody>
             </table>
           </div>

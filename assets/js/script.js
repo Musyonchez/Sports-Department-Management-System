@@ -762,32 +762,44 @@ class UIManager {
     try {
       const response = await apiClient.getNotifications();
       if (response.success) {
-        const unreadCount = response.data.filter(n => !n.isRead).length;
+        const unreadCount = response.data.filter(n => !n.is_read).length;
         const badge = document.getElementById('notifCount');
         if (badge) badge.textContent = unreadCount || '';
+        const statTile = document.getElementById('statUnreadNotifications');
+        if (statTile) statTile.textContent = unreadCount;
       }
     } catch (error) {
       console.error('Failed to fetch notifications:', error);
     }
   }
 
-  //  DATA LOADING 
-  
+  //  DATA LOADING
+
   async loadBookingsTable() {
     try {
       const response = await apiClient.getBookings();
       if (response.success) {
         const tbody = document.getElementById('myBookingsBody');
         if (tbody) {
-          tbody.innerHTML = response.data.map(booking => `
+          tbody.innerHTML = response.data.length ? response.data.map(booking => `
             <tr>
-              <td>${booking.facility}</td>
+              <td>${booking.facility_name}</td>
               <td>${booking.date}</td>
-              <td>${booking.time}</td>
+              <td>${booking.start_time} – ${booking.end_time}</td>
               <td><span class="status-pill status-pill--${this.getStatusClass(booking.status)}">${booking.status}</span></td>
-              <td><button class="btn btn--outline-danger btn--sm" onclick="handleCancelBooking('${booking.id}')">Cancel</button></td>
+              <td>${['pending', 'confirmed'].includes(booking.status)
+                ? `<button class="btn btn--outline-danger btn--sm" onclick="handleCancelBooking(${booking.id})">Cancel</button>`
+                : ''}</td>
             </tr>
-          `).join('');
+          `).join('') : '<tr><td colspan="5">No bookings yet.</td></tr>';
+        }
+
+        const statTotal = document.getElementById('statTotalBookings');
+        if (statTotal) statTotal.textContent = response.data.length;
+        const statPending = document.getElementById('statPendingRequests');
+        if (statPending) {
+          const pendingBookings = response.data.filter(b => b.status === 'pending').length;
+          statPending.textContent = pendingBookings;
         }
       }
     } catch (error) {
@@ -801,14 +813,20 @@ class UIManager {
       if (response.success) {
         const tbody = document.getElementById('myLoansBody');
         if (tbody) {
-          tbody.innerHTML = response.data.map(loan => `
+          tbody.innerHTML = response.data.length ? response.data.map(loan => `
             <tr>
-              <td>${loan.equipment}</td>
+              <td>${loan.equipment_name}</td>
               <td>${loan.quantity}</td>
               <td><span class="status-pill status-pill--${this.getStatusClass(loan.status)}">${loan.status}</span></td>
-              <td>${loan.returnDate}</td>
+              <td>${loan.due_at || '—'}</td>
             </tr>
-          `).join('');
+          `).join('') : '<tr><td colspan="4">No equipment loans yet.</td></tr>';
+        }
+
+        const statBorrowed = document.getElementById('statEquipmentBorrowed');
+        if (statBorrowed) {
+          const activeLoans = response.data.filter(l => ['approved', 'checked_out'].includes(l.status)).length;
+          statBorrowed.textContent = activeLoans;
         }
       }
     } catch (error) {
@@ -832,13 +850,14 @@ class UIManager {
 
   getStatusClass(status) {
     const statusMap = {
-      'Pending': 'pending',
-      'Confirmed': 'available',
-      'Approved': 'available',
-      'Completed': 'booked',
-      'Returned': 'booked',
-      'Cancelled': 'maintenance',
-      'Rejected': 'maintenance',
+      pending: 'pending',
+      confirmed: 'available',
+      approved: 'available',
+      checked_out: 'available',
+      completed: 'booked',
+      returned: 'booked',
+      cancelled: 'maintenance',
+      rejected: 'maintenance',
     };
     return statusMap[status] || 'pending';
   }
@@ -962,29 +981,129 @@ class PageManager {
   }
 
   initOfficerPage() {
+    this.loadOfficerStats();
+    this.loadRecentBookingsTable();
+    this.loadLoanRequestsTable();
     this.setupOfficerActions();
   }
 
   initAdminPage() {
+    this.loadAdminStats();
+    this.loadUsersTable();
+    this.loadComplaintsTable();
     this.setupAdminActions();
   }
 
-  setupOfficerActions() {
-    // Approve loan buttons
-    document.querySelectorAll('.btn--success').forEach(btn => {
-      btn.addEventListener('click', (e) => this.handleApproveLoan(e));
-    });
+  async loadOfficerStats() {
+    try {
+      const [facilitiesRes, loansRes, equipmentRes, bookingsRes] = await Promise.all([
+        apiClient.getFacilities(),
+        apiClient.getLoans({ status: 'pending' }),
+        apiClient.getEquipment(),
+        apiClient.getBookings(),
+      ]);
 
-    // Reject buttons
-    document.querySelectorAll('.btn--outline-danger').forEach(btn => {
-      if (btn.textContent.includes('Reject')) {
-        btn.addEventListener('click', (e) => this.handleRejectLoan(e));
+      const setStat = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+      };
+
+      if (facilitiesRes.success) setStat('statTotalFacilities', facilitiesRes.data.length);
+      if (loansRes.success) setStat('statPendingLoans', loansRes.data.length);
+      if (equipmentRes.success) {
+        const totalAvailable = equipmentRes.data.reduce((sum, e) => sum + e.available_quantity, 0);
+        setStat('statEquipmentAvailable', totalAvailable);
       }
+      if (bookingsRes.success) {
+        const today = new Date().toISOString().slice(0, 10);
+        setStat('statTodayBookings', bookingsRes.data.filter(b => b.date === today).length);
+      }
+    } catch (error) {
+      console.error('Failed to load officer stats:', error);
+    }
+  }
+
+  async loadRecentBookingsTable() {
+    try {
+      const response = await apiClient.getBookings();
+      const tbody = document.getElementById('recentBookingsBody');
+      if (!tbody || !response.success) return;
+
+      tbody.innerHTML = response.data.length ? response.data.slice(0, 10).map(booking => `
+        <tr>
+          <td>${booking.student_name}</td>
+          <td>${booking.facility_name}</td>
+          <td>${booking.date}</td>
+          <td>${booking.start_time} – ${booking.end_time}</td>
+          <td><span class="status-pill status-pill--${this.ui.getStatusClass(booking.status)}">${booking.status}</span></td>
+        </tr>
+      `).join('') : '<tr><td colspan="5">No bookings yet.</td></tr>';
+    } catch (error) {
+      console.error('Failed to load recent bookings:', error);
+    }
+  }
+
+  async loadLoanRequestsTable() {
+    try {
+      const response = await apiClient.getLoans();
+      const tbody = document.getElementById('loanRequestsBody');
+      if (!tbody || !response.success) return;
+
+      const actionsFor = (loan) => {
+        if (loan.status === 'pending') {
+          return `
+            <button class="btn btn--success btn--sm" data-loan-action="approve">Approve</button>
+            <button class="btn btn--outline-danger btn--sm" data-loan-action="reject">Reject</button>
+          `;
+        }
+        if (['approved', 'checked_out'].includes(loan.status)) {
+          return `<button class="btn btn--outline btn--sm" data-loan-action="return">Mark Returned</button>`;
+        }
+        return `<span class="status-pill status-pill--${this.ui.getStatusClass(loan.status)}">${loan.status}</span>`;
+      };
+
+      tbody.innerHTML = response.data.length ? response.data.map(loan => `
+        <tr data-loan-id="${loan.id}">
+          <td>${loan.student_name}</td>
+          <td>${loan.equipment_name}</td>
+          <td>${loan.quantity}</td>
+          <td>${loan.due_at || '—'}</td>
+          <td class="table-action-group">${actionsFor(loan)}</td>
+        </tr>
+      `).join('') : '<tr><td colspan="5">No loan requests yet.</td></tr>';
+    } catch (error) {
+      console.error('Failed to load loan requests:', error);
+    }
+  }
+
+  setupOfficerActions() {
+    const tbody = document.getElementById('loanRequestsBody');
+    if (!tbody) return;
+
+    tbody.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-loan-action]');
+      if (!btn) return;
+      const action = btn.dataset.loanAction;
+      if (action === 'approve') this.handleApproveLoan(e);
+      if (action === 'reject') this.handleRejectLoan(e);
+      if (action === 'return') this.handleReturnLoan(e);
     });
   }
 
   setupAdminActions() {
-    // Admin-specific actions
+    const tbody = document.getElementById('complaintsBody');
+    if (!tbody) return;
+
+    tbody.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-complaint-action="resolve"]');
+      if (!btn) return;
+      this.handleResolveComplaint(e);
+    });
+  }
+
+  async refreshLoanRequests() {
+    await this.loadLoanRequestsTable();
+    await this.loadOfficerStats();
   }
 
   async handleApproveLoan(e) {
@@ -993,11 +1112,9 @@ class PageManager {
 
     try {
       const response = await apiClient.approveLoan(loanId);
-      if (response.success) {
-        location.reload();
-      }
+      if (response.success) await this.refreshLoanRequests();
     } catch (error) {
-      alert('Failed to approve loan');
+      alert('Failed to approve loan: ' + error.message);
     }
   }
 
@@ -1010,11 +1127,103 @@ class PageManager {
 
     try {
       const response = await apiClient.rejectLoan(loanId, reason);
-      if (response.success) {
-        location.reload();
+      if (response.success) await this.refreshLoanRequests();
+    } catch (error) {
+      alert('Failed to reject loan: ' + error.message);
+    }
+  }
+
+  async handleReturnLoan(e) {
+    const loanId = e.target.closest('tr')?.dataset.loanId;
+    if (!loanId) return;
+
+    try {
+      const response = await apiClient.returnEquipment(loanId);
+      if (response.success) await this.refreshLoanRequests();
+    } catch (error) {
+      alert('Failed to check in equipment: ' + error.message);
+    }
+  }
+
+  async loadAdminStats() {
+    try {
+      const [usersRes, facilitiesRes, equipmentRes] = await Promise.all([
+        apiClient.getAllUsers(),
+        apiClient.getFacilities(),
+        apiClient.getEquipment(),
+      ]);
+
+      const setStat = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+      };
+
+      if (usersRes.success) {
+        setStat('statTotalStudents', usersRes.data.filter(u => u.role === 'student').length);
+        setStat('statTotalOfficers', usersRes.data.filter(u => u.role === 'officer').length);
+      }
+      if (facilitiesRes.success) setStat('statTotalFacilitiesAdmin', facilitiesRes.data.length);
+      if (equipmentRes.success) {
+        const totalItems = equipmentRes.data.reduce((sum, e) => sum + e.total_quantity, 0);
+        setStat('statTotalEquipmentItems', totalItems);
       }
     } catch (error) {
-      alert('Failed to reject loan');
+      console.error('Failed to load admin stats:', error);
+    }
+  }
+
+  async loadUsersTable() {
+    try {
+      const response = await apiClient.getAllUsers();
+      const tbody = document.getElementById('userManagementBody');
+      if (!tbody || !response.success) return;
+
+      const roleLabel = { student: 'Student', officer: 'Sports Officer', admin: 'Administrator' };
+
+      tbody.innerHTML = response.data.length ? response.data.map(user => `
+        <tr>
+          <td>${user.name}</td>
+          <td>${user.email}</td>
+          <td>${roleLabel[user.role] || user.role}</td>
+          <td>${(user.created_at || '').slice(0, 10)}</td>
+        </tr>
+      `).join('') : '<tr><td colspan="4">No users yet.</td></tr>';
+    } catch (error) {
+      console.error('Failed to load users:', error);
+    }
+  }
+
+  async loadComplaintsTable() {
+    try {
+      const response = await apiClient.getComplaints();
+      const tbody = document.getElementById('complaintsBody');
+      if (!tbody || !response.success) return;
+
+      tbody.innerHTML = response.data.length ? response.data.map(c => `
+        <tr data-complaint-id="${c.id}">
+          <td>${c.subject}</td>
+          <td>${c.student_name}</td>
+          <td>${(c.created_at || '').slice(0, 10)}</td>
+          <td><span class="status-pill status-pill--${this.ui.getStatusClass(c.status)}">${c.status}</span></td>
+          <td>${c.status !== 'resolved'
+            ? `<button class="btn btn--outline btn--sm" data-complaint-action="resolve">Resolve</button>`
+            : ''}</td>
+        </tr>
+      `).join('') : '<tr><td colspan="5">No complaints yet.</td></tr>';
+    } catch (error) {
+      console.error('Failed to load complaints:', error);
+    }
+  }
+
+  async handleResolveComplaint(e) {
+    const complaintId = e.target.closest('tr')?.dataset.complaintId;
+    if (!complaintId) return;
+
+    try {
+      const response = await apiClient.updateComplaintStatus(complaintId, 'resolved');
+      if (response.success) await this.loadComplaintsTable();
+    } catch (error) {
+      alert('Failed to resolve complaint: ' + error.message);
     }
   }
 

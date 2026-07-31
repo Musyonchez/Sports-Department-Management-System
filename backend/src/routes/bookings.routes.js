@@ -49,17 +49,23 @@ router.post('/', requireAuth, requireRole('student'), (req, res) => {
 
 router.get('/', requireAuth, (req, res) => {
   const { facility, status, date } = req.query;
-  let sql = 'SELECT * FROM bookings WHERE 1=1';
+  let sql = `
+    SELECT b.*, f.name AS facility_name, u.name AS student_name
+    FROM bookings b
+    JOIN facilities f ON f.id = b.facility_id
+    JOIN users u ON u.id = b.user_id
+    WHERE 1=1
+  `;
   const params = [];
 
   if (!['officer', 'admin'].includes(req.user.role)) {
-    sql += ' AND user_id = ?';
+    sql += ' AND b.user_id = ?';
     params.push(req.user.sub);
   }
-  if (facility) { sql += ' AND facility_id = ?'; params.push(facility); }
-  if (status) { sql += ' AND status = ?'; params.push(status); }
-  if (date) { sql += ' AND date = ?'; params.push(date); }
-  sql += ' ORDER BY date DESC, start_time DESC';
+  if (facility) { sql += ' AND b.facility_id = ?'; params.push(facility); }
+  if (status) { sql += ' AND b.status = ?'; params.push(status); }
+  if (date) { sql += ' AND b.date = ?'; params.push(date); }
+  sql += ' ORDER BY b.date DESC, b.start_time DESC';
 
   const bookings = db.prepare(sql).all(...params);
   res.json({ success: true, data: bookings });
