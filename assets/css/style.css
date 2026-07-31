@@ -87,7 +87,7 @@ ul{
     align-items:center;
     background:
     linear-gradient(rgba(15,27,43,.85),rgba(15,27,43,.85)),
-    url("sports.jpg") center/cover;
+    url("../images/sports.jpg") center/cover;
 }
 
 .login-right{
