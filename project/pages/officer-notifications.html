@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notifications | Sports Booking System</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body class="officer-side">
+
+<header class="app-topbar">
+
+    <div class="topbar-left">
+        <button class="sidebar-toggle" id="sidebarToggle">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <img src="images/logo.png" class="topbar-logo">
+
+        <span class="topbar-title">
+            Sports Booking System
+        </span>
+    </div>
+
+    <div class="topbar-right">
+
+        <button class="icon-btn">
+            <i class="fa-regular fa-bell"></i>
+            <span class="badge-dot">7</span>
+        </button>
+
+        <div class="topbar-profile">
+            <img src="images/default-profile.png" class="topbar-avatar">
+            <span class="topbar-username">
+                Sports Officer
+            </span>
+        </div>
+
+    </div>
+
+</header>
+
+
+<div class="app-shell">
+
+<aside class="sidebar" id="sidebar">
+
+<nav class="sidebar-nav">
+
+<a href="officer-dashboard.html" class="sidebar-link">
+<i class="fa-solid fa-gauge"></i>
+<span>Dashboard</span>
+</a>
+
+<a href="manage-facilities.html" class="sidebar-link">
+<i class="fa-solid fa-building"></i>
+<span>Manage Facilities</span>
+</a>
+
+<a href="equipment-inventory.html" class="sidebar-link">
+<i class="fa-solid fa-basketball"></i>
+<span>Equipment Inventory</span>
+</a>
+
+<a href="booking-requests.html" class="sidebar-link">
+<i class="fa-solid fa-calendar-check"></i>
+<span>Booking Requests</span>
+</a>
+
+<a href="loan-requests.html" class="sidebar-link">
+<i class="fa-solid fa-handshake"></i>
+<span>Loan Requests</span>
+</a>
+
+<a href="officer-notifications.html" class="sidebar-link active">
+<i class="fa-solid fa-bell"></i>
+<span>Notifications</span>
+</a>
+
+<a href="complaints.html" class="sidebar-link">
+<i class="fa-solid fa-circle-exclamation"></i>
+<span>Complaints</span>
+</a>
+
+<a href="reports.html" class="sidebar-link">
+<i class="fa-solid fa-chart-column"></i>
+<span>Reports</span>
+</a>
+
+<a href="login.html" class="sidebar-link sidebar-link--logout">
+<i class="fa-solid fa-right-from-bracket"></i>
+<span>Logout</span>
+</a>
+
+</nav>
+
+</aside>
+
+
+<main class="app-main">
+
+<div class="page-heading">
+<h1>Notifications</h1>
+<p>Stay updated with bookings, equipment requests, complaints and important system activities.</p>
+</div>
+
+
+<section class="stats-grid">
+
+<div class="stat-card">
+<div class="stat-icon stat-icon--blue">
+<i class="fa-solid fa-bell"></i>
+</div>
+<div>
+<span class="stat-number" id="notificationCount">7</span>
+<span class="stat-label">New Notifications</span>
+</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon stat-icon--green">
+<i class="fa-solid fa-calendar-check"></i>
+</div>
+<div>
+<span class="stat-number">3</span>
+<span class="stat-label">Booking Requests</span>
+</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon stat-icon--amber">
+<i class="fa-solid fa-basketball"></i>
+</div>
+<div>
+<span class="stat-number">2</span>
+<span class="stat-label">Loan Requests</span>
+</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon stat-icon--red">
+<i class="fa-solid fa-circle-exclamation"></i>
+</div>
+<div>
+<span class="stat-number">2</span>
+<span class="stat-label">Complaints</span>
+</div>
+</div>
+
+</section>
+
+
+<section class="table-card">
+
+<div class="table-card-head">
+<h2>Recent Notifications</h2>
+</div>
+
+<div class="table-scroll">
+
+<table class="data-table">
+
+<thead>
+
+<tr>
+<th>Notification</th>
+<th>Category</th>
+<th>Time</th>
+<th>Status</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>New football pitch booking request submitted.</td>
+<td>Booking</td>
+<td>5 mins ago</td>
+<td><span class="status-pill status-pill--pending">New</span></td>
+</tr>
+
+<tr>
+<td>Student requested 2 basketballs.</td>
+<td>Equipment</td>
+<td>18 mins ago</td>
+<td><span class="status-pill status-pill--pending">Pending</span></td>
+</tr>
+
+<tr>
+<td>Complaint received about damaged volleyball net.</td>
+<td>Complaint</td>
+<td>40 mins ago</td>
+<td><span class="status-pill status-pill--booked">Urgent</span></td>
+</tr>
+
+<tr>
+<td>Gym booking approved successfully.</td>
+<td>Booking</td>
+<td>1 hour ago</td>
+<td><span class="status-pill status-pill--available">Completed</span></td>
+</tr>
+
+<tr>
+<td>Equipment stock for Tennis Rackets is running low.</td>
+<td>Inventory</td>
+<td>2 hours ago</td>
+<td><span class="status-pill status-pill--pending">Warning</span></td>
+</tr>
+
+<tr>
+<td>Maintenance scheduled for the Main Football Pitch tomorrow.</td>
+<td>Maintenance</td>
+<td>Yesterday</td>
+<td><span class="status-pill status-pill--available">Scheduled</span></td>
+</tr>
+
+<tr>
+<td>Monthly sports report is ready for download.</td>
+<td>Reports</td>
+<td>Yesterday</td>
+<td><span class="status-pill status-pill--available">Ready</span></td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<section class="feed-card">
+
+<h2>Quick Actions</h2>
+
+<div class="report-actions">
+
+<button class="btn btn--primary">
+<i class="fa-solid fa-calendar-check"></i>
+View Booking Requests
+</button>
+
+<button class="btn btn--outline">
+<i class="fa-solid fa-basketball"></i>
+View Loan Requests
+</button>
+
+<button class="btn btn--outline" id="markAllRead">
+<i class="fa-solid fa-circle-check"></i>
+Mark All as Read
+</button>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+<script src="script.js"></script>
+<script src="js/officer.js"></script>
+<script src="js/auth.js"></script>
+
+</body>
+</html>

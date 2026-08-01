@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sports Officer Dashboard | Sports Booking System</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body class="officer-side">
+
+<header class="app-topbar">
+
+<div class="topbar-left">
+
+<button class="sidebar-toggle" id="sidebarToggle">
+<i class="fa-solid fa-bars"></i>
+</button>
+
+<img src="svg.webp" class="topbar-logo">
+
+<span class="topbar-title">
+Sports Booking System
+</span>
+
+</div>
+
+
+<div class="topbar-right">
+
+<button class="icon-btn">
+<i class="fa-regular fa-bell"></i>
+<span class="badge-dot">5</span>
+</button>
+
+<div class="topbar-profile">
+<img src="images/default-profile.png" class="topbar-avatar">
+<span class="topbar-username">
+Sports Officer
+</span>
+</div>
+
+</div>
+
+</header>
+
+
+
+<div class="app-shell">
+
+<aside class="sidebar" id="sidebar">
+
+<nav class="sidebar-nav">
+
+<a href="officer-dashboard.html" class="sidebar-link active">
+<i class="fa-solid fa-gauge"></i>
+<span>Dashboard</span>
+</a>
+
+<a href="manage-facilities.html" class="sidebar-link">
+<i class="fa-solid fa-building"></i>
+<span>Manage Facilities</span>
+</a>
+
+<a href="equipment-inventory.html" class="sidebar-link">
+<i class="fa-solid fa-basketball"></i>
+<span>Equipment Inventory</span>
+</a>
+
+<a href="booking-requests.html" class="sidebar-link">
+<i class="fa-solid fa-calendar-check"></i>
+<span>Booking Requests</span>
+</a>
+
+<a href="loan-requests.html" class="sidebar-link">
+<i class="fa-solid fa-handshake"></i>
+<span>Loan Requests</span>
+</a>
+
+<a href="officer-notifications.html" class="sidebar-link ">
+<i class="fa-solid fa-bell"></i>
+<span>Notifications</span>
+</a>
+
+<a href="complaints.html" class="sidebar-link">
+<i class="fa-solid fa-circle-exclamation"></i>
+<span>Complaints</span>
+</a>
+
+<a href="reports.html" class="sidebar-link">
+<i class="fa-solid fa-chart-column"></i>
+<span>Reports</span>
+</a>
+
+<a href="login.html" class="sidebar-link sidebar-link--logout">
+<i class="fa-solid fa-right-from-bracket"></i>
+<span>Logout</span>
+</a>
+
+</nav>
+
+</aside>
+
+
+
+<main class="app-main">
+
+<section class="welcome-card">
+
+<div>
+
+<h1>Welcome Back, Sports Officer 👋</h1>
+
+<p>
+Monitor bookings, approve requests,
+manage equipment and oversee all
+sports activities from one dashboard.
+</p>
+
+</div>
+
+<div class="welcome-actions">
+
+<a href="booking-requests.html"
+class="btn btn--primary">
+
+<i class="fa-solid fa-check"></i>
+
+Review Requests
+
+</a>
+
+<a href="equipment-inventory.html"
+class="btn btn--outline">
+
+<i class="fa-solid fa-basketball"></i>
+
+Inventory
+
+</a>
+
+</div>
+
+</section>
+
+
+
+<section class="stats-grid">
+
+<div class="stat-card">
+
+<div class="stat-icon stat-icon--blue">
+<i class="fa-solid fa-calendar-check"></i>
+</div>
+
+<div>
+<span class="stat-number">12</span>
+<span class="stat-label">
+Pending Facility Requests
+</span>
+</div>
+
+</div>
+
+
+
+<section class="stats-grid">
+
+    <div class="stat-card">
+
+        <div class="stat-icon stat-icon--blue">
+            <i class="fa-solid fa-calendar-check"></i>
+        </div>
+
+        <div>
+            <span class="stat-number" id="totalBookings">48</span>
+            <span class="stat-label">
+                Total Bookings
+            </span>
+        </div>
+
+    </div>
+
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon stat-icon--green">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+
+        <div>
+            <span class="stat-number" id="approvedBookings">35</span>
+            <span class="stat-label">
+                Approved Bookings
+            </span>
+        </div>
+
+    </div>
+
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon stat-icon--amber">
+            <i class="fa-solid fa-hourglass-half"></i>
+        </div>
+
+        <div>
+            <span class="stat-number" id="pendingBookings">13</span>
+            <span class="stat-label">
+                Pending Bookings
+            </span>
+        </div>
+
+    </div>
+
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon stat-icon--green">
+            <i class="fa-solid fa-handshake"></i>
+        </div>
+
+        <div>
+            <span class="stat-number" id="pendingLoans">8</span>
+            <span class="stat-label">
+                Pending Equipment Loans
+            </span>
+        </div>
+
+    </div>
+
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon stat-icon--amber">
+            <i class="fa-solid fa-building"></i>
+        </div>
+
+        <div>
+            <span class="stat-number" id="todayBookings">9</span>
+            <span class="stat-label">
+                Today's Bookings
+            </span>
+        </div>
+
+    </div>
+
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon stat-icon--red">
+            <i class="fa-solid fa-circle-exclamation"></i>
+        </div>
+
+        <div>
+            <span class="stat-number" id="openComplaints">5</span>
+            <span class="stat-label">
+                Open Complaints
+            </span>
+        </div>
+
+    </div>
+
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon stat-icon--blue">
+            <i class="fa-solid fa-boxes-stacked"></i>
+        </div>
+
+        <div>
+            <span class="stat-number" id="availableEquipment">286</span>
+            <span class="stat-label">
+                Equipment Available
+            </span>
+        </div>
+
+    </div>
+
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon stat-icon--green">
+            <i class="fa-solid fa-futbol"></i>
+        </div>
+
+        <div>
+            <span class="stat-number" id="totalFacilities">8</span>
+            <span class="stat-label">
+                Sports Facilities
+            </span>
+        </div>
+
+    </div>
+
+</section>
+
+Quick Actions
+
+</h2>
+
+</div>
+
+
+<div class="report-actions">
+
+<a href="manage-facilities.html"
+class="btn btn--primary">
+
+<i class="fa-solid fa-plus"></i>
+
+Add Facility
+
+</a>
+
+<a href="equipment-inventory.html"
+class="btn btn--outline">
+
+<i class="fa-solid fa-basketball"></i>
+
+Manage Equipment
+
+</a>
+
+<a href="booking-requests.html"
+class="btn btn--outline">
+
+<i class="fa-solid fa-calendar-check"></i>
+
+Facility Requests
+
+</a>
+
+<a href="loan-requests.html"
+class="btn btn--outline">
+
+<i class="fa-solid fa-handshake"></i>
+
+Loan Requests
+
+</a>
+
+<a href="complaints.html"
+class="btn btn--outline">
+
+<i class="fa-solid fa-circle-exclamation"></i>
+
+Complaints
+
+</a>
+
+<a href="reports.html"
+class="btn btn--outline">
+
+<i class="fa-solid fa-chart-column"></i>
+
+Generate Reports
+
+</a>
+
+</div>
+
+</section>
+
+
+
+<div class="dashboard-columns">
+
+<div class="dashboard-col-main">
+  <div class="dashboard-columns">
+
+    <!-- LEFT COLUMN -->
+    <div class="dashboard-col-main">
+
+        <!-- Recent Facility Bookings -->
+        <section class="table-card">
+
+            <div class="table-card-head">
+                <h2>Recent Facility Bookings</h2>
+                <a href="booking-requests.html" class="link-more">
+                    View All
+                </a>
+            </div>
+
+            <div class="table-scroll">
+
+                <table class="data-table">
+
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Facility</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Jane Wanjiru</td>
+                            <td>Football Pitch</td>
+                            <td>25 Jul 2026</td>
+                            <td>
+                                <span class="status-pill status-pill--pending">
+                                    Pending
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Brian Kiptoo</td>
+                            <td>Basketball Court</td>
+                            <td>26 Jul 2026</td>
+                            <td>
+                                <span class="status-pill status-pill--available">
+                                    Approved
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Amina Yusuf</td>
+                            <td>Tennis Court</td>
+                            <td>26 Jul 2026</td>
+                            <td>
+                                <span class="status-pill status-pill--booked">
+                                    Rejected
+                                </span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- Equipment Loan Requests -->
+
+        <section class="table-card">
+
+            <div class="table-card-head">
+                <h2>Recent Equipment Requests</h2>
+
+                <a href="loan-requests.html" class="link-more">
+                    View All
+                </a>
+            </div>
+
+            <div class="table-scroll">
+
+                <table class="data-table">
+
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Equipment</th>
+                            <th>Quantity</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>John Mwangi</td>
+                            <td>Basketballs</td>
+                            <td>3</td>
+                            <td>
+                                <span class="status-pill status-pill--pending">
+                                    Pending
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Grace Njeri</td>
+                            <td>Footballs</td>
+                            <td>2</td>
+                            <td>
+                                <span class="status-pill status-pill--available">
+                                    Approved
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Kevin Otieno</td>
+                            <td>Training Cones</td>
+                            <td>1 Pack</td>
+                            <td>
+                                <span class="status-pill status-pill--available">
+                                    Approved
+                                </span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- Low Stock Equipment -->
+
+        <section class="table-card">
+
+            <div class="table-card-head">
+                <h2>Low Stock Equipment</h2>
+
+                <a href="equipment-inventory.html"
+                   class="link-more">
+                    Inventory
+                </a>
+
+            </div>
+
+            <div class="table-scroll">
+
+                <table class="data-table">
+
+                    <thead>
+                        <tr>
+                            <th>Equipment</th>
+                            <th>Remaining</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Tennis Rackets</td>
+                            <td>3</td>
+                            <td>
+                                <span class="status-pill status-pill--pending">
+                                    Low
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Team Jerseys</td>
+                            <td>5 Sets</td>
+                            <td>
+                                <span class="status-pill status-pill--pending">
+                                    Low
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Volleyballs</td>
+                            <td>0</td>
+                            <td>
+                                <span class="status-pill status-pill--booked">
+                                    Out of Stock
+                                </span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+
+    <!-- RIGHT COLUMN -->
+
+    <div class="dashboard-col-side">
+
+        <!-- Activity Feed -->
+
+        <section class="feed-card">
+
+            <h2>Recent Activity</h2>
+
+            <ul class="activity-feed">
+
+                <li>
+                    <i class="fa-solid fa-calendar-check activity-icon--green"></i>
+
+                    Football Pitch booking approved
+
+                    <span>20 mins ago</span>
+
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-basketball activity-icon--blue"></i>
+
+                    Basketballs issued to John Mwangi
+
+                    <span>1 hour ago</span>
+
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-circle-exclamation activity-icon--red"></i>
+
+                    Tennis Rackets are running low
+
+                    <span>3 hours ago</span>
+
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-user-plus activity-icon--amber"></i>
+
+                    New student registered
+
+                    <span>Today</span>
+
+                </li>
+
+            </ul>
+
+        </section>
+
+
+
+        <!-- Officer Announcements -->
+
+        <section class="feed-card">
+
+            <h2>Announcements</h2>
+
+            <ul class="announcement-list">
+
+                <li>
+
+                    <strong>Facility Maintenance</strong>
+
+                    <p>
+                        Basketball Court will be unavailable on
+                        Saturday for maintenance.
+                    </p>
+
+                </li>
+
+                <li>
+
+                    <strong>Inter-School Tournament</strong>
+
+                    <p>
+                        Equipment bookings are expected to increase
+                        next week.
+                    </p>
+
+                </li>
+
+                <li>
+
+                    <strong>Equipment Audit</strong>
+
+                    <p>
+                        Complete inventory verification before
+                        Friday.
+                    </p>
+
+                </li>
+
+            </ul>
+
+        </section>
+
+    </div>
+
+</div>
+
+<script src="js/script.js"></script>
+<script src="js/officer.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

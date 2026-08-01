@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manage Facilities | Sports Booking System</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="officer-side">
+
+<header class="app-topbar">
+    <div class="topbar-left">
+        <button class="sidebar-toggle" id="sidebarToggle">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <img src="images/logo.png" class="topbar-logo" alt="Logo">
+
+        <span class="topbar-title">
+            Sports Booking System
+        </span>
+    </div>
+
+    <div class="topbar-right">
+
+        <button class="icon-btn">
+            <i class="fa-regular fa-bell"></i>
+        </button>
+
+        <div class="topbar-profile">
+            <img src="images/default-profile.png" class="topbar-avatar">
+            <span class="topbar-username">
+                Sports Officer
+            </span>
+        </div>
+
+    </div>
+</header>
+
+<div class="app-shell">
+
+<aside class="sidebar" id="sidebar">
+
+<nav class="sidebar-nav">
+
+<a href="officer-dashboard.html" class="sidebar-link">
+<i class="fa-solid fa-gauge"></i>
+<span>Dashboard</span>
+</a>
+
+<a href="manage-facilities.html" class="sidebar-link active">
+<i class="fa-solid fa-building"></i>
+<span>Manage Facilities</span>
+</a>
+
+<a href="equipment-inventory.html" class="sidebar-link">
+<i class="fa-solid fa-boxes-stacked"></i>
+<span>Equipment Inventory</span>
+</a>
+
+<a href="booking-requests.html" class="sidebar-link">
+<i class="fa-solid fa-calendar-check"></i>
+<span>Booking Requests</span>
+</a>
+
+<a href="loan-requests.html" class="sidebar-link">
+<i class="fa-solid fa-handshake"></i>
+<span>Loan Requests</span>
+</a>
+
+<a href="officer-notifications.html" class="sidebar-link ">
+<i class="fa-solid fa-bell"></i>
+<span>Notifications</span>
+</a>
+
+<a href="complaints.html" class="sidebar-link">
+<i class="fa-solid fa-triangle-exclamation"></i>
+<span>Complaints</span>
+</a>
+
+<a href="reports.html" class="sidebar-link">
+<i class="fa-solid fa-chart-column"></i>
+<span>Reports</span>
+</a>
+
+<a href="login.html" class="sidebar-link sidebar-link--logout">
+<i class="fa-solid fa-right-from-bracket"></i>
+<span>Logout</span>
+</a>
+
+</nav>
+
+</aside>
+
+<main class="app-main">
+
+<div class="page-heading">
+<h1>Manage Facilities</h1>
+<p>Add, edit and manage all sports facilities.</p>
+</div>
+
+<section class="toolbar-card">
+
+<div class="search-box">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input
+type="text"
+placeholder="Search facility...">
+</div>
+
+<button class="btn btn--primary" data-open-modal="facilityModal">
+<i class="fa-solid fa-plus"></i>
+Add Facility
+</button>
+
+</section>
+
+<section class="table-card">
+
+<div class="table-card-head">
+<h2>Facilities</h2>
+</div>
+
+<div class="table-scroll">
+
+<table class="data-table">
+
+<thead>
+
+<tr>
+
+<th>Facility</th>
+<th>Capacity</th>
+<th>Status</th>
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Football Pitch</td>
+
+<td>60</td>
+
+<td>
+<span class="status-pill status-pill--available">
+Available
+</span>
+</td>
+
+<td>
+
+<button class="btn btn--outline btn--sm">
+Edit
+</button>
+
+<button class="btn btn--outline-danger btn--sm">
+Delete
+</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Basketball Court</td>
+
+<td>30</td>
+
+<td>
+
+<span class="status-pill status-pill--available">
+Available
+</span>
+
+</td>
+
+<td>
+
+<button class="btn btn--outline btn--sm">
+Edit
+</button>
+
+<button class="btn btn--outline-danger btn--sm">
+Delete
+</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Tennis Court</td>
+
+<td>12</td>
+
+<td>
+
+<span class="status-pill status-pill--pending">
+Maintenance
+</span>
+
+</td>
+
+<td>
+
+<button class="btn btn--outline btn--sm">
+Edit
+</button>
+
+<button class="btn btn--outline-danger btn--sm">
+Delete
+</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Gymnasium</td>
+
+<td>100</td>
+
+<td>
+
+<span class="status-pill status-pill--booked">
+Closed
+</span>
+
+</td>
+
+<td>
+
+<button class="btn btn--outline btn--sm">
+Edit
+</button>
+
+<button class="btn btn--outline-danger btn--sm">
+Delete
+</button>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+<!-- Add/Edit Facility Modal -->
+
+<div class="modal-overlay" id="facilityModal">
+
+<div class="modal-box">
+
+<div class="modal-head">
+
+<h3>Add Facility</h3>
+
+<button
+class="modal-close"
+data-close-modal="facilityModal">
+
+&times;
+
+</button>
+
+</div>
+
+<form class="modal-form">
+
+<label>
+
+Facility Name
+
+<input
+type="text"
+placeholder="Football Pitch"
+required>
+
+</label>
+
+<label>
+
+Capacity
+
+<input
+type="number"
+placeholder="50"
+required>
+
+</label>
+
+<label>
+
+Status
+
+<select>
+
+<option>Available</option>
+<option>Maintenance</option>
+<option>Closed</option>
+
+</select>
+
+</label>
+
+<label>
+
+Description
+
+<textarea
+rows="4"
+placeholder="Facility description"></textarea>
+
+</label>
+
+<div class="modal-actions">
+
+<button
+type="button"
+class="btn btn--ghost"
+data-close-modal="facilityModal">
+
+Cancel
+
+</button>
+
+<button
+type="submit"
+class="btn btn--primary">
+
+Save Facility
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+<script src="js/script.js"></script>
+<script src="js/officer.js"></script>
+<script src="js/auth.js"></script>
+
+</body>
+</html>

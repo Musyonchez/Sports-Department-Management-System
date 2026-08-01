@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analytics | Sports Booking System</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body class="admin-side">
+
+<header class="app-topbar">
+
+<div class="topbar-left">
+<button class="sidebar-toggle" id="sidebarToggle">
+<i class="fa-solid fa-bars"></i>
+</button>
+
+<img src="../assets/images/svg.webp" class="topbar-logo">
+
+<span class="topbar-title">
+Sports Booking System
+</span>
+
+</div>
+
+<div class="topbar-right">
+
+<button class="icon-btn">
+<i class="fa-regular fa-bell"></i>
+<span class="badge-dot">2</span>
+</button>
+
+<div class="topbar-profile">
+
+<img src="../assets/images/profile.jpg" class="topbar-avatar">
+
+<span class="topbar-username">
+Administrator
+</span>
+
+</div>
+
+</div>
+
+</header>
+
+
+<div class="app-shell">
+
+<aside class="sidebar" id="sidebar">
+
+<nav class="sidebar-nav">
+
+<a href="admin-dashboard.html" class="sidebar-link">
+<i class="fa-solid fa-gauge"></i>
+<span>Dashboard</span>
+</a>
+
+<a href="manage-users.html" class="sidebar-link">
+<i class="fa-solid fa-users"></i>
+<span>Manage Users</span>
+</a>
+
+<a href="assign-roles.html" class="sidebar-link">
+<i class="fa-solid fa-user-shield"></i>
+<span>Assign Roles</span>
+</a>
+
+<a href="admin-notifications.html" class="sidebar-link">
+<i class="fa-solid fa-bell"></i>
+<span>Notifications</span>
+</a>
+
+<a href="analytics.html" class="sidebar-link active">
+<i class="fa-solid fa-chart-line"></i>
+<span>Analytics</span>
+</a>
+
+<a href="admin-reports.html" class="sidebar-link">
+<i class="fa-solid fa-file-lines"></i>
+<span>Reports</span>
+</a>
+
+<a href="settings.html" class="sidebar-link">
+<i class="fa-solid fa-gear"></i>
+<span>Settings</span>
+</a>
+
+<a href="login.html" class="sidebar-link sidebar-link--logout">
+<i class="fa-solid fa-right-from-bracket"></i>
+<span>Logout</span>
+</a>
+
+</nav>
+
+</aside>
+
+
+<main class="app-main">
+
+<div class="page-heading">
+
+<h1>System Analytics</h1>
+
+<p>
+View statistics and performance of bookings, users, facilities and equipment.
+</p>
+
+</div>
+
+
+<section class="stats-grid">
+
+<div class="stat-card">
+
+<div class="stat-icon stat-icon--blue">
+<i class="fa-solid fa-users"></i>
+</div>
+
+<div>
+<span class="stat-number" id="studentsCount">1248</span>
+<span class="stat-label">Registered Students</span>
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<div class="stat-icon stat-icon--green">
+<i class="fa-solid fa-calendar-check"></i>
+</div>
+
+<div>
+<<span class="stat-number" id="bookingCount">
+634
+</span>
+<span class="stat-label">Bookings</span>
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<div class="stat-icon stat-icon--amber">
+<i class="fa-solid fa-basketball"></i>
+</div>
+
+<div>
+<span class="stat-number" id="loanCount">
+420
+</span>
+<span class="stat-label">Equipment Loans</span>
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<div class="stat-icon stat-icon--red">
+<i class="fa-solid fa-building-columns"></i>
+</div>
+
+<div>
+<span class="stat-number" id="facilityCount">
+6
+</span>
+<span class="stat-label">Sports Facilities</span>
+</div>
+
+</div>
+
+</section>
+
+
+<section class="table-card">
+
+<div class="table-card-head">
+
+<h2>Charts Overview</h2>
+
+<select id="analyticsPeriod" class="form-select">
+
+<option value="monthly">Monthly</option>
+
+<option value="quarterly">Quarterly</option>
+
+<option value="yearly">Yearly</option>
+
+</select>
+
+</div>
+
+<div class="analytics-grid">
+
+<div class="chart-placeholder">
+
+<span class="chart-placeholder-label">
+Monthly Bookings
+</span>
+
+<div class="chart-placeholder-box">
+
+<i class="fa-solid fa-chart-line"></i>
+
+</div>
+
+</div>
+
+
+<div class="chart-placeholder">
+
+<span class="chart-placeholder-label">
+Equipment Usage
+</span>
+
+<div class="chart-placeholder-box">
+
+<i class="fa-solid fa-chart-pie"></i>
+
+</div>
+
+</div>
+
+
+<div class="chart-placeholder">
+
+<span class="chart-placeholder-label">
+Facility Popularity
+</span>
+
+<div class="chart-placeholder-box">
+
+<i class="fa-solid fa-chart-column"></i>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section class="table-card">
+
+<div class="table-card-head">
+
+<h2>Top Booked Facilities</h2>
+
+</div>
+
+<div class="table-scroll">
+
+<table class="data-table">
+
+<thead>
+
+<tr>
+
+<th>Facility</th>
+<th>Bookings</th>
+<th>Usage</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Football Pitch</td>
+<td>185</td>
+<td>95%</td>
+
+</tr>
+
+<tr>
+
+<td>Basketball Court</td>
+<td>143</td>
+<td>89%</td>
+
+</tr>
+
+<tr>
+
+<td>Tennis Court</td>
+<td>96</td>
+<td>75%</td>
+
+</tr>
+
+<tr>
+
+<td>Volleyball Court</td>
+<td>82</td>
+<td>68%</td>
+
+</tr>
+
+<tr>
+
+<td>Gymnasium</td>
+<td>71</td>
+<td>60%</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<section class="table-card">
+
+<div class="table-card-head">
+
+<h2>Most Borrowed Equipment</h2>
+
+</div>
+
+<div class="table-scroll">
+
+<table class="data-table">
+
+<thead>
+
+<tr>
+
+<th>Equipment</th>
+<th>Requests</th>
+<th>Availability</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Basketballs</td>
+<td>135</td>
+<td>Available</td>
+
+</tr>
+
+<tr>
+
+<td>Footballs</td>
+<td>128</td>
+<td>Available</td>
+
+</tr>
+
+<tr>
+
+<td>Training Cones</td>
+<td>91</td>
+<td>Available</td>
+
+</tr>
+
+<tr>
+
+<td>Team Jerseys</td>
+<td>84</td>
+<td>Low Stock</td>
+
+</tr>
+
+<tr>
+
+<td>Tennis Rackets</td>
+<td>57</td>
+<td>Available</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<section class="table-card">
+
+<div class="table-card-head">
+
+<h2>Monthly Summary</h2>
+
+</div>
+
+<div class="analytics-grid">
+
+<div class="stat-card">
+
+<div class="stat-icon stat-icon--green">
+
+<i class="fa-solid fa-arrow-trend-up"></i>
+
+</div>
+
+<div>
+
+<span class="stat-number">18%</span>
+
+<span class="stat-label">
+Increase in Bookings
+</span>
+
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-icon stat-icon--blue">
+
+<i class="fa-solid fa-user-plus"></i>
+
+</div>
+
+<div>
+
+<span class="stat-number">96</span>
+
+<span class="stat-label">
+New Students
+</span>
+
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-icon stat-icon--amber">
+
+<i class="fa-solid fa-clock"></i>
+
+</div>
+
+<div>
+
+<span class="stat-number">43</span>
+
+<span class="stat-label">
+Pending Requests
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+<script src="script.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/auth.js"></script>
+
+</body>
+</html>

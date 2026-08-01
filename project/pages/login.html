@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Sports Department Booking System</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="login-left">
+
+        <div class="login-content">
+
+            <a href="index.html" class="back-home">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+
+            <h1>Welcome Back!</h1>
+
+            <p>
+                Sign in to access the Sports Department
+                Equipment & Facility Booking System.
+            </p>
+
+            <form id="loginForm">
+
+                <div class="input-box">
+
+                    <label>Email Address</label>
+
+                    <div class="input-field">
+
+                        <i class="fas fa-envelope"></i>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="Enter your email"
+                            required>
+
+                    </div>
+
+                </div>
+
+                <div class="input-box">
+
+                    <label>Password</label>
+
+                    <div class="input-field">
+
+                        <i class="fas fa-lock"></i>
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Enter password"
+                            required>
+
+                        <i
+                            class="fas fa-eye togglePassword"
+                            id="togglePassword"></i>
+
+                    </div>
+
+                </div>
+
+                <div class="role-selection">
+
+                    <label>Select Role</label>
+
+                    <select id="role" required>
+
+                        <option value="">Choose Role</option>
+
+                        <option value="student">
+                            Student
+                        </option>
+
+                        <option value="officer">
+                            Sports Officer
+                        </option>
+
+                        <option value="admin">
+                            Administrator
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="login-options">
+
+                    <label>
+
+                        <input type="checkbox" id="rememberMe">
+
+                        Remember Me
+
+                    </label>
+
+                    <a href="#">
+                        Forgot Password?
+                    </a>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="login-button">
+
+                    Login
+
+                </button>
+
+            </form>
+
+            <div class="register-link">
+
+                Don't have an account?
+
+                <a href="register.html">
+
+                    Register Here
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="login-right">
+
+        <div class="overlay">
+
+            <h2>Sports Department</h2>
+
+            <h1>Equipment & Facility Booking System</h1>
+
+            <p>
+
+                Book sports facilities, request equipment,
+                receive notifications and manage all sports
+                activities from one centralized platform.
+
+            </p>
+
+            <div class="login-features">
+
+                <div>
+
+                    <i class="fas fa-calendar-check"></i>
+
+                    Facility Booking
+
+                </div>
+
+                <div>
+
+                    <i class="fas fa-futbol"></i>
+
+                    Equipment Loans
+
+                </div>
+
+                <div>
+
+                    <i class="fas fa-bell"></i>
+
+                    Notifications
+
+                </div>
+
+                <div>
+
+                    <i class="fas fa-chart-line"></i>
+
+                    Reports
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+<script src="js/auth.js"></script>
+
+</body>
+</html>

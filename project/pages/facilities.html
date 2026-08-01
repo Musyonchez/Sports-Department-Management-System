@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book a Facility | Sports Booking System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="student-side">
+
+<header class="app-topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <a href="index.html" class="topbar-logo-link">
+      <img src="svg.webp" alt="System Logo" class="topbar-logo">
+    </a>
+    <span class="topbar-title">Sports Booking System</span>
+  </div>
+  <div class="topbar-right">
+    <button class="icon-btn" id="notifBell" aria-label="Notifications">
+      <i class="fa-regular fa-bell"></i>
+      <span class="badge-dot" id="notifCount">3</span>
+    </button>
+    <div class="topbar-profile">
+      <img src="images/default-profile.png" alt="Profile" class="topbar-avatar">
+      <span class="topbar-username" id="topbarUsername"></span>
+    </div>
+  </div>
+</header>
+
+<div class="app-shell">
+
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <a href="Studentdashboard.html" class="sidebar-link"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
+      <a href="facilities.html" class="sidebar-link active"><i class="fa-solid fa-building-columns"></i><span>Book Facility</span></a>
+      <a href="equipment.html" class="sidebar-link"><i class="fa-solid fa-basketball"></i><span>Equipment</span></a>
+      <a href="notifications.html" class="sidebar-link"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+      <a href="profile.html" class="sidebar-link"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+      <a href="login.html" class="sidebar-link sidebar-link--logout"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
+    </nav>
+  </aside>
+
+  <main class="app-main">
+
+    <div class="page-heading">
+      <h1>Book a Facility</h1>
+      <p>Find a court, pitch or field and reserve a time slot.</p>
+    </div>
+
+    <section class="toolbar-card">
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="facilitySearch" placeholder="Search Facility"></div>
+      <div class="filter-buttons">
+    <button class="btn btn--outline filter-btn active" data-filter="all">
+    All
+</button>
+
+<button class="btn btn--outline filter-btn" data-filter="football">
+    Football
+</button>
+
+<button class="btn btn--outline filter-btn" data-filter="basketball">
+    Basketball
+</button>
+
+<button class="btn btn--outline filter-btn" data-filter="tennis">
+    Tennis
+</button>
+    <button class="btn btn--outline filter-btn" data-filter="volleyball">
+    Volleyball
+</button>
+    <button class="btn btn--outline filter-btn" data-filter="rugby">
+    Rugby
+</button>
+    <button class="btn btn--outline filter-btn" data-filter="gym">
+    Gym
+</button>
+</div>
+    </section>
+
+
+    <section class="facility-grid" id="facilityGrid">
+
+      <article class="facility-card" data-category="football">
+        <div class="facility-card-img">
+
+    <img src="images/football.jpg" alt="Football Pitch">
+
+    <div class="facility-content">
+
+        <h3>Football Pitch</h3>
+
+        <p>
+            Outdoor football grounds available for training,
+            friendly matches and tournaments.
+        </p>
+
+        <button
+            class="btn btn--primary book-facility-btn"
+            data-facility="Football Pitch">
+
+            Book Now
+
+        </button>
+
+    </div>
+
+</div>
+      </article>
+
+      <article class="facility-card" data-category="basketball">
+        <div class="facility-card-img">
+
+    <img src="images/basketball.jpg" alt="Basketball Court">
+
+    <div class="facility-content">
+
+        <h3>Basketball Court</h3>
+        <p>
+            Book an indoor or outdoor basketball court for practice,
+            training sessions or friendly matches.
+        </p>
+        <button
+            class="btn btn--primary book-facility-btn" data-facility="Basketball Court">Book Now
+ </button>
+    </div>
+</div>
+      </article>
+
+      <article class="facility-card" data-category="tennis">
+
+    <div class="facility-card-img">
+
+        <img src="images/tennis.jpg" alt="Tennis Court">
+
+        <div class="facility-content">
+
+            <h3>Tennis Court</h3>
+
+            <p>
+                Book a tennis court for singles or doubles matches,
+                coaching sessions or practice.
+            </p>
+
+            <button
+                class="btn btn--primary book-facility-btn"
+                data-facility="Tennis Court">
+
+                Book Now
+
+            </button>
+
+        </div>
+
+    </div>
+
+</article>
+
+      <article class="facility-card" data-category="volleyball">
+        <div class="facility-card-img">
+
+    <img src="images/volleyball.jpg" alt="Volleyball Court">
+
+    <div class="facility-content">
+
+        <h3>Volleyball Court</h3>
+        <p>
+            Reserve a volleyball court for team practice,
+            competitions or recreational games.
+        </p>
+        <button
+            class="btn btn--primary book-facility-btn"
+            data-facility="Volleyball Court"> Book Now
+        </button>
+    </div>
+</div>
+      </article>
+
+      <article class="facility-card" data-category="rugby">
+        <div class="facility-card-img">
+
+    <img src="images/rugby.jpg" alt="Rugby Field">
+
+    <div class="facility-content">
+
+        <h3>Rugby Field</h3>
+
+        <p>
+            Reserve the rugby field for team training,
+            tournaments and official matches.
+        </p>
+
+        <button
+            class="btn btn--primary book-facility-btn" data-facility="Rugby Field">  Book Now
+        </button>
+    </div>
+</div>
+      </article>
+
+      <article class="facility-card" data-category="gym">
+        <div class="facility-card-img">
+
+    <img src="images/gym.jpg" alt="Gymnasium">
+
+    <div class="facility-content">
+
+        <h3>Gymnasium</h3>
+
+        <p>
+            Book the gymnasium for fitness sessions,
+            indoor sports and strength training.
+        </p>
+
+        <button
+            class="btn btn--primary book-facility-btn" data-facility="Gymnasium">  Book Now
+    </button>
+    </div>
+</div>
+      </article>
+
+    </section>
+
+    <section class="table-card">
+      <div class="table-card-head">
+        <h2>My Bookings</h2>
+      </div>
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Facility</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="myBookingsBody">
+            <tr>
+              <td>Indoor Basketball Court</td>
+              <td>18 Jul 2026</td>
+              <td>3:00 PM – 4:00 PM</td>
+              <td><span class="status-pill status-pill--pending">Pending</span></td>
+              <td><button class="btn btn--outline-danger btn--sm">Cancel</button></td>
+            </tr>
+            <tr>
+              <td>Main Football Pitch</td>
+              <td>20 Jul 2026</td>
+              <td>5:00 PM – 6:30 PM</td>
+              <td><span class="status-pill status-pill--available">Confirmed</span></td>
+              <td><button class="btn btn--outline-danger btn--sm">Cancel</button></td>
+            </tr>
+            <tr>
+              <td>Main Gymnasium</td>
+              <td>12 Jul 2026</td>
+              <td>7:00 AM – 8:00 AM</td>
+              <td><span class="status-pill status-pill--booked">Completed</span></td>
+              <td><button class="btn btn--disabled btn--sm" disabled>Cancel</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>Book Facility: <span id="modalFacilityName">Facility Name</span></h3>
+      <button class="modal-close" data-close-modal="bookingModal" aria-label="Close">&times;</button>
+    </div>
+    <form class="modal-form" id="bookingForm">
+      <label>Date
+        <input type="date" name="date" required>
+      </label>
+      <label>Time
+        <input type="time" name="time" required>
+      </label>
+      <label>Purpose
+        <input type="text" name="purpose" placeholder="e.g. Team Practice" required>
+      </label>
+      <label>Number of Participants
+        <input type="number" name="participants" min="1" placeholder="e.g. 10" required>
+      </label>
+      <div class="modal-actions">
+        <button type="button" class="btn btn--ghost" data-close-modal="bookingModal">Cancel</button>
+        <button type="submit" class="btn btn--primary">Submit Booking</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="locationModal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2 id="locationTitle">
+                Choose Location
+            </h2>
+
+            <button class="close-modal" id="closeLocationModal">
+
+                &times;
+
+            </button>
+
+        </div>
+
+        <div
+            class="location-list"
+            id="locationList">
+
+        </div>
+
+    </div>
+
+</div>
+<!-- Booking Modal -->
+
+<div class="booking-modal" id="bookingModal">
+
+    <div class="booking-modal-content">
+
+        <span class="close-modal" id="closeBookingModal">
+            &times;
+        </span>
+
+        <h2 id="facilityTitle">
+            Book Facility
+        </h2>
+
+        <form id="bookingForm">
+
+            <label>Choose Location</label>
+
+            <select id="facilityLocation" required>
+
+            </select>
+
+            <label>Select Date</label>
+
+            <input
+                type="date"
+                id="bookingDate"
+                required>
+
+            <label>Select Time</label>
+
+            <input
+                type="time"
+                id="bookingTime"
+                required>
+
+            <button
+                type="submit"
+                class="btn btn--primary">
+
+                Confirm Booking
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+<script src="script.js"></script>
+<script src="js/student.js"></script>
+</body>
+</html>

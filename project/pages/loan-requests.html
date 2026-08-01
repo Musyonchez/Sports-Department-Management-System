@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loan Requests | Sports Booking System</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body class="officer-side">
+
+<header class="app-topbar">
+
+<div class="topbar-left">
+
+<button class="sidebar-toggle" id="sidebarToggle">
+<i class="fa-solid fa-bars"></i>
+</button>
+
+<img src="images/logo.png" class="topbar-logo" alt="Logo">
+
+<span class="topbar-title">
+Sports Booking System
+</span>
+
+</div>
+
+<div class="topbar-right">
+
+<button class="icon-btn">
+<i class="fa-regular fa-bell"></i>
+</button>
+
+<div class="topbar-profile">
+
+<img src="images/default-profile.png" class="topbar-avatar">
+
+<span class="topbar-username">
+Sports Officer
+</span>
+
+</div>
+
+</div>
+
+</header>
+
+<div class="app-shell">
+
+<!-- Sidebar -->
+
+<aside class="sidebar" id="sidebar">
+
+<nav class="sidebar-nav">
+
+<a href="officer-dashboard.html" class="sidebar-link">
+<i class="fa-solid fa-gauge"></i>
+<span>Dashboard</span>
+</a>
+
+<a href="manage-facilities.html" class="sidebar-link">
+<i class="fa-solid fa-building"></i>
+<span>Manage Facilities</span>
+</a>
+
+<a href="equipment-inventory.html" class="sidebar-link">
+<i class="fa-solid fa-boxes-stacked"></i>
+<span>Equipment Inventory</span>
+</a>
+
+<a href="booking-requests.html" class="sidebar-link">
+<i class="fa-solid fa-calendar-check"></i>
+<span>Booking Requests</span>
+</a>
+
+<a href="loan-requests.html" class="sidebar-link active">
+<i class="fa-solid fa-handshake"></i>
+<span>Loan Requests</span>
+</a>
+
+<a href="officer-notifications.html" class="sidebar-link ">
+<i class="fa-solid fa-bell"></i>
+<span>Notifications</span>
+</a>
+
+<a href="complaints.html" class="sidebar-link">
+<i class="fa-solid fa-triangle-exclamation"></i>
+<span>Complaints</span>
+</a>
+
+<a href="reports.html" class="sidebar-link">
+<i class="fa-solid fa-chart-column"></i>
+<span>Reports</span>
+</a>
+
+<a href="login.html" class="sidebar-link sidebar-link--logout">
+<i class="fa-solid fa-right-from-bracket"></i>
+<span>Logout</span>
+</a>
+
+</nav>
+
+</aside>
+
+<!-- Main Content -->
+
+<main class="app-main">
+
+<div class="page-heading">
+
+<h1>Loan Requests</h1>
+
+<p>
+Review and manage equipment loan requests submitted by students.
+</p>
+
+</div>
+
+<section class="toolbar-card">
+
+<div class="search-box">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+<input
+type="text"
+placeholder="Search loan requests...">
+
+</div>
+
+</section>
+
+<section class="table-card">
+
+<div class="table-card-head">
+
+<h2>Equipment Loan Requests</h2>
+
+</div>
+
+<div class="table-scroll">
+
+<table class="data-table">
+
+<thead>
+
+<tr>
+
+<th>Student</th>
+<th>Equipment</th>
+<th>Quantity</th>
+<th>Return Date</th>
+<th>Status</th>
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr class="loan-row">
+
+<td>Jane Wanjiru</td>
+
+<td>Basketballs</td>
+
+<td>2</td>
+
+<td>22 Jul 2026</td>
+
+<td>
+<span class="status-pill status-pill--pending">
+Pending
+</span>
+</td>
+
+<td>
+
+<button class="btn btn--primary btn--sm approve-loan">
+Approve
+</button>
+
+<button class="btn btn--outline-danger btn--sm reject-loan">
+Reject
+</button>
+
+</td>
+
+</tr>
+
+<tr class="loan-row">
+
+<td>Brian Kiptoo</td>
+
+<td>Footballs</td>
+
+<td>3</td>
+
+<td>24 Jul 2026</td>
+
+<td>
+<span class="status-pill status-pill--pending">
+Pending
+</span>
+</td>
+
+<td>
+
+<button class="btn btn--primary btn--sm approve-loan">
+Approve
+</button>
+
+<button class="btn btn--outline-danger btn--sm reject-loan">
+Reject
+</button>
+
+</td>
+
+</tr>
+
+<tr class="loan-row">
+
+<td>Amina Yusuf</td>
+
+<td>Training Cones</td>
+
+<td>1 Pack</td>
+
+<td>20 Jul 2026</td>
+
+<td>
+<span class="status-pill status-pill--available">
+Approved
+</span>
+</td>
+
+<td>
+
+<button class="btn btn--outline btn--sm view-loan">
+View
+</button>
+
+</td>
+
+</tr>
+
+<tr class="loan-row">
+
+<td>David Mwangi</td>
+
+<td>Tennis Rackets</td>
+
+<td>2</td>
+
+<td>21 Jul 2026</td>
+
+<td>
+<span class="status-pill status-pill--booked">
+Rejected
+</span>
+</td>
+
+<td>
+
+<button class="btn btn--outline btn--sm view-loan">
+View
+</button>
+
+</td>
+
+</tr>
+
+<tr class="loan-row">
+
+<td>Faith Njeri</td>
+
+<td>Team Jerseys</td>
+
+<td>1 Set</td>
+
+<td>25 Jul 2026</td>
+
+<td>
+<span class="status-pill status-pill--pending">
+Pending
+</span>
+</td>
+
+<td>
+
+<button class="btn btn--primary btn--sm approve-loan">
+Approve
+</button>
+
+<button class="btn btn--outline-danger btn--sm reject-loan">
+Reject
+</button>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+<script src="script.js"></script>
+<script src="js/officer.js"></script>
+<script src="js/auth.js"></script>
+
+</body>
+</html>

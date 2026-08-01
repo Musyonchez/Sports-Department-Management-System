@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assign Roles | Sports Booking System</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="admin-side">
+
+<header class="app-topbar">
+
+<div class="topbar-left">
+<button class="sidebar-toggle" id="sidebarToggle">
+<i class="fa-solid fa-bars"></i>
+</button>
+
+<img src="images/logo.png" class="topbar-logo">
+
+<span class="topbar-title">
+Sports Booking System
+</span>
+</div>
+
+<div class="topbar-right">
+
+<button class="icon-btn">
+<i class="fa-regular fa-bell"></i>
+<span class="badge-dot">4</span>
+</button>
+
+<div class="topbar-profile">
+<img src="images/default-profile.png" class="topbar-avatar">
+<span class="topbar-username">
+Administrator
+</span>
+</div>
+
+</div>
+
+</header>
+
+<div class="app-shell">
+
+<aside class="sidebar" id="sidebar">
+
+<nav class="sidebar-nav">
+
+<a href="admin-dashboard.html" class="sidebar-link">
+<i class="fa-solid fa-gauge"></i>
+<span>Dashboard</span>
+</a>
+
+<a href="manage-users.html" class="sidebar-link">
+<i class="fa-solid fa-users"></i>
+<span>Manage Users</span>
+</a>
+
+<a href="assign-roles.html" class="sidebar-link active">
+<i class="fa-solid fa-user-shield"></i>
+<span>Assign Roles</span>
+</a>
+
+<a href="admin-notifications.html" class="sidebar-link">
+<i class="fa-solid fa-bell"></i>
+<span>Notifications</span>
+</a>
+
+<a href="analytics.html" class="sidebar-link">
+<i class="fa-solid fa-chart-line"></i>
+<span>Analytics</span>
+</a>
+
+<a href="admin-reports.html" class="sidebar-link">
+<i class="fa-solid fa-file-lines"></i>
+<span>Reports</span>
+</a>
+
+<a href="settings.html" class="sidebar-link">
+<i class="fa-solid fa-gear"></i>
+<span>Settings</span>
+</a>
+
+<a href="login.html" class="sidebar-link sidebar-link--logout">
+<i class="fa-solid fa-right-from-bracket"></i>
+<span>Logout</span>
+</a>
+
+</nav>
+
+</aside>
+
+<main class="app-main">
+
+<div class="page-heading">
+<h1>Assign Roles</h1>
+<p>Assign and manage user roles across the system.</p>
+</div>
+
+<section class="stats-grid">
+
+<div class="stat-card">
+<div class="stat-icon stat-icon--blue">
+<i class="fa-solid fa-user-graduate"></i>
+</div>
+<div>
+<span class="stat-number">1,248</span>
+<span class="stat-label">Students</span>
+</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon stat-icon--green">
+<i class="fa-solid fa-whistle"></i>
+</div>
+<div>
+<span class="stat-number">9</span>
+<span class="stat-label">Sports Officers</span>
+</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon stat-icon--amber">
+<i class="fa-solid fa-user-shield"></i>
+</div>
+<div>
+<span class="stat-number">2</span>
+<span class="stat-label">Administrators</span>
+</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon stat-icon--red">
+<i class="fa-solid fa-user-check"></i>
+</div>
+<div>
+<span class="stat-number">1,259</span>
+<span class="stat-label">Total Users</span>
+</div>
+</div>
+
+</section>
+
+<section class="form-card">
+
+<h2>Assign User Role</h2>
+
+<form class="stacked-form" id="roleForm">
+
+<div class="form-row">
+
+<label>
+Select User
+<select id="selectedUser">
+<option>Jane Wanjiru</option>
+<option>Brian Kiptoo</option>
+<option>Mr. Otieno</option>
+<option>Faith Achieng</option>
+</select>
+</label>
+
+<label>
+Current Role
+<input
+type="text"
+id="currentRole"
+value="Student"
+readonly>
+</label>
+
+</div>
+
+<div class="form-row">
+
+<label>
+Assign New Role
+<select id="newRole">
+<option>Student</option>
+<option>Sports Officer</option>
+<option>Administrator</option>
+</select>
+</label>
+
+<label>
+Status
+<select id="userStatus">
+<option>Active</option>
+<option>Suspended</option>
+</select>
+</label>
+
+</div>
+
+<div class="form-actions">
+
+<button type="submit" class="btn btn--primary" id="assignRoleBtn">
+<i class="fa-solid fa-user-check"></i>
+Assign Role
+</button>
+
+<button type="reset" class="btn btn--outline">
+Reset
+</button>
+
+</div>
+
+</form>
+
+</section>
+
+<section class="table-card">
+
+<div class="table-card-head">
+
+<h2>Current Role Assignments</h2>
+
+<div class="search-box search-box--compact">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input type="text" id="roleSearch" placeholder="Search user">
+</div>
+
+</div>
+
+<div class="table-scroll">
+
+<table class="data-table">
+
+<thead>
+
+<tr class="role-row">
+<th>Name</th>
+<th>Email</th>
+<th>Role</th>
+<th>Status</th>
+<th>Last Updated</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr class="role-row">
+<td>Jane Wanjiru</td>
+<td>jane@usiu.ac.ke</td>
+<td>Student</td>
+<td><span class="status-pill status-pill--available">Active</span></td>
+<td>18 Jul 2026</td>
+</tr>
+
+<tr class="role-row">
+<td>Brian Kiptoo</td>
+<td>brian@usiu.ac.ke</td>
+<td>Student</td>
+<td><span class="status-pill status-pill--pending">Suspended</span></td>
+<td>16 Jul 2026</td>
+</tr>
+
+<tr class="role-row">
+<td>Mr. Otieno</td>
+<td>otieno@usiu.ac.ke</td>
+<td>Sports Officer</td>
+<td><span class="status-pill status-pill--available">Active</span></td>
+<td>12 Jul 2026</td>
+</tr>
+
+<tr class="role-row">
+<td>Admin User</td>
+<td>admin@usiu.ac.ke</td>
+<td>Administrator</td>
+<td><span class="status-pill status-pill--available">Active</span></td>
+<td>10 Jul 2026</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<section class="feed-card">
+
+<h2>Recent Role Changes</h2>
+
+<ul class="activity-feed">
+
+<li>
+<i class="fa-solid fa-user-shield activity-icon--green"></i>
+Brian Kiptoo promoted to Sports Officer
+<span>Today</span>
+</li>
+
+<li>
+<i class="fa-solid fa-user activity-icon--blue"></i>
+Jane Wanjiru assigned Student role
+<span>Yesterday</span>
+</li>
+
+<li>
+<i class="fa-solid fa-user-shield activity-icon--amber"></i>
+Administrator permissions updated
+<span>2 days ago</span>
+</li>
+
+<li>
+<i class="fa-solid fa-clock activity-icon--red"></i>
+Role assignment history saved
+<span>3 days ago</span>
+</li>
+
+</ul>
+
+</section>
+
+</main>
+
+</div>
+
+<script src="script.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/auth.js"></script>
+
+</body>
+</html>

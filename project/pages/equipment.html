@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Equipment | Sports Booking System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="student-side">
+
+<header class="app-topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <img src="svg.webp" alt="System Logo" class="topbar-logo">
+    <span class="topbar-title">Sports Booking System</span>
+  </div>
+  <div class="topbar-right">
+    <button class="icon-btn" id="notifBell" aria-label="Notifications">
+      <i class="fa-regular fa-bell"></i>
+      <span class="badge-dot" id="notifCount">3</span>
+    </button>
+    <div class="topbar-profile">
+      <img src="hero.png" alt="Profile" class="topbar-avatar">
+      <span class="topbar-username" id="topbarUsername"></span>
+    </div>
+  </div>
+</header>
+
+<div class="app-shell">
+
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <a href="Studentdashboard.html" class="sidebar-link"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
+      <a href="facilities.html" class="sidebar-link"><i class="fa-solid fa-building-columns"></i><span>Book Facility</span></a>
+      <a href="equipment.html" class="sidebar-link active"><i class="fa-solid fa-basketball"></i><span>Equipment</span></a>
+      <a href="notifications.html" class="sidebar-link"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+      <a href="profile.html" class="sidebar-link"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+      <a href="login.html" class="sidebar-link sidebar-link--logout"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
+    </nav>
+  </aside>
+
+  <main class="app-main">
+
+    <div class="page-heading">
+      <h1>Equipment</h1>
+      <p>Browse available sports equipment and request a loan.</p>
+    </div>
+
+    <section class="toolbar-card">
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="equipmentSearch" placeholder="Search equipment e.g. Basketball">
+      </div>
+    </section>
+
+    <section class="facility-grid" id="equipmentGrid">
+
+      <!-- Footballs -->
+<article class="facility-card" data-category="balls">
+    <div class="facility-card-img">
+        <img src="football-ball.jpg" alt="Footballs">
+        <span class="status-pill status-pill--available">In Stock</span>
+    </div>
+
+    <div class="facility-card-body">
+        <h3>Footballs</h3>
+
+        <ul class="facility-meta">
+            <li><i class="fa-solid fa-cubes"></i> Quantity: 18 Available</li>
+        </ul>
+
+        <button
+            class="btn btn--primary btn--block request-btn"
+            data-equipment="Footballs">
+            Request Loan
+        </button>
+    </div>
+</article>
+
+
+<!-- Basketballs -->
+<article class="facility-card" data-category="balls">
+    <div class="facility-card-img">
+        <img src="basketball-ball.jpg" alt="Basketballs">
+        <span class="status-pill status-pill--available">In Stock</span>
+    </div>
+
+    <div class="facility-card-body">
+        <h3>Basketballs</h3>
+
+        <ul class="facility-meta">
+            <li><i class="fa-solid fa-cubes"></i> Quantity: 12 Available</li>
+        </ul>
+
+        <button
+            class="btn btn--primary btn--block request-btn"
+            data-equipment="Basketballs">
+            Request Loan
+        </button>
+    </div>
+</article>
+
+
+<!-- Rugby Balls -->
+<article class="facility-card" data-category="balls">
+    <div class="facility-card-img">
+        <img src="Rugby-ball.jpg" alt="Rugby Balls">
+        <span class="status-pill status-pill--available">In Stock</span>
+    </div>
+
+    <div class="facility-card-body">
+        <h3>Rugby Balls</h3>
+
+        <ul class="facility-meta">
+            <li><i class="fa-solid fa-cubes"></i> Quantity: 12 Available</li>
+        </ul>
+
+        <button
+            class="btn btn--primary btn--block request-btn"
+            data-equipment="Rugby Balls">
+            Request Loan
+        </button>
+    </div>
+</article>
+
+
+<!-- Rackets -->
+<article class="facility-card" data-category="rackets">
+    <div class="facility-card-img">
+        <img src="rackets.jpg" alt="Sports Rackets">
+        <span class="status-pill status-pill--pending">Low Stock</span>
+    </div>
+
+    <div class="facility-card-body">
+        <h3>Sports Rackets</h3>
+
+        <ul class="facility-meta">
+            <li><i class="fa-solid fa-cubes"></i> Quantity: 6 Available</li>
+            <li>Tennis & Badminton</li>
+        </ul>
+
+        <button
+            class="btn btn--primary btn--block request-btn"
+            data-equipment="Rackets">
+            Request Loan
+        </button>
+    </div>
+</article>
+
+
+<!-- Team Jerseys -->
+<article class="facility-card" data-category="jerseys">
+    <div class="facility-card-img">
+        <img src="jersey.jpg" alt="Team Jerseys">
+        <span class="status-pill status-pill--available">In Stock</span>
+    </div>
+
+    <div class="facility-card-body">
+        <h3>Sports Jerseys</h3>
+
+        <ul class="facility-meta">
+            <li><i class="fa-solid fa-cubes"></i> Quantity: 5 Sets Available</li>
+            <li>Football, Basketball, Rugby, Volleyball & Racket Games</li>
+        </ul>
+
+        <button
+            class="btn btn--primary btn--block request-btn"
+            data-equipment="Team Jerseys">
+            Request Loan
+        </button>
+    </div>
+</article>
+
+
+<!-- Training Cones -->
+<article class="facility-card" data-category="cones">
+    <div class="facility-card-img">
+        <img src="cones.jpg" alt="Training Cones">
+        <span class="status-pill status-pill--available">In Stock</span>
+    </div>
+
+    <div class="facility-card-body">
+        <h3>Training Cones</h3>
+
+        <ul class="facility-meta">
+            <li><i class="fa-solid fa-cubes"></i> Quantity: 9 Packs Available</li>
+        </ul>
+
+        <button
+            class="btn btn--primary btn--block request-btn"
+            data-equipment="Training Cones">
+            Request Loan
+        </button>
+    </div>
+</article>
+
+
+<!-- Volleyballs -->
+<article class="facility-card" data-category="balls">
+    <div class="facility-card-img">
+        <img src="volleyball-ball.jpg" alt="Volleyballs">
+        <span class="status-pill status-pill--booked">Out of Stock</span>
+    </div>
+
+    <div class="facility-card-body">
+        <h3>Volleyballs</h3>
+
+        <ul class="facility-meta">
+            <li><i class="fa-solid fa-cubes"></i> Quantity: 0 Available</li>
+        </ul>
+
+        <button
+            class="btn btn--disabled btn--block"
+            disabled>
+            Currently Unavailable
+        </button>
+    </div>
+</article>
+    </section>
+
+    <section class="table-card">
+      <div class="table-card-head">
+        <h2>My Loan Requests</h2>
+      </div>
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Equipment</th>
+              <th>Quantity</th>
+              <th>Status</th>
+              <th>Return Date</th>
+            </tr>
+          </thead>
+          <tbody id="myLoansBody">
+            <tr>
+              <td>Basketballs</td>
+              <td>2</td>
+              <td><span class="status-pill status-pill--pending">Pending</span></td>
+              <td>22 Jul 2026</td>
+            </tr>
+            <tr>
+              <td>Training Cones</td>
+              <td>1 pack</td>
+              <td><span class="status-pill status-pill--available">Approved</span></td>
+              <td>19 Jul 2026</td>
+            </tr>
+            <tr>
+              <td>Team Jerseys</td>
+              <td>1 set</td>
+              <td><span class="status-pill status-pill--booked">Returned</span></td>
+              <td>05 Jul 2026</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="modal-overlay" id="loanModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>Request Equipment: <span id="modalEquipmentName">Equipment Name</span></h3>
+      <button class="modal-close" data-close-modal="loanModal" aria-label="Close">&times;</button>
+    </div>
+    <form class="modal-form" id="loanForm">
+
+    <label>
+        Equipment
+        <input
+            type="text"
+            name="equipment"
+            id="loanEquipmentField"
+            readonly>
+    </label>
+
+    <!-- Appears only for Jerseys -->
+    <div id="jerseyOptions" style="display:none;">
+
+        <label>
+            Jersey Type
+            <select id="jerseyType">
+                <option value="">Select Jersey</option>
+                <option>Football Jersey</option>
+                <option>Basketball Jersey</option>
+                <option>Volleyball Jersey</option>
+                <option>Rugby Jersey</option>
+                <option>Racket Jersey</option>
+            </select>
+        </label>
+
+        <label>
+            Gender
+            <select id="jerseyGender">
+                <option value="">Select Gender</option>
+                <option>Male</option>
+                <option>Female</option>
+            </select>
+        </label>
+
+    </div>
+
+    <!-- Appears only for Tennis/Badminton Rackets -->
+    <div id="racketOptions" style="display:none;">
+
+        <label>
+            Racket Type
+            <select id="racketType">
+                <option value="">Select Racket</option>
+                <option>Tennis Racket</option>
+                <option>Badminton Racket</option>
+            </select>
+        </label>
+
+    </div>
+
+    <label>
+        Quantity
+        <input
+            type="number"
+            id="loanQuantity"
+            name="quantity"
+            min="1"
+            placeholder="e.g. 2"
+            required>
+    </label>
+
+    <!-- Appears automatically for jerseys -->
+    <div id="sizeSection" style="display:none;">
+
+        <h4>Jersey Sizes</h4>
+
+        <label>
+            Small (S)
+            <input
+                type="number"
+                id="sizeS"
+                min="0"
+                value="0">
+        </label>
+
+        <label>
+            Medium (M)
+            <input
+                type="number"
+                id="sizeM"
+                min="0"
+                value="0">
+        </label>
+
+        <label>
+            Large (L)
+            <input
+                type="number"
+                id="sizeL"
+                min="0"
+                value="0">
+        </label>
+
+        <label>
+            XL
+            <input
+                type="number"
+                id="sizeXL"
+                min="0"
+                value="0">
+        </label>
+
+        <label>
+            XXL
+            <input
+                type="number"
+                id="sizeXXL"
+                min="0"
+                value="0">
+        </label>
+
+        <small>
+            The total number of jerseys selected must equal the quantity requested.
+        </small>
+    </div>
+    <label>
+        Return Date
+        <input
+            type="date"
+            name="returnDate"
+            required>
+    </label>
+    <div class="modal-actions">
+        <button
+            type="button"
+            class="btn btn--ghost"
+            data-close-modal="loanModal">
+
+            Cancel
+
+        </button>
+        <button
+            type="submit"
+            class="btn btn--primary">
+
+            Submit Request
+
+        </button>
+    </div>
+</form>
+  </div>
+</div>
+
+<script src="js/student.js"></script>
+</body>
+</html>

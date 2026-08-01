@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | Sports Booking System</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body class="admin-side">
+
+<header class="app-topbar">
+
+    <div class="topbar-left">
+
+        <button class="sidebar-toggle" id="sidebarToggle">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <img src="../assets/images/svg.webp" class="topbar-logo">
+
+        <span class="topbar-title">Sports Booking System</span>
+    </div>
+
+    <div class="topbar-right">
+
+      <button class="icon-btn" id="notificationBtn">
+          <i class="fa-regular fa-bell"></i>
+          <span class="badge-dot" id="notificationBadge">5</span>
+      </button>
+
+        <div class="topbar-profile">
+
+            <img src="../assets/images/profile.jpg"
+            class="topbar-avatar">
+
+            <span class="topbar-username">
+                Administrator
+            </span>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<div class="app-shell">
+
+
+<aside class="sidebar" id="sidebar">
+
+<nav class="sidebar-nav">
+
+<a href="../pages/admin-dashboard.html" class="sidebar-link active">
+<i class="fa-solid fa-gauge"></i>
+<span>Dashboard</span>
+</a>
+
+<a href="../pages/manage-users.html" class="sidebar-link">
+<i class="fa-solid fa-users"></i>
+<span>Manage Users</span>
+</a>
+
+<a href="../pages/assign-roles.html" class="sidebar-link">
+<i class="fa-solid fa-user-shield"></i>
+<span>Assign Roles</span>
+</a>
+
+<a href="../pages/admin-notifications.html" class="sidebar-link">
+<i class="fa-solid fa-bell"></i>
+<span>Notifications</span>
+</a>
+
+<a href="../pages/analytics.html" class="sidebar-link">
+<i class="fa-solid fa-chart-column"></i>
+<span>Analytics</span>
+</a>
+
+<a href="../pages/admin-reports.html" class="sidebar-link">
+<i class="fa-solid fa-file-lines"></i>
+<span>Reports</span>
+</a>
+
+<a href="../pages/settings.html" class="sidebar-link">
+<i class="fa-solid fa-gear"></i>
+<span>Settings</span>
+</a>
+
+<a href="../pages/login.html" class="sidebar-link sidebar-link--logout">
+<i class="fa-solid fa-right-from-bracket"></i>
+<span>Logout</span>
+</a>
+
+</nav>
+
+</aside>
+
+
+
+<main class="app-main">
+
+<section class="welcome-card">
+
+<div>
+
+<h1>
+Welcome Administrator 
+</h1>
+
+<p>
+
+Monitor users, facilities, equipment,
+bookings and overall system activity
+from one centralized dashboard.
+
+</p>
+
+</div>
+
+<div class="welcome-actions">
+
+<a href="../pages/manage-users.html"
+class="btn btn--primary">
+
+<i class="fa-solid fa-users"></i>
+
+Manage Users
+
+</a>
+
+<a href="../pages/reports.html"
+class="btn btn--outline">
+
+<i class="fa-solid fa-file-lines"></i>
+
+Generate Report
+
+</a>
+
+</div>
+
+</section>
+
+
+<section class="stats-grid">
+
+<div class="stat-card">
+
+<div class="stat-icon stat-icon--blue">
+<i class="fa-solid fa-user-graduate"></i>
+</div>
+
+<div>
+
+<span class="stat-number" id="totalStudents">1,248</span>
+<span class="stat-label">
+Registered Students
+</span>
+
+</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon stat-icon--green">
+<i class="fa-solid fa-user-tie"></i>
+</div>
+<div>
+
+<span class="stat-number" id="totalOfficers">18</span>
+<span class="stat-label">
+Sports Officers
+</span>
+
+</div>
+</div>
+
+
+<div class="stat-card">
+<div class="stat-icon stat-icon--amber">
+<i class="fa-solid fa-building"></i>
+</div>
+<div>
+
+<span class="stat-number" id="totalFacilities">12</span>
+<span class="stat-label">
+Facilities
+</span>
+
+</div>
+</div>
+
+<div class="stat-card">
+
+<div class="stat-icon stat-icon--red">
+<i class="fa-solid fa-basketball"></i>
+</div>
+<div>
+
+<span class="stat-number" id="totalEquipment">356</span>
+<span class="stat-label">
+Equipment Items
+</span>
+
+</div>
+</div>
+
+<div class="stat-card">
+
+<div class="stat-icon stat-icon--blue">
+<i class="fa-solid fa-calendar-check"></i>
+</div>
+<div>
+
+<span class="stat-number" id="totalBookings">427</span>
+<span class="stat-label">
+Bookings
+</span>
+
+</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon stat-icon--green">
+<i class="fa-solid fa-hand-holding"></i>
+</div>
+
+<div>
+<span class="stat-number" id="totalLoans">94</span>
+<span class="stat-label">
+Equipment Loans
+</span>
+
+</div>
+</div>
+
+
+<div class="stat-card">
+<div class="stat-icon stat-icon--amber">
+<i class="fa-solid fa-circle-exclamation"></i>
+</div>
+<div>
+
+<span class="stat-number" id="pendingComplaints">8</span>
+<span class="stat-label">
+Pending Complaints
+</span>
+
+</div>
+
+</div>
+
+<div class="stat-card">
+<div class="stat-icon stat-icon--red">
+<i class="fa-solid fa-clock"></i>
+</div>
+<div>
+
+<span class="stat-number" id="pendingApprovals">15</span>
+
+<span class="stat-label">
+Pending Approvals
+</span>
+
+</div>
+
+</div>
+
+</section>
+<section class="table-card">
+                <div class="table-card-head">
+                    <h2>Recently Registered Users</h2>
+                    <a href="../pages/manage-users.html" class="link-more">View All</a>
+                </div>
+
+                <div class="table-scroll">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>Jane Wanjiru</td>
+                                <td>Student</td>
+                                <td><span class="status-pill status-pill--available">Active</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Brian Kiptoo</td>
+                                <td>Sports Officer</td>
+                                <td><span class="status-pill status-pill--available">Active</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Amina Yusuf</td>
+                                <td>Student</td>
+                                <td><span class="status-pill status-pill--pending">Pending</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>John Kamau</td>
+                                <td>Administrator</td>
+                                <td><span class="status-pill status-pill--available">Active</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+
+            <section class="table-card">
+                <div class="table-card-head">
+                    <h2>Recent Booking Requests</h2>
+                    <a href="../pages/booking-requests.html" class="link-more">View All</a>
+                </div>
+
+                <div class="table-scroll">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Facility</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>Peter Mwangi</td>
+                                <td>Football Pitch</td>
+                                <td><span class="status-pill status-pill--pending">Pending</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Mercy Atieno</td>
+                                <td>Basketball Court</td>
+                                <td><span class="status-pill status-pill--available">Approved</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>James Otieno</td>
+                                <td>Tennis Court</td>
+                                <td><span class="status-pill status-pill--booked">Rejected</span></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+
+            <section class="table-card">
+                <div class="table-card-head">
+                    <h2>Equipment Requests</h2>
+                    <a href="../pages/loan-requests.html" class="link-more">View All</a>
+                </div>
+
+                <div class="table-scroll">
+                    <table class="data-table">
+
+                        <thead>
+                            <tr>
+                                <th>Equipment</th>
+                                <th>Student</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>Basketballs</td>
+                                <td>Kevin Mutua</td>
+                                <td><span class="status-pill status-pill--pending">Pending</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Football Jerseys</td>
+                                <td>Faith Njeri</td>
+                                <td><span class="status-pill status-pill--available">Approved</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Training Cones</td>
+                                <td>Eric Maina</td>
+                                <td><span class="status-pill status-pill--available">Returned</span></td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </section>
+
+        </div>
+
+
+        <div class="dashboard-col-side">
+            <section class="feed-card">
+
+                <h2>Quick Actions</h2>
+
+                <div class="report-actions">
+
+                    <a href="../pages/manage-users.html" class="btn btn--primary btn--block">
+                        <i class="fa-solid fa-users"></i>
+                        Manage Users
+                    </a>
+
+                    <a href="../pages/assign-roles.html" class="btn btn--outline btn--block">
+                        <i class="fa-solid fa-user-shield"></i>
+                        Assign Roles
+                    </a>
+
+                    <a href="../pages/analytics.html" class="btn btn--outline btn--block">
+                        <i class="fa-solid fa-chart-line"></i>
+                        View Analytics
+                    </a>
+
+                    <a href="../pages/reports.html" class="btn btn--outline btn--block">
+                        <i class="fa-solid fa-file-lines"></i>
+                        Generate Reports
+                    </a>
+
+                </div>
+
+            </section>
+
+            <section class="feed-card">
+
+                <h2>Recent Activity</h2>
+
+                <ul class="activity-feed">
+
+                    <li>
+                        <i class="fa-solid fa-user-plus activity-icon--blue"></i>
+                        New student registered
+                        <span>15 min ago</span>
+                    </li>
+
+                    <li>
+                        <i class="fa-solid fa-calendar-check activity-icon--green"></i>
+                        Facility booking approved
+                        <span>1 hour ago</span>
+                    </li>
+
+                    <li>
+                        <i class="fa-solid fa-basketball activity-icon--amber"></i>
+                        Equipment returned
+                        <span>2 hours ago</span>
+                    </li>
+
+                    <li>
+                        <i class="fa-solid fa-triangle-exclamation activity-icon--red"></i>
+                        Complaint submitted
+                        <span>Today</span>
+                    </li>
+
+                </ul>
+
+            </section>
+
+            <section class="feed-card">
+
+                <h2>System Status</h2>
+
+                <ul class="announcement-list">
+
+                    <li>
+                        <strong>Users Online</strong>
+                        <p>48 Active Users</p>
+                    </li>
+
+                    <li>
+                        <strong>Available Facilities</strong>
+                        <p>12 Facilities Ready</p>
+                    </li>
+
+                    <li>
+                        <strong>Equipment Stock</strong>
+                        <p>94% Items Available</p>
+                    </li>
+
+                    <li>
+                        <strong>Pending Complaints</strong>
+                        <p>5 Complaints Awaiting Action</p>
+                    </li>
+
+                </ul>
+
+            </section>
+
+        </div>
+
+    </div>
+
+</main>
+
+</div>
+
+<script src="../assets/js/script.js"></script>
+<script src="../assets/js/admin.js"></script>
+<script src="../assets/js/auth.js"></script>
+
+</body>
+</html>

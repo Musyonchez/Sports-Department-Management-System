@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complaints | Sports Booking System</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body class="officer-side">
+
+<header class="app-topbar">
+
+<div class="topbar-left">
+
+<button class="sidebar-toggle" id="sidebarToggle">
+<i class="fa-solid fa-bars"></i>
+</button>
+
+<img src="images/logo.png" class="topbar-logo" alt="Logo">
+
+<span class="topbar-title">
+Sports Booking System
+</span>
+
+</div>
+
+<div class="topbar-right">
+
+<button class="icon-btn">
+<i class="fa-regular fa-bell"></i>
+</button>
+
+<div class="topbar-profile">
+
+<img src="images/default-profile.png" class="topbar-avatar">
+
+<span class="topbar-username">
+Sports Officer
+</span>
+
+</div>
+
+</div>
+
+</header>
+
+<div class="app-shell">
+
+<!-- Sidebar -->
+
+<aside class="sidebar" id="sidebar">
+
+<nav class="sidebar-nav">
+
+<a href="officer-dashboard.html" class="sidebar-link">
+<i class="fa-solid fa-gauge"></i>
+<span>Dashboard</span>
+</a>
+
+<a href="manage-facilities.html" class="sidebar-link">
+<i class="fa-solid fa-building"></i>
+<span>Manage Facilities</span>
+</a>
+
+<a href="equipment-inventory.html" class="sidebar-link">
+<i class="fa-solid fa-boxes-stacked"></i>
+<span>Equipment Inventory</span>
+</a>
+
+<a href="booking-requests.html" class="sidebar-link">
+<i class="fa-solid fa-calendar-check"></i>
+<span>Booking Requests</span>
+</a>
+
+<a href="loan-requests.html" class="sidebar-link">
+<i class="fa-solid fa-handshake"></i>
+<span>Loan Requests</span>
+</a>
+
+<a href="officer-notifications.html" class="sidebar-link">
+<i class="fa-solid fa-bell"></i>
+<span>Notifications</span>
+</a>
+
+<a href="complaints.html" class="sidebar-link active">
+<i class="fa-solid fa-triangle-exclamation"></i>
+<span>Complaints</span>
+</a>
+
+<a href="reports.html" class="sidebar-link">
+<i class="fa-solid fa-chart-column"></i>
+<span>Reports</span>
+</a>
+
+<a href="login.html" class="sidebar-link sidebar-link--logout">
+<i class="fa-solid fa-right-from-bracket"></i>
+<span>Logout</span>
+</a>
+
+</nav>
+
+</aside>
+
+<!-- Main -->
+
+<main class="app-main">
+
+<div class="page-heading">
+
+<h1>Complaints</h1>
+
+<p>
+View, manage and resolve complaints submitted by students.
+</p>
+
+</div>
+
+<section class="toolbar-card">
+
+<div class="search-box">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+<input
+type="text"
+placeholder="Search complaints...">
+
+</div>
+
+</section>
+
+<section class="table-card">
+
+<div class="table-card-head">
+
+<h2>Student Complaints</h2>
+
+</div>
+
+<div class="table-scroll">
+
+<table class="data-table">
+
+<thead>
+
+<tr>
+
+<th>Student</th>
+<th>Complaint</th>
+<th>Date</th>
+<th>Status</th>
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+    <td>Jane Wanjiru</td>
+    <td>Football pitch lights are not working.</td>
+    <td>18 Jul 2026</td>
+
+    <td>
+        <span class="status-pill status-pill--pending complaint-opens">
+            Open
+        </span>
+    </td>
+
+    <td>
+        <button class="btn btn--primary btn--sm resolve-complaint">
+            Resolve
+        </button>
+
+        <button class="btn btn--outline btn--sm view-complaint">
+            View
+        </button>
+    </td>
+</tr>
+
+<tr>
+    <td>Brian Kiptoo</td>
+    <td>Requested equipment has not been approved.</td>
+    <td>19 Jul 2026</td>
+
+    <td>
+        <span class="status-pill status-pill--pending complaint-opens">
+            Open
+        </span>
+    </td>
+
+    <td>
+        <button class="btn btn--primary btn--sm resolve-complaint">
+            Resolve
+        </button>
+
+        <button class="btn btn--outline btn--sm view-complaint">
+            View
+        </button>
+    </td>
+</tr>
+
+<tr>
+    <td>Amina Yusuf</td>
+    <td>Basketball court booking disappeared.</td>
+    <td>17 Jul 2026</td>
+
+    <td>
+        <span class="status-pill status-pill--available complaint-status">
+            Resolved
+        </span>
+    </td>
+
+    <td>
+        <button class="btn btn--outline btn--sm view-complaint">
+            View
+        </button>
+    </td>
+</tr>
+
+<tr>
+    <td>David Mwangi</td>
+    <td>Gym equipment needs maintenance.</td>
+    <td>16 Jul 2026</td>
+
+    <td>
+        <span class="status-pill status-pill--booked complaint-status">
+            Closed
+        </span>
+    </td>
+
+    <td>
+        <button class="btn btn--outline btn--sm view-complaint">
+            View
+        </button>
+    </td>
+</tr>
+
+<tr>
+    <td>Faith Njeri</td>
+    <td>Unable to cancel a booking.</td>
+    <td>20 Jul 2026</td>
+
+    <td>
+        <span class="status-pill status-pill--pending complaint-status">
+            Open
+        </span>
+    </td>
+
+    <td>
+        <button class="btn btn--primary btn--sm resolve-complaint">
+            Resolve
+        </button>
+
+        <button class="btn btn--outline btn--sm view-complaint">
+            View
+        </button>
+    </td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+
+<section class="form-card">
+
+<h2>Complaint Details</h2>
+
+<form class="stacked-form">
+
+<label>
+
+Student
+
+<input
+type="text"
+value="Jane Wanjiru"
+readonly>
+
+</label>
+
+<label>
+
+Complaint
+
+<textarea rows="5" readonly>
+Football pitch lights are not working during evening training sessions.
+</textarea>
+
+</label>
+
+<label>
+
+Officer Response
+
+<textarea
+rows="4"
+placeholder="Write your response here..."></textarea>
+
+</label>
+
+<div class="form-actions">
+
+<button
+type="submit"
+class="btn btn--primary">
+
+Submit Response
+
+</button>
+
+</div>
+
+</form>
+
+</section>
+
+</main>
+
+</div>
+
+<script src="script.js"></script>
+<script src="js/officer.js"></script>
+<script src="js/auth.js"></script>
+
+</body>
+</html>
