@@ -1,3 +1,4 @@
+//LANDING PAGE
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -6,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-
+// Contact Form
 function initializeContactForm() {
 
     const contactForm =
@@ -47,32 +48,6 @@ function initializeContactForm() {
         );
 
         contactForm.reset();
-
-    });
-
-}
-
-function initializeSmoothScroll() {
-
-    const links =
-        document.querySelectorAll('a[href^="#"]');
-
-    links.forEach(link => {
-
-        link.addEventListener("click", function (e) {
-
-            const target =
-                document.querySelector(this.getAttribute("href"));
-
-            if (!target) return;
-
-            e.preventDefault();
-
-            target.scrollIntoView({
-                behavior: "smooth"
-            });
-
-        });
 
     });
 

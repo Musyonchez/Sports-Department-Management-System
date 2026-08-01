@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body class="student-side">
 
@@ -16,7 +16,7 @@
     <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle menu">
       <i class="fa-solid fa-bars"></i>
     </button>
-    <img src="svg.webp" alt="System Logo" class="topbar-logo">
+    <img src="../assets/images/svg.webp" alt="System Logo" class="topbar-logo">
     <span class="topbar-title">Sports Booking System</span>
   </div>
   <div class="topbar-right">
@@ -25,7 +25,7 @@
       <span class="badge-dot" id="notifCount">3</span>
     </button>
     <div class="topbar-profile">
-      <img src="hero.png" alt="Profile" class="topbar-avatar">
+      <img src="../assets/images/profile.jpg" alt="Profile" class="topbar-avatar">
       <span class="topbar-username" id="topbarUsername"></span>
     </div>
   </div>
@@ -35,12 +35,12 @@
 
   <aside class="sidebar" id="sidebar">
     <nav class="sidebar-nav">
-      <a href="Studentdashboard.html" class="sidebar-link"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
-      <a href="facilities.html" class="sidebar-link"><i class="fa-solid fa-building-columns"></i><span>Book Facility</span></a>
-      <a href="equipment.html" class="sidebar-link active"><i class="fa-solid fa-basketball"></i><span>Equipment</span></a>
-      <a href="notifications.html" class="sidebar-link"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
-      <a href="profile.html" class="sidebar-link"><i class="fa-solid fa-user"></i><span>Profile</span></a>
-      <a href="login.html" class="sidebar-link sidebar-link--logout"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
+      <a href="../pages/Studentdashboard.html" class="sidebar-link"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
+      <a href="../pages/facilities.html" class="sidebar-link"><i class="fa-solid fa-building-columns"></i><span>Book Facility</span></a>
+      <a href="../pages/equipment.html" class="sidebar-link active"><i class="fa-solid fa-basketball"></i><span>Equipment</span></a>
+      <a href="../pages/notifications.html" class="sidebar-link"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+      <a href="../pages/profile.html" class="sidebar-link"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+      <a href="../pages/login.html" class="sidebar-link sidebar-link--logout"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
     </nav>
   </aside>
 
@@ -63,7 +63,7 @@
       <!-- Footballs -->
 <article class="facility-card" data-category="balls">
     <div class="facility-card-img">
-        <img src="football-ball.jpg" alt="Footballs">
+        <img src="../assets/images/football-ball.jpg" alt="Footballs">
         <span class="status-pill status-pill--available">In Stock</span>
     </div>
 
@@ -86,7 +86,7 @@
 <!-- Basketballs -->
 <article class="facility-card" data-category="balls">
     <div class="facility-card-img">
-        <img src="basketball-ball.jpg" alt="Basketballs">
+        <img src="../assets/images/basketball-ball.jpg" alt="Basketballs">
         <span class="status-pill status-pill--available">In Stock</span>
     </div>
 
@@ -109,7 +109,7 @@
 <!-- Rugby Balls -->
 <article class="facility-card" data-category="balls">
     <div class="facility-card-img">
-        <img src="Rugby-ball.jpg" alt="Rugby Balls">
+        <img src="../assets/images/Rugby-ball.jpg" alt="Rugby Balls">
         <span class="status-pill status-pill--available">In Stock</span>
     </div>
 
@@ -132,7 +132,7 @@
 <!-- Rackets -->
 <article class="facility-card" data-category="rackets">
     <div class="facility-card-img">
-        <img src="rackets.jpg" alt="Sports Rackets">
+        <img src="../assets/images/rackets.jpg" alt="Sports Rackets">
         <span class="status-pill status-pill--pending">Low Stock</span>
     </div>
 
@@ -156,7 +156,7 @@
 <!-- Team Jerseys -->
 <article class="facility-card" data-category="jerseys">
     <div class="facility-card-img">
-        <img src="jersey.jpg" alt="Team Jerseys">
+        <img src="../assets/images/jersey.jpg" alt="Team Jerseys">
         <span class="status-pill status-pill--available">In Stock</span>
     </div>
 
@@ -177,10 +177,9 @@
 </article>
 
 
-<!-- Training Cones -->
 <article class="facility-card" data-category="cones">
     <div class="facility-card-img">
-        <img src="cones.jpg" alt="Training Cones">
+        <img src="../assets/images/cones.jpg" alt="Training Cones">
         <span class="status-pill status-pill--available">In Stock</span>
     </div>
 
@@ -203,7 +202,7 @@
 <!-- Volleyballs -->
 <article class="facility-card" data-category="balls">
     <div class="facility-card-img">
-        <img src="volleyball-ball.jpg" alt="Volleyballs">
+        <img src="../assets/images/volleyball-ball.jpg" alt="Volleyballs">
         <span class="status-pill status-pill--booked">Out of Stock</span>
     </div>
 
@@ -307,7 +306,6 @@
 
     </div>
 
-    <!-- Appears only for Tennis/Badminton Rackets -->
     <div id="racketOptions" style="display:none;">
 
         <label>
@@ -332,7 +330,6 @@
             required>
     </label>
 
-    <!-- Appears automatically for jerseys -->
     <div id="sizeSection" style="display:none;">
 
         <h4>Jersey Sizes</h4>
@@ -414,6 +411,6 @@
   </div>
 </div>
 
-<script src="js/student.js"></script>
+<script src="../assets/js/student.js"></script>
 </body>
 </html>

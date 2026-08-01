@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="../assets/css/style.css">
 
 </head>
 <body class="student-side">
@@ -17,7 +17,7 @@
     <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle menu">
       <i class="fa-solid fa-bars"></i>
     </button>
-    <img src="svg.webp" alt="System Logo" class="topbar-logo">
+    <img src="../assets/images/svg.webp" alt="System Logo" class="topbar-logo">
     <span class="topbar-title">Sports Booking System</span>
   </div>
   <div class="topbar-right">
@@ -26,7 +26,7 @@
       <span class="badge-dot" id="notifCount">3</span>
     </button>
     <div class="topbar-profile">
-      <img src="images/default-profile.png" alt="Profile" class="topbar-avatar">
+      <img src="../assets/images/profile.jpg" alt="Profile" class="topbar-avatar">
       <span class="topbar-username" id="topbarUsername"></span>
     </div>
   </div>
@@ -36,12 +36,12 @@
 
   <aside class="sidebar" id="sidebar">
     <nav class="sidebar-nav">
-      <a href="student-dashboard.html" class="sidebar-link active"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
-      <a href="facilities.html" class="sidebar-link"><i class="fa-solid fa-building-columns"></i><span>Book Facility</span></a>
-      <a href="equipment.html" class="sidebar-link"><i class="fa-solid fa-basketball"></i><span>Equipment</span></a>
-      <a href="notifications.html" class="sidebar-link"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
-      <a href="profile.html" class="sidebar-link"><i class="fa-solid fa-user"></i><span>Profile</span></a>
-      <a href="login.html" class="sidebar-link sidebar-link--logout"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
+      <a href="../pages/student-dashboard.html" class="sidebar-link active"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
+      <a href="../pages/facilities.html" class="sidebar-link"><i class="fa-solid fa-building-columns"></i><span>Book Facility</span></a>
+      <a href="../pages/equipment.html" class="sidebar-link"><i class="fa-solid fa-basketball"></i><span>Equipment</span></a>
+      <a href="../pages/notifications.html" class="sidebar-link"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+      <a href="../pages/profile.html" class="sidebar-link"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+      <a href="../pages/login.html" class="sidebar-link sidebar-link--logout"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
     </nav>
   </aside>
 
@@ -53,8 +53,8 @@
         <p>Here's what's happening with your bookings and equipment today.</p>
       </div>
       <div class="welcome-actions">
-        <a href="facilities.html" class="btn btn--primary"><i class="fa-solid fa-plus"></i> Book Facility</a>
-        <a href="equipment.html" class="btn btn--outline"><i class="fa-solid fa-plus"></i> Borrow Equipment</a>
+        <a href="../pages/facilities.html" class="btn btn--primary"><i class="fa-solid fa-plus"></i> Book Facility</a>
+        <a href="../pages/equipment.html" class="btn btn--outline"><i class="fa-solid fa-plus"></i> Borrow Equipment</a>
       </div>
     </section>
 
@@ -96,7 +96,7 @@
         <section class="table-card">
           <div class="table-card-head">
             <h2>Upcoming Bookings</h2>
-            <a href="facilities.html" class="link-more">View all</a>
+            <a href="../pages/facilities.html" class="link-more">View all</a>
           </div>
           <div class="table-scroll">
             <table class="data-table">
@@ -124,7 +124,7 @@
         <section class="table-card">
           <div class="table-card-head">
             <h2>Recent Equipment Loans</h2>
-            <a href="equipment.html" class="link-more">View all</a>
+            <a href="../pages/equipment.html" class="link-more">View all</a>
           </div>
           <div class="table-scroll">
             <table class="data-table">
@@ -185,7 +185,7 @@
   </main>
 </div>
 
-<script src="js/script.js"></script>
-<script src="js/student.js"></script>
+<script src="../assets/js/script.js"></script>
+<script src="../assets/js/student.js"></script>
 </body>
 </html>

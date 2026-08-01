@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body class="student-side">
 
@@ -16,7 +16,7 @@
     <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle menu">
       <i class="fa-solid fa-bars"></i>
     </button>
-    <img src="svg.webp" alt="System Logo" class="topbar-logo">
+    <img src="../assets/images/svg.webp" alt="System Logo" class="topbar-logo">
     <span class="topbar-title">Sports Booking System</span>
   </div>
   <div class="topbar-right">
@@ -25,7 +25,7 @@
       <span class="badge-dot" id="notifCount">0</span>
     </button>
     <div class="topbar-profile">
-      <img src="images/default-profile.png" alt="Profile" class="topbar-avatar">
+      <img src="../assets/images/profile.jpg" alt="Profile" class="topbar-avatar">
       <span class="topbar-username" id="topbarUsername"></span>
     </div>
   </div>
@@ -35,18 +35,17 @@
 
   <aside class="sidebar" id="sidebar">
     <nav class="sidebar-nav">
-      <a href="student-dashboard.html" class="sidebar-link"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
-      <a href="facilities.html" class="sidebar-link"><i class="fa-solid fa-building-columns"></i><span>Book Facility</span></a>
-      <a href="equipment.html" class="sidebar-link"><i class="fa-solid fa-basketball"></i><span>Equipment</span></a>
-      <a href="notifications.html" class="sidebar-link active"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
-      <a href="profile.html" class="sidebar-link"><i class="fa-solid fa-user"></i><span>Profile</span></a>
-      <a href="login.html" class="sidebar-link sidebar-link--logout"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
+      <a href="../pages/student-dashboard.html" class="sidebar-link"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
+      <a href="../pages/facilities.html" class="sidebar-link"><i class="fa-solid fa-building-columns"></i><span>Book Facility</span></a>
+      <a href="../pages/equipment.html" class="sidebar-link"><i class="fa-solid fa-basketball"></i><span>Equipment</span></a>
+      <a href="../pages/notifications.html" class="sidebar-link active"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+      <a href="../pages/profile.html" class="sidebar-link"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+      <a href="../pages/login.html" class="sidebar-link sidebar-link--logout"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
     </nav>
   </aside>
 
   <main class="app-main">
 
-    <!-- Page Heading -->
     <div class="page-heading">
       <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
         <div>
@@ -57,7 +56,6 @@
       </div>
     </div>
 
-    <!-- Filter Tabs -->
     <section class="toolbar-card">
       <div class="filter-chips" id="notificationFilters">
         <button class="chip chip--active" data-filter="all">All</button>
@@ -67,7 +65,6 @@
       </div>
     </section>
 
-    <!-- Notifications List -->
     <section class="notifications-container">
       <div id="notificationsListContainer">
         
@@ -175,7 +172,6 @@
 
       </div>
 
-      <!-- Empty State (shown when no notifications) -->
       <div class="empty-state" id="emptyState" style="display: none;">
         <div class="empty-state-icon">
           <i class="fa-solid fa-bell-slash"></i>
@@ -185,7 +181,6 @@
       </div>
     </section>
 
-    <!-- Pagination (if needed for large datasets) -->
     <section class="pagination-section" id="paginationSection" style="display: none;">
       <div class="pagination">
         <button class="btn btn--outline btn--sm" id="prevBtn">← Previous</button>
@@ -198,184 +193,12 @@
 </div>
 
 <style>
-/* ========== NOTIFICATIONS SPECIFIC STYLES ========== */
-
-.notifications-container {
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.notification-item {
-  display: flex;
-  gap: 16px;
-  padding: 20px;
-  border-bottom: 1px solid #e5e7eb;
-  transition: background-color 0.2s ease;
-}
-
-.notification-item:hover {
-  background-color: #f9fafb;
-}
-
-.notification-item--unread {
-  background-color: #eff6ff;
-  border-left: 4px solid #3b82f6;
-}
-
-.notification-item--read {
-  background-color: white;
-}
-
-.notification-item:last-child {
-  border-bottom: none;
-}
-
-.notification-icon {
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.25rem;
-}
-
-.notification-icon--booking {
-  background-color: #dbeafe;
-  color: #0284c7;
-}
-
-.notification-icon--equipment {
-  background-color: #d1fae5;
-  color: #059669;
-}
-
-.notification-icon--system {
-  background-color: #fef3c7;
-  color: #d97706;
-}
-
-.notification-content {
-  flex: 1;
-  min-width: 0;
-}
-
-.notification-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 8px;
-  gap: 16px;
-}
-
-.notification-header h3 {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #1f2937;
-}
-
-.notification-time {
-  font-size: 0.85rem;
-  color: #9ca3af;
-  white-space: nowrap;
-}
-
-.notification-message {
-  margin: 0 0 12px 0;
-  font-size: 0.95rem;
-  color: #6b7280;
-  line-height: 1.5;
-}
-
-.notification-actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.notification-actions .btn {
-  font-size: 0.85rem;
-  padding: 6px 12px;
-}
-
-/* Empty State */
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-}
-
-.empty-state-icon {
-  font-size: 3rem;
-  color: #d1d5db;
-  margin-bottom: 16px;
-}
-
-.empty-state h3 {
-  margin: 0 0 8px 0;
-  font-size: 1.25rem;
-  color: #6b7280;
-}
-
-.empty-state p {
-  margin: 0;
-  color: #9ca3af;
-}
-
-/* Pagination */
-.pagination-section {
-  display: flex;
-  justify-content: center;
-  padding: 24px;
-  border-top: 1px solid #e5e7eb;
-}
-
-.pagination {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.pagination-info {
-  color: #6b7280;
-  font-size: 0.9rem;
-  min-width: 120px;
-  text-align: center;
-}
-
-/* Page Heading with Button */
-.page-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 24px;
-}
-
-@media (max-width: 768px) {
-  .page-heading {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .notification-header {
-    flex-direction: column;
-  }
-
-  .notification-actions {
-    justify-content: flex-start;
-  }
-}
 </style>
 
-<script src="js/script.js"></script>
+<script src="../assets/js/script.js"></script>
 <script>
-// ========== NOTIFICATIONS PAGE SPECIFIC JAVASCRIPT ==========
+//  SPECIFIC JAVASCRIPT
 
-/**
- * Handle marking a notification as read
- */
 function handleMarkAsRead(btn) {
   const notificationItem = btn.closest('.notification-item');
   if (notificationItem) {
@@ -393,8 +216,7 @@ function handleMarkAsRead(btn) {
   }
 }
 
-/**
- * Handle viewing a booking notification
+/** Handle viewing a booking notification
  */
 function handleViewBooking(btn) {
   const notificationItem = btn.closest('.notification-item');
@@ -411,8 +233,7 @@ function handleViewBooking(btn) {
   handleMarkAsRead(btn);
 }
 
-/**
- * Handle viewing an equipment notification
+/**Handle viewing an equipment notification
  */
 function handleViewEquipment(btn) {
   const notificationItem = btn.closest('.notification-item');
@@ -426,9 +247,6 @@ function handleViewEquipment(btn) {
   handleMarkAsRead(btn);
 }
 
-/**
- * Filter notifications by type
- */
 function setupNotificationFilters() {
   const filterChips = document.querySelectorAll('#notificationFilters .chip');
   
@@ -444,9 +262,6 @@ function setupNotificationFilters() {
   });
 }
 
-/**
- * Filter notifications based on type
- */
 function filterNotifications(filter) {
   const notifications = document.querySelectorAll('.notification-item');
   let visibleCount = 0;
@@ -460,7 +275,6 @@ function filterNotifications(filter) {
     }
   });
   
-  // Show/hide empty state
   const emptyState = document.getElementById('emptyState');
   if (visibleCount === 0) {
     emptyState.style.display = 'block';
@@ -469,14 +283,11 @@ function filterNotifications(filter) {
   }
 }
 
-/**
- * Mark all notifications as read
- */
 async function markAllAsRead() {
   try {
     const response = await apiClient.markAllNotificationsAsRead();
     if (response.success) {
-      // Update UI
+      
       document.querySelectorAll('.notification-item--unread').forEach(item => {
         item.classList.remove('notification-item--unread');
         item.classList.add('notification-item--read');
@@ -484,11 +295,10 @@ async function markAllAsRead() {
         if (dismissBtn) dismissBtn.style.display = 'none';
       });
       
-      // Update badge
+      
       const badge = document.getElementById('notifCount');
       if (badge) badge.textContent = '0';
       
-      // Show success message
       const toast = document.createElement('div');
       toast.className = 'toast toast--success';
       toast.innerHTML = '<i class="fa-solid fa-circle-check"></i><span>All notifications marked as read</span>';
@@ -500,8 +310,7 @@ async function markAllAsRead() {
   }
 }
 
-/**
- * Load notifications from API (optional - for real data)
+/** Load notifications from API (optional - for real data)
  */
 async function loadNotifications() {
   try {
@@ -516,7 +325,6 @@ async function loadNotifications() {
         return;
       }
       
-      // Build notifications HTML
       const html = response.data.map(notif => `
         <div class="notification-item notification-item--${notif.isRead ? 'read' : 'unread'}" data-type="${notif.type}" data-id="${notif.id}">
           <div class="notification-icon notification-icon--${notif.type}">
@@ -538,7 +346,7 @@ async function loadNotifications() {
       container.innerHTML = html;
       emptyState.style.display = 'none';
       
-      // Update badge
+      
       const unreadCount = response.data.filter(n => !n.isRead).length;
       document.getElementById('notifCount').textContent = unreadCount || '';
     }
@@ -547,9 +355,7 @@ async function loadNotifications() {
   }
 }
 
-/**
- * Get icon for notification type
- */
+
 function getNotificationIcon(type) {
   const iconMap = {
     booking: 'calendar-check',
@@ -559,9 +365,6 @@ function getNotificationIcon(type) {
   return iconMap[type] || 'bell';
 }
 
-/**
- * Format timestamp to relative time (e.g., "2 hours ago")
- */
 function formatTime(timestamp) {
   const date = new Date(timestamp);
   const now = new Date();
@@ -585,14 +388,10 @@ function formatTime(timestamp) {
   return 'just now';
 }
 
-/**
- * Initialize notifications page
- */
 document.addEventListener('DOMContentLoaded', () => {
-  // Setup filter chips
+
   setupNotificationFilters();
   
-  // Setup mark all as read button
   const markAllBtn = document.getElementById('markAllReadBtn');
   if (markAllBtn) {
     markAllBtn.addEventListener('click', markAllAsRead);
