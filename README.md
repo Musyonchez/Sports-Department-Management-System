@@ -79,7 +79,21 @@ docs/                    Local planning notes (gitignored, not part of the repo 
 
 ## Running it locally
 
-### 1. Start the backend
+### Quick start (Windows)
+
+From the repo root, right-click `run.ps1` → **Run with PowerShell** (or run it from a terminal):
+
+```powershell
+.\run.ps1
+```
+
+This installs backend dependencies on first run, creates `backend/.env` if missing, starts the
+backend and front end each in their own terminal window, and opens the site in your browser.
+Close those two windows to stop the servers.
+
+### Manual setup (any OS)
+
+#### 1. Start the backend
 
 ```bash
 cd backend
@@ -97,7 +111,7 @@ rm backend/data/sports.db backend/data/sports.db-shm backend/data/sports.db-wal
 npm run seed
 ```
 
-### 2. Serve the front end
+#### 2. Serve the front end
 
 The front end is static files, so any static file server works. From the **repo root**:
 
@@ -111,7 +125,7 @@ Then open `http://localhost:5500/index.html` in a browser. (Opening `index.html`
 `assets/js/script.js` already points at `http://localhost:8000/api` by default, so as long as the
 backend is running on port 8000, everything just works.
 
-### 3. Log in
+#### 3. Log in
 
 Demo accounts (all use password `password123`):
 
