@@ -1974,6 +1974,17 @@ ul{
     font-size:14px;
 }
 
+.form-error{
+    color:#E5484D;
+    font-size:14px;
+    margin:8px 0 0;
+    display:none;
+}
+
+.form-error.visible{
+    display:block;
+}
+
 
 .form-actions{
     margin-top:10px;
