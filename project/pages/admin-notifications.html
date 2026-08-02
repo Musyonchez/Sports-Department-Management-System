@@ -179,11 +179,11 @@ type="text" id="notificationTitle" placeholder="Enter notification title" requir
 Send To
 <select id="notificationAudience" required>
 
-<option>Everyone</option>
+<option value="all">Everyone</option>
 
-<option>Students Only</option>
+<option value="students">Students Only</option>
 
-<option>Sports Officers Only</option>
+<option value="officers">Sports Officers Only</option>
 
 </select>
 
@@ -200,6 +200,8 @@ placeholder="Write your notification..."
 required></textarea>
 
 </label>
+
+<p id="notificationStatus" class="form-hint"></p>
 
 <div class="form-actions">
 
