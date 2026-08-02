@@ -234,16 +234,19 @@ const apiClient = new ApiClient(appState);
 // Generic modal close wiring shared by every page: any element with
 // [data-close-modal="someId"] closes #someId, and clicking the overlay
 // background (outside the modal box) closes it too.
+function closeModal(modal) {
+  if (!modal) return;
+  modal.classList.remove('active');
+  modal.style.display = 'none';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('[data-close-modal]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const modal = document.getElementById(btn.dataset.closeModal);
-      if (modal) modal.style.display = 'none';
-    });
+    btn.addEventListener('click', () => closeModal(document.getElementById(btn.dataset.closeModal)));
   });
   document.querySelectorAll('.modal-overlay, .modal, .booking-modal').forEach((overlay) => {
     overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) overlay.style.display = 'none';
+      if (e.target === overlay) closeModal(overlay);
     });
   });
 });
