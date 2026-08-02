@@ -132,7 +132,7 @@ function initializeFacilityFilters() {
   });
 
   if (search) {
-    search.addEventListener('keyup', function () {
+    search.addEventListener('input', function () {
       const value = this.value.toLowerCase();
       cards.forEach(card => {
         const title = card.querySelector('h3').textContent.toLowerCase();
@@ -320,7 +320,7 @@ function initializeEquipmentSearch() {
   if (!searchInput) return;
   const cards = document.querySelectorAll('#equipmentGrid .facility-card');
 
-  searchInput.addEventListener('keyup', function () {
+  searchInput.addEventListener('input', function () {
     const searchText = this.value.toLowerCase();
     cards.forEach(card => {
       const title = card.querySelector('h3').textContent.toLowerCase();

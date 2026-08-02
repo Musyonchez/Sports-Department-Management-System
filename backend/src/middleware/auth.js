@@ -14,6 +14,19 @@ function requireAuth(req, res, next) {
   }
 }
 
+function optionalAuth(req, res, next) {
+  const header = req.headers.authorization || '';
+  const token = header.startsWith('Bearer ') ? header.slice(7) : null;
+  if (token) {
+    try {
+      req.user = jwt.verify(token, process.env.JWT_SECRET);
+    } catch {
+      // ignore invalid/expired token, treat as anonymous
+    }
+  }
+  next();
+}
+
 function requireRole(...roles) {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
@@ -32,4 +45,4 @@ function selfOrRole(...roles) {
   };
 }
 
-module.exports = { requireAuth, requireRole, selfOrRole };
+module.exports = { requireAuth, optionalAuth, requireRole, selfOrRole };

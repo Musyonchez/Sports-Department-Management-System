@@ -53,7 +53,7 @@ function initializeModalOpeners() {
 
 function initializeTableSearch() {
   document.querySelectorAll('.search-box input, input[type="search"]').forEach(search => {
-    search.addEventListener('keyup', () => {
+    search.addEventListener('input', () => {
       const filter = search.value.toLowerCase();
       const table = search.closest('.toolbar-card')?.nextElementSibling?.querySelector('tbody')
         || document.querySelector('.table-card tbody');
@@ -307,16 +307,20 @@ async function loadFacilities() {
             <td>${f.name}</td>
             <td>${f.capacity || '-'}</td>
             <td><span class="status-pill ${f.is_active ? 'status-pill--available' : 'status-pill--booked'}">${f.is_active ? 'Available' : 'Closed'}</span></td>
-            <td><button class="btn btn--outline-danger btn--sm" data-delete-facility="${f.id}">Delete</button></td>
+            <td><button class="btn btn--outline btn--sm" data-toggle-facility="${f.id}" data-active="${f.is_active}">${f.is_active ? 'Close' : 'Reopen'}</button></td>
           </tr>
         `).join('')
       : '<tr><td colspan="4">No facilities yet.</td></tr>';
 
-    body.querySelectorAll('[data-delete-facility]').forEach(btn => {
+    // Deleting a facility is admin-only server-side (see backend/src/routes/facilities.routes.js);
+    // officers can only open/close it, which is what "Manage Facilities" actually needs day to day.
+    body.querySelectorAll('[data-toggle-facility]').forEach(btn => {
       btn.addEventListener('click', async () => {
-        if (!confirm('Delete this facility?')) return;
         try {
-          await apiClient.request(`/facilities/${btn.dataset.deleteFacility}`, { method: 'DELETE' });
+          await apiClient.request(`/facilities/${btn.dataset.toggleFacility}`, {
+            method: 'PUT',
+            body: { is_active: btn.dataset.active === '1' ? 0 : 1 },
+          });
           loadFacilities();
           loadOfficerDashboard();
         } catch (err) { alert(err.message); }

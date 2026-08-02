@@ -162,7 +162,7 @@ async function loadUsers() {
 
     const search = document.getElementById('userSearch');
     if (search) {
-      search.addEventListener('keyup', () => {
+      search.addEventListener('input', () => {
         const value = search.value.toLowerCase();
         render(users.filter(u => u.name.toLowerCase().includes(value) || u.email.toLowerCase().includes(value)));
       });
@@ -226,7 +226,7 @@ async function loadRoleAssignment() {
 
     const roleSearch = document.getElementById('roleSearch');
     if (roleSearch) {
-      roleSearch.addEventListener('keyup', () => {
+      roleSearch.addEventListener('input', () => {
         const value = roleSearch.value.toLowerCase();
         renderAssignments(users.filter(u => u.name.toLowerCase().includes(value) || u.email.toLowerCase().includes(value)));
       });

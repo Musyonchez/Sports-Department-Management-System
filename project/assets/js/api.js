@@ -89,8 +89,10 @@ class ApiClient {
   }
 
   // --- Facilities ---
+  // auth:true (not required server-side) so a logged-in officer/admin's token
+  // is attached, which unlocks seeing inactive/closed facilities too.
   getFacilities(params = {}) {
-    return this.request(`/facilities${toQuery(params)}`, { auth: false });
+    return this.request(`/facilities${toQuery(params)}`);
   }
 
   // --- Bookings ---

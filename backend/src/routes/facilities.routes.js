@@ -1,12 +1,13 @@
 const express = require('express');
 const { db } = require('../db');
-const { requireAuth, requireRole } = require('../middleware/auth');
+const { requireAuth, optionalAuth, requireRole } = require('../middleware/auth');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/', optionalAuth, (req, res) => {
   const { category, search } = req.query;
-  let sql = 'SELECT * FROM facilities WHERE is_active = 1';
+  const canSeeInactive = req.user && ['officer', 'admin'].includes(req.user.role);
+  let sql = canSeeInactive ? 'SELECT * FROM facilities WHERE 1=1' : 'SELECT * FROM facilities WHERE is_active = 1';
   const params = [];
 
   if (category && category !== 'all') {
