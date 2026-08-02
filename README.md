@@ -47,21 +47,19 @@ other native toolchain.
 ## Project structure
 
 ```
-index.html              Landing page (entry point)
-pages/                   Every other page
-  login.html
-  register.html
-  profile.html
-  facilities.html        Browse & book facilities
-  equipment.html         Browse & request equipment loans
-  notifications.html
-  Studentdashboard.html
-  Officerdashboard.html
-  Admindashboard.html
-assets/
-  css/style.css
-  js/script.js           Shared front-end logic + API client
-  images/
+project/
+  index.html             Landing page (entry point)
+  pages/                  Every other page (login/register/dashboards/etc.)
+  assets/
+    css/style.css
+    js/
+      api.js              Shared ApiClient + AppState, loaded first on every page
+      auth.js             Login/register/logout/route-guard
+      student.js           Student dashboard/facilities/equipment/profile
+      officer.js           Officer dashboard/bookings/loans/inventory/reports
+      admin.js             Admin dashboard/users/roles/analytics/reports
+      script.js            Landing-page-only helpers (contact form)
+    images/
 backend/
   data/sports.db         SQLite database file — committed to the repo
   src/
@@ -119,11 +117,11 @@ The front end is static files, so any static file server works. From the **repo 
 npx serve -l 5500 .
 ```
 
-Then open `http://localhost:5500/index.html` in a browser. (Opening `index.html` directly via
-`file://` will not work — the browser blocks the API requests. It needs to be served over HTTP.)
+Then open `http://localhost:5500/project/index.html` in a browser. (Opening `index.html` directly
+via `file://` will not work — the browser blocks the API requests. It needs to be served over HTTP.)
 
-`assets/js/script.js` already points at `http://localhost:8000/api` by default, so as long as the
-backend is running on port 8000, everything just works.
+`project/assets/js/api.js` already points at `http://localhost:8000/api` by default, so as long as
+the backend is running on port 8000, everything just works.
 
 #### 3. Log in
 
@@ -178,7 +176,7 @@ Authenticated routes require `Authorization: Bearer <token>` (the token comes ba
 | Equipment | `GET/POST /equipment`, `GET/PUT /equipment/:id` |
 | Loans | `GET/POST /loans`, `POST /loans/:id/approve`, `POST /loans/:id/reject`, `POST /loans/:id/return` |
 | Users | `GET /users/me`, `GET /users`, `GET/PUT /users/:id`, `PUT /users/:id/role`, `POST /users/change-password` |
-| Notifications | `GET /notifications`, `POST /notifications/:id/read`, `POST /notifications/read-all` |
+| Notifications | `GET /notifications`, `POST /notifications` (admin broadcast), `POST /notifications/:id/read`, `POST /notifications/read-all` |
 | Analytics | `GET /analytics` |
 | Reports | `POST /reports/generate`, `GET /reports/export?type=&format=csv\|xlsx\|pdf` |
 | Complaints | `GET/POST /complaints`, `PUT /complaints/:id` |
@@ -193,3 +191,8 @@ This was built as a demo/coursework project, not a production system:
 - Profile picture upload isn't wired to a real upload endpoint
 - Facility Management (time slots) and Equipment Inventory editing exist on the officer
   dashboard, but there's no bulk/CSV import for initial data — it's all seeded via `seed.js`
+- Admin "Manage Users" has no suspend/delete (no backend endpoint for either) — role changes go
+  through the Assign Roles page instead
+- Admin Settings (system info, booking rules, notification preferences, backup/restore, log out
+  all devices) has no backend to persist any of it and is intentionally inert in the UI — only
+  Change Password on that page is real

@@ -77,7 +77,7 @@ $frontendProc = Start-Process -PassThru -WindowStyle Normal -WorkingDirectory $r
 Start-Sleep -Seconds 2
 
 # --- Open in browser ---
-Start-Process "http://localhost:5500/index.html"
+Start-Process "http://localhost:5500/project/index.html"
 
 Write-Host ""
 Write-Host "Both servers are running in their own windows." -ForegroundColor Cyan
