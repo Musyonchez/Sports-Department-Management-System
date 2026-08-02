@@ -2050,7 +2050,8 @@ ul{
   color: #0284c7;
 }
 
-.notification-icon--equipment {
+.notification-icon--equipment,
+.notification-icon--loan {
   background-color: #d1fae5;
   color: #059669;
 }
