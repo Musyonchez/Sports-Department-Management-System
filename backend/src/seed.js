@@ -54,16 +54,17 @@ function seed() {
     const brianId = insertUser.run('Brian Kiptoo', 'brian.kiptoo@student.sports.edu', passwordHash, 'student').lastInsertRowid;
     const aminaId = insertUser.run('Amina Yusuf', 'amina.yusuf@student.sports.edu', passwordHash, 'student').lastInsertRowid;
 
-    // Names match the display text in pages/facilities.html exactly (data-facility
-    // attributes on the "Book Now" buttons), since the booking form sends the
-    // facility by name rather than by id.
+    // Names match the display text in project/pages/facilities.html and
+    // equipment.html exactly (data-facility/data-equipment attributes on the
+    // "Book Now"/"Request" buttons), since the booking/loan forms send the
+    // facility/equipment by name rather than by id.
     const facilities = [
-      ['Main Football Pitch', 'football', 'Professional outdoor football field.', 'football.jpg', 22],
-      ['Indoor Basketball Court', 'basketball', 'Modern indoor basketball court.', 'basketball.jpg', 10],
+      ['Football Pitch', 'football', 'Professional outdoor football field.', 'football.jpg', 22],
+      ['Basketball Court', 'basketball', 'Modern indoor basketball court.', 'basketball.jpg', 10],
       ['Tennis Court', 'tennis', 'Outdoor tennis training facility.', 'tennis.jpg', 4],
       ['Volleyball Court', 'volleyball', 'Professional volleyball court.', 'volleyball.jpg', 12],
       ['Rugby Field', 'rugby', 'Full-size rugby playing field.', 'rugby.jpg', 30],
-      ['Main Gymnasium', 'gym', 'Fully equipped fitness centre.', 'gym.jpg', 40],
+      ['Gymnasium', 'gym', 'Fully equipped fitness centre.', 'gym.jpg', 40],
     ];
     const facilityIds = facilities.map(f => insertFacility.run(...f).lastInsertRowid);
     const [pitchId, basketballCourtId, tennisCourtId, volleyballCourtId, , gymId] = facilityIds;
@@ -71,10 +72,11 @@ function seed() {
     const equipment = [
       ['Footballs', 'balls', 'football.jpg', 18, 18],
       ['Basketballs', 'balls', 'basketball.jpg', 12, 12],
-      ['Tennis Rackets', 'rackets', 'tennis.jpg', 3, 3],
+      ['Rackets', 'rackets', 'tennis.jpg', 3, 3],
       ['Team Jerseys', 'jerseys', 'sports.jpg', 5, 5],
       ['Training Cones', 'cones', 'sports.jpg', 9, 9],
-      ['Volleyball Net', 'nets', 'volleyball.jpg', 0, 0],
+      ['Rugby Balls', 'balls', 'rugby.jpg', 8, 8],
+      ['Volleyballs', 'balls', 'volleyball.jpg', 0, 0],
     ];
     const equipmentIds = equipment.map(e => insertEquipment.run(...e).lastInsertRowid);
     const [footballsId, basketballsId, racketsId, jerseysId, conesId] = equipmentIds;

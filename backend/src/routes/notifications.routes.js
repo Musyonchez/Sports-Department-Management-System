@@ -1,6 +1,7 @@
 const express = require('express');
 const { db } = require('../db');
-const { requireAuth } = require('../middleware/auth');
+const { requireAuth, requireRole } = require('../middleware/auth');
+const { notify, notifyRole } = require('../lib/notify');
 
 const router = express.Router();
 
@@ -9,6 +10,22 @@ router.get('/', requireAuth, (req, res) => {
     SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC
   `).all(req.user.sub);
   res.json({ success: true, data: notifications });
+});
+
+router.post('/', requireAuth, requireRole('admin'), (req, res) => {
+  const { audience, message } = req.body;
+  if (!message || !['all', 'students', 'officers'].includes(audience)) {
+    return res.status(400).json({ success: false, message: 'audience (all|students|officers) and message are required' });
+  }
+
+  if (audience === 'all') {
+    const users = db.prepare('SELECT id FROM users').all();
+    for (const u of users) notify(u.id, message, 'system');
+  } else {
+    notifyRole(audience === 'students' ? 'student' : 'officer', message, 'system');
+  }
+
+  res.status(201).json({ success: true, data: null });
 });
 
 router.post('/:id/read', requireAuth, (req, res) => {
